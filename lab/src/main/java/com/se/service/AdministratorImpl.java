@@ -17,10 +17,10 @@ public class AdministratorImpl implements AdministratorService{
      *
      * @mbg.generated Tue Oct 26 20:37:26 CST 2021
      */
-    @Override
-    public List<Administrator> selectAllAdministrator() {
-        return administratorMapper.selectAllAdministrator();
-    }
+//    @Override
+//    public List<Administrator> selectAllAdministrator() {
+//        return administratorMapper.selectAllAdministrator();
+//    }
     @Override
     public int deleteByPrimaryKey(String id) {
         return administratorMapper.deleteByPrimaryKey(id);

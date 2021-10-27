@@ -16,11 +16,11 @@ public class AdministratorController {
     @Autowired
     private AdministratorService administratorService;
 
-    @GetMapping("finadAll")
-    public Collection<Administrator> findAll() {
-        Collection<Administrator> administrators = administratorService.selectAllAdministrator();
-        return administrators;
-    }
+//    @GetMapping("finadAll")
+//    public Collection<Administrator> findAll() {
+//        Collection<Administrator> administrators = administratorService.selectAllAdministrator();
+//        return administrators;
+//    }
 
     @GetMapping("findOne")
     public Administrator findOne(String id) {
