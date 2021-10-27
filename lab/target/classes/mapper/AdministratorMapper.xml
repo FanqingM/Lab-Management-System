@@ -22,9 +22,7 @@
     ID, NAME, SCHOOL_NAME
   </sql>
   <select id="selectAllAdministrator"  resultType="com.se.entity.Administrator">
-    --         select e.id,e.employee_name,e.email,e.gender,d.department_name,e.date
---         from employee e,department d
---         where e.department_id = d.id
+
     select * from ADMINISTRATOR
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
