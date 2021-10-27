@@ -1,17 +1,17 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.Course;
+import com.se.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CourseServiceImpl implements CourseService{
     @Autowired
-    private CourseService courseService;
+    private CourseMapper courseMapper;
 
     public int deleteByPrimaryKey(String id) {
-        return courseService.deleteByPrimaryKey(id);
+        return courseMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -21,7 +21,7 @@ public class CourseServiceImpl implements CourseService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(Course record) {
-        return courseService.insert(record);
+        return courseMapper.insert(record);
     }
 
     /**
@@ -31,7 +31,7 @@ public class CourseServiceImpl implements CourseService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(Course record) {
-        return courseService.insertSelective(record);
+        return courseMapper.insertSelective(record);
     }
 
     /**
@@ -41,7 +41,7 @@ public class CourseServiceImpl implements CourseService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public Course selectByPrimaryKey(String id) {
-        return courseService.selectByPrimaryKey(id);
+        return courseMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -51,7 +51,7 @@ public class CourseServiceImpl implements CourseService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(Course record) {
-        return courseService.updateByPrimaryKeySelective(record);
+        return courseMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -61,6 +61,6 @@ public class CourseServiceImpl implements CourseService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(Course record) {
-        return courseService.updateByPrimaryKey(record);
+        return courseMapper.updateByPrimaryKey(record);
     }
 }

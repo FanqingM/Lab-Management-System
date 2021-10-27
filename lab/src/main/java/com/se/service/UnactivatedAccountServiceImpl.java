@@ -1,16 +1,16 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.UnactivatedAccount;
+import com.se.mapper.UnactivatedAccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
     @Autowired
-    private UnactivatedAccountService unactivatedAccountService;
+    private UnactivatedAccountMapper unactivatedAccountMapper;
     public int deleteByPrimaryKey(String email) {
-        return unactivatedAccountService.deleteByPrimaryKey(email);
+        return unactivatedAccountMapper.deleteByPrimaryKey(email);
     }
 
     /**
@@ -20,7 +20,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(UnactivatedAccount record) {
-        return unactivatedAccountService.insert(record);
+        return unactivatedAccountMapper.insert(record);
     }
 
     /**
@@ -30,7 +30,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(UnactivatedAccount record) {
-        return unactivatedAccountService.insertSelective(record);
+        return unactivatedAccountMapper.insertSelective(record);
     }
 
     /**
@@ -40,7 +40,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public UnactivatedAccount selectByPrimaryKey(String email) {
-        return unactivatedAccountService.selectByPrimaryKey(email);
+        return unactivatedAccountMapper.selectByPrimaryKey(email);
     }
 
     /**
@@ -50,7 +50,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(UnactivatedAccount record) {
-        return unactivatedAccountService.updateByPrimaryKeySelective(record);
+        return unactivatedAccountMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -60,6 +60,6 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(UnactivatedAccount record) {
-        return unactivatedAccountService.updateByPrimaryKey(record);
+        return unactivatedAccountMapper.updateByPrimaryKey(record);
     }
 }

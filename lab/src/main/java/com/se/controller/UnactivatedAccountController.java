@@ -1,10 +1,45 @@
 package com.se.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.se.entity.AdministratorAccount;
+import com.se.entity.UnactivatedAccount;
+import com.se.service.UnactivatedAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 
 @RequestMapping("unactivatedAccount")
 public class UnactivatedAccountController {
+    @Autowired
+    private UnactivatedAccountService unactivatedAccountService;
+
+    @GetMapping("findOne")
+    public UnactivatedAccount findOne(String email) {
+        UnactivatedAccount unactivatedAccount = unactivatedAccountService.selectByPrimaryKey(email);
+        return unactivatedAccount;
+    }
+
+    @PostMapping("/add")
+    public String add(@RequestBody UnactivatedAccount unactivatedAccount){
+        //保存员工信息
+//        System.out.println(employee.getEmployeeName());
+//        System.out.println(employee.getEmail());
+        int res = unactivatedAccountService.insert(unactivatedAccount);
+        //回到员工列表页面，可以使用redirect或者forward
+        return Integer.toString(res);
+    }
+
+    @PutMapping("/update")
+    public UnactivatedAccount updateUnactivatedAccount(@RequestBody UnactivatedAccount unactivatedAccount){
+        unactivatedAccountService.updateByPrimaryKey(unactivatedAccount);
+        //回到员工列表页面
+        return unactivatedAccount;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteUnactivatedAccount(@PathVariable("id")String id){
+        //根据id删除员工
+        unactivatedAccountService.deleteByPrimaryKey(id);
+        return id.toString();
+    }
 }

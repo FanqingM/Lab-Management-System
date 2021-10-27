@@ -1,16 +1,16 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.TeacherAccount;
+import com.se.mapper.TeacherAccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TeacherAccountServiceImpl implements TeacherAccountService{
     @Autowired
-    private TeacherAccountService teacherAccountService;
+    private TeacherAccountMapper teacherAccountMapper;
     public int deleteByPrimaryKey(String id) {
-        return teacherAccountService.deleteByPrimaryKey(id);
+        return teacherAccountMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -20,7 +20,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(TeacherAccount record) {
-        return teacherAccountService.insert(record);
+        return teacherAccountMapper.insert(record);
     }
 
     /**
@@ -30,7 +30,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(TeacherAccount record) {
-        return teacherAccountService.insertSelective(record);
+        return teacherAccountMapper.insertSelective(record);
     }
 
     /**
@@ -40,7 +40,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public TeacherAccount selectByPrimaryKey(String id) {
-        return teacherAccountService.selectByPrimaryKey(id);
+        return teacherAccountMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -50,7 +50,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(TeacherAccount record) {
-        return teacherAccountService.updateByPrimaryKeySelective(record);
+        return teacherAccountMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -60,6 +60,6 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(TeacherAccount record) {
-        return teacherAccountService.updateByPrimaryKey(record);
+        return teacherAccountMapper.updateByPrimaryKey(record);
     }
 }

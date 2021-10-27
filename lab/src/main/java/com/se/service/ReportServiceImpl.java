@@ -1,17 +1,17 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.Report;
 import com.se.entity.ReportKey;
+import com.se.mapper.ReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ReportServiceImpl implements ReportService{
     @Autowired
-    private ReportService reportService;
+    private ReportMapper reportMapper;
     public int deleteByPrimaryKey(ReportKey key) {
-        return reportService.deleteByPrimaryKey(key);
+        return reportMapper.deleteByPrimaryKey(key);
     }
 
     /**
@@ -21,7 +21,7 @@ public class ReportServiceImpl implements ReportService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(Report record) {
-        return reportService.insert(record);
+        return reportMapper.insert(record);
     }
 
     /**
@@ -31,7 +31,7 @@ public class ReportServiceImpl implements ReportService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(Report record) {
-        return reportService.insertSelective(record);
+        return reportMapper.insertSelective(record);
     }
 
     /**
@@ -41,7 +41,7 @@ public class ReportServiceImpl implements ReportService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public Report selectByPrimaryKey(ReportKey key) {
-        return reportService.selectByPrimaryKey(key);
+        return reportMapper.selectByPrimaryKey(key);
     }
 
     /**
@@ -51,7 +51,7 @@ public class ReportServiceImpl implements ReportService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(Report record) {
-        return reportService.updateByPrimaryKeySelective(record);
+        return reportMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -61,6 +61,6 @@ public class ReportServiceImpl implements ReportService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(Report record) {
-        return reportService.updateByPrimaryKey(record);
+        return reportMapper.updateByPrimaryKey(record);
     }
 }

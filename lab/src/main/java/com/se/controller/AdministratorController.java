@@ -33,24 +33,10 @@ public class AdministratorController {
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
 //        System.out.println(employee.getEmail());
-        administratorService.insert(administrator);
+        int res = administratorService.insert(administrator);
         //回到员工列表页面，可以使用redirect或者forward
-        return "test";
+        return Integer.toString(res);
     }
-
-//    //to员工修改页面
-//    @GetMapping("/emp/{id}")
-//    public String toUpdateEmp(@PathVariable("id") Integer id, Model model){
-//        //根据id查出来员工
-//        Employee employee = employeeService.selectEmployeeById(id);
-//        //将员工信息返回页面
-//        model.addAttribute("emp",employee);
-//        //查出所有的部门，提供修改选择
-//        Collection<Department> departments = departmentService.selectAllDepartment();
-//        model.addAttribute("departments",departments);
-//
-//        return "test";
-//    }
 
     @PutMapping("/update")
     public Administrator updateAdministrator(@RequestBody Administrator administrator){

@@ -1,17 +1,17 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.Takes;
 import com.se.entity.TakesKey;
+import com.se.mapper.TakesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TakesServiceImpl implements TakesService{
     @Autowired
-    private TakesService takesService;
+    private TakesMapper takesMapper;
     public int deleteByPrimaryKey(TakesKey key) {
-        return takesService.deleteByPrimaryKey(key);
+        return takesMapper.deleteByPrimaryKey(key);
     }
 
     /**
@@ -21,7 +21,7 @@ public class TakesServiceImpl implements TakesService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(Takes record) {
-        return takesService.insert(record);
+        return takesMapper.insert(record);
     }
 
     /**
@@ -31,7 +31,7 @@ public class TakesServiceImpl implements TakesService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(Takes record) {
-        return takesService.insertSelective(record);
+        return takesMapper.insertSelective(record);
     }
 
     /**
@@ -41,7 +41,7 @@ public class TakesServiceImpl implements TakesService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public Takes selectByPrimaryKey(TakesKey key) {
-        return takesService.selectByPrimaryKey(key);
+        return takesMapper.selectByPrimaryKey(key);
     }
 
     /**
@@ -51,7 +51,7 @@ public class TakesServiceImpl implements TakesService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(Takes record) {
-        return takesService.updateByPrimaryKeySelective(record);
+        return takesMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -61,6 +61,6 @@ public class TakesServiceImpl implements TakesService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(Takes record) {
-        return takesService.updateByPrimaryKey(record);
+        return takesMapper.updateByPrimaryKey(record);
     }
 }

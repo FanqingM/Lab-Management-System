@@ -1,16 +1,16 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.Teacher;
+import com.se.mapper.TeacherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TeacherServiceImpl implements TeacherService{
     @Autowired
-    private TeacherService teacherService;
+    private TeacherMapper teacherMapper;
     public int deleteByPrimaryKey(String id) {
-        return teacherService.deleteByPrimaryKey(id);
+        return teacherMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -20,7 +20,7 @@ public class TeacherServiceImpl implements TeacherService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(Teacher record) {
-        return teacherService.insert(record);
+        return teacherMapper.insert(record);
     }
 
     /**
@@ -30,7 +30,7 @@ public class TeacherServiceImpl implements TeacherService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(Teacher record) {
-        return teacherService.insertSelective(record);
+        return teacherMapper.insertSelective(record);
     }
 
     /**
@@ -40,7 +40,7 @@ public class TeacherServiceImpl implements TeacherService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public Teacher selectByPrimaryKey(String id) {
-        return teacherService.selectByPrimaryKey(id);
+        return teacherMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -50,7 +50,7 @@ public class TeacherServiceImpl implements TeacherService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(Teacher record) {
-        return teacherService.updateByPrimaryKeySelective(record);
+        return teacherMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -60,6 +60,6 @@ public class TeacherServiceImpl implements TeacherService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(Teacher record) {
-        return teacherService.updateByPrimaryKey(record);
+        return teacherMapper.updateByPrimaryKey(record);
     }
 }

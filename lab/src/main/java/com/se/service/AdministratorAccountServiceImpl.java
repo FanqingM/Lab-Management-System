@@ -1,15 +1,16 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
+import com.se.mapper.AdministratorAccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AdministratorAccountServiceImpl implements AdministratorAccountService{
     @Autowired
-    private AdministratorAccountService administratorAccountService;
+    private AdministratorAccountMapper administratorAccountMapper;
+    @Override
     public int deleteByPrimaryKey(String id) {
-        return administratorAccountService.deleteByPrimaryKey(id);
+        return administratorAccountMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -18,8 +19,9 @@ public class AdministratorAccountServiceImpl implements AdministratorAccountServ
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
-    public int insert(AdministratorAccount record) {
-        return administratorAccountService.insert(record);
+    @Override
+    public int insert(com.se.entity.AdministratorAccount record) {
+        return administratorAccountMapper.insert(record);
     }
 
     /**
@@ -28,8 +30,9 @@ public class AdministratorAccountServiceImpl implements AdministratorAccountServ
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
-    public int insertSelective(AdministratorAccount record) {
-        return administratorAccountService.insertSelective(record);
+    @Override
+    public int insertSelective(com.se.entity.AdministratorAccount record) {
+        return administratorAccountMapper.insertSelective(record);
     }
 
     /**
@@ -38,8 +41,9 @@ public class AdministratorAccountServiceImpl implements AdministratorAccountServ
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
-    public AdministratorAccount selectByPrimaryKey(String id) {
-        return administratorAccountService.selectByPrimaryKey(id);
+    @Override
+    public com.se.entity.AdministratorAccount selectByPrimaryKey(String id) {
+        return administratorAccountMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -48,8 +52,9 @@ public class AdministratorAccountServiceImpl implements AdministratorAccountServ
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
-    public int updateByPrimaryKeySelective(AdministratorAccount record) {
-        return administratorAccountService.updateByPrimaryKeySelective(record);
+    @Override
+    public int updateByPrimaryKeySelective(com.se.entity.AdministratorAccount record) {
+        return administratorAccountMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -58,8 +63,9 @@ public class AdministratorAccountServiceImpl implements AdministratorAccountServ
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
-    public int updateByPrimaryKey(AdministratorAccount record) {
-        return administratorAccountService.updateByPrimaryKey(record);
+    @Override
+    public int updateByPrimaryKey(com.se.entity.AdministratorAccount record) {
+        return administratorAccountMapper.updateByPrimaryKey(record);
     }
 
 }

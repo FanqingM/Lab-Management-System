@@ -1,17 +1,17 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.Section;
 import com.se.entity.SectionKey;
+import com.se.mapper.SectionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SectionServiceImpl implements SectionService{
     @Autowired
-    private SectionService sectionService;
+    private SectionMapper sectionMapper;
     public int deleteByPrimaryKey(SectionKey key) {
-        return sectionService.deleteByPrimaryKey(key);
+        return sectionMapper.deleteByPrimaryKey(key);
     }
 
     /**
@@ -21,7 +21,7 @@ public class SectionServiceImpl implements SectionService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(Section record) {
-        return sectionService.insert(record);
+        return sectionMapper.insert(record);
     }
 
     /**
@@ -31,7 +31,7 @@ public class SectionServiceImpl implements SectionService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(Section record) {
-        return sectionService.insertSelective(record);
+        return sectionMapper.insertSelective(record);
     }
 
     /**
@@ -41,7 +41,7 @@ public class SectionServiceImpl implements SectionService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public Section selectByPrimaryKey(SectionKey key) {
-        return sectionService.selectByPrimaryKey(key);
+        return sectionMapper.selectByPrimaryKey(key);
     }
 
     /**
@@ -51,7 +51,7 @@ public class SectionServiceImpl implements SectionService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(Section record) {
-        return sectionService.updateByPrimaryKeySelective(record);
+        return sectionMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -61,6 +61,6 @@ public class SectionServiceImpl implements SectionService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(Section record) {
-        return sectionService.updateByPrimaryKey(record);
+        return sectionMapper.updateByPrimaryKey(record);
     }
 }

@@ -1,17 +1,17 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.LabInstance;
 import com.se.entity.LabInstanceKey;
+import com.se.mapper.LabInstanceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LabInstanceServiceImpl implements LabInstanceService{
     @Autowired
-    private LabInstanceService labInstanceService;
+    private LabInstanceMapper labInstanceMapper;
     public int deleteByPrimaryKey(LabInstanceKey key) {
-        return labInstanceService.deleteByPrimaryKey(key);
+        return labInstanceMapper.deleteByPrimaryKey(key);
     }
 
     /**
@@ -21,7 +21,7 @@ public class LabInstanceServiceImpl implements LabInstanceService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(LabInstance record) {
-        return labInstanceService.insert(record);
+        return labInstanceMapper.insert(record);
     }
 
     /**
@@ -31,7 +31,7 @@ public class LabInstanceServiceImpl implements LabInstanceService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(LabInstance record) {
-        return labInstanceService.insertSelective(record);
+        return labInstanceMapper.insertSelective(record);
     }
 
     /**
@@ -41,7 +41,7 @@ public class LabInstanceServiceImpl implements LabInstanceService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public LabInstance selectByPrimaryKey(LabInstanceKey key) {
-        return labInstanceService.selectByPrimaryKey(key);
+        return labInstanceMapper.selectByPrimaryKey(key);
     }
 
     /**
@@ -51,7 +51,7 @@ public class LabInstanceServiceImpl implements LabInstanceService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(LabInstance record) {
-        return labInstanceService.updateByPrimaryKeySelective(record);
+        return labInstanceMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -61,6 +61,6 @@ public class LabInstanceServiceImpl implements LabInstanceService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(LabInstance record) {
-        return labInstanceService.updateByPrimaryKey(record);
+        return labInstanceMapper.updateByPrimaryKey(record);
     }
 }

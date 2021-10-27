@@ -1,17 +1,17 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.Lab;
 import com.se.entity.LabKey;
+import com.se.mapper.LabMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LabServiceImpl implements LabService{
     @Autowired
-    private LabService labService;
+    private LabMapper labMapper;
     public int deleteByPrimaryKey(LabKey key) {
-        return labService.deleteByPrimaryKey(key);
+        return labMapper.deleteByPrimaryKey(key);
     }
 
     /**
@@ -21,7 +21,7 @@ public class LabServiceImpl implements LabService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(Lab record) {
-        return labService.insert(record);
+        return labMapper.insert(record);
     }
 
     /**
@@ -31,7 +31,7 @@ public class LabServiceImpl implements LabService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(Lab record) {
-        return labService.insertSelective(record);
+        return labMapper.insertSelective(record);
     }
 
     /**
@@ -41,7 +41,7 @@ public class LabServiceImpl implements LabService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public Lab selectByPrimaryKey(LabKey key) {
-        return labService.selectByPrimaryKey(key);
+        return labMapper.selectByPrimaryKey(key);
     }
 
     /**
@@ -51,7 +51,7 @@ public class LabServiceImpl implements LabService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(Lab record) {
-        return labService.updateByPrimaryKeySelective(record);
+        return labMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -61,6 +61,6 @@ public class LabServiceImpl implements LabService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(Lab record) {
-        return labService.updateByPrimaryKey(record);
+        return labMapper.updateByPrimaryKey(record);
     }
 }

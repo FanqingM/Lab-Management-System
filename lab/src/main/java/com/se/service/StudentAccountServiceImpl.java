@@ -1,16 +1,16 @@
 package com.se.service;
 
-import com.se.entity.AdministratorAccount;
 import com.se.entity.StudentAccount;
+import com.se.mapper.StudentAccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudentAccountServiceImpl implements StudentAccountService{
     @Autowired
-    private StudentAccountService studentAccountService;
+    private StudentAccountMapper studentAccountMapper;
     public int deleteByPrimaryKey(String id) {
-        return studentAccountService.deleteByPrimaryKey(id);
+        return studentAccountMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -20,7 +20,7 @@ public class StudentAccountServiceImpl implements StudentAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insert(StudentAccount record) {
-        return studentAccountService.insert(record);
+        return studentAccountMapper.insert(record);
     }
 
     /**
@@ -30,7 +30,7 @@ public class StudentAccountServiceImpl implements StudentAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int insertSelective(StudentAccount record) {
-        return studentAccountService.insertSelective(record);
+        return studentAccountMapper.insertSelective(record);
     }
 
     /**
@@ -40,7 +40,7 @@ public class StudentAccountServiceImpl implements StudentAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public StudentAccount selectByPrimaryKey(String id) {
-        return studentAccountService.selectByPrimaryKey(id);
+        return studentAccountMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -50,7 +50,7 @@ public class StudentAccountServiceImpl implements StudentAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKeySelective(StudentAccount record) {
-        return studentAccountService.updateByPrimaryKeySelective(record);
+        return studentAccountMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -60,6 +60,6 @@ public class StudentAccountServiceImpl implements StudentAccountService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     public int updateByPrimaryKey(StudentAccount record) {
-        return studentAccountService.updateByPrimaryKey(record);
+        return studentAccountMapper.updateByPrimaryKey(record);
     }
 }
