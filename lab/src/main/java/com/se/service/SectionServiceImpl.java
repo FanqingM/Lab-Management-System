@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class SectionServiceImpl implements SectionService{
     @Autowired
     private SectionMapper sectionMapper;
+    @Override
     public int deleteByPrimaryKey(SectionKey key) {
         return sectionMapper.deleteByPrimaryKey(key);
     }
@@ -20,6 +21,7 @@ public class SectionServiceImpl implements SectionService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(Section record) {
         return sectionMapper.insert(record);
     }
@@ -30,6 +32,7 @@ public class SectionServiceImpl implements SectionService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(Section record) {
         return sectionMapper.insertSelective(record);
     }
@@ -40,6 +43,7 @@ public class SectionServiceImpl implements SectionService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public Section selectByPrimaryKey(SectionKey key) {
         return sectionMapper.selectByPrimaryKey(key);
     }
@@ -50,6 +54,7 @@ public class SectionServiceImpl implements SectionService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKeySelective(Section record) {
         return sectionMapper.updateByPrimaryKeySelective(record);
     }
@@ -60,6 +65,7 @@ public class SectionServiceImpl implements SectionService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKey(Section record) {
         return sectionMapper.updateByPrimaryKey(record);
     }

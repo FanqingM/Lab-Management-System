@@ -15,6 +15,7 @@ public class SchoolServiceImpl implements SchoolService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int deleteByPrimaryKey(String name) {
         return schoolMapper.deleteByPrimaryKey(name);
     }
@@ -25,6 +26,7 @@ public class SchoolServiceImpl implements SchoolService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(School record) {
 
         return schoolMapper.insert(record);
@@ -36,6 +38,7 @@ public class SchoolServiceImpl implements SchoolService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(School record) {
 
         return schoolMapper.insertSelective(record);

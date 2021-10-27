@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class CourseServiceImpl implements CourseService{
     @Autowired
     private CourseMapper courseMapper;
-
+    @Override
     public int deleteByPrimaryKey(String id) {
         return courseMapper.deleteByPrimaryKey(id);
     }
@@ -20,6 +20,7 @@ public class CourseServiceImpl implements CourseService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(Course record) {
         return courseMapper.insert(record);
     }
@@ -30,6 +31,7 @@ public class CourseServiceImpl implements CourseService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(Course record) {
         return courseMapper.insertSelective(record);
     }
@@ -40,6 +42,7 @@ public class CourseServiceImpl implements CourseService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public Course selectByPrimaryKey(String id) {
         return courseMapper.selectByPrimaryKey(id);
     }
@@ -50,6 +53,7 @@ public class CourseServiceImpl implements CourseService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKeySelective(Course record) {
         return courseMapper.updateByPrimaryKeySelective(record);
     }
@@ -60,6 +64,7 @@ public class CourseServiceImpl implements CourseService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKey(Course record) {
         return courseMapper.updateByPrimaryKey(record);
     }

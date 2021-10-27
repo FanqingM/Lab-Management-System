@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class ReportServiceImpl implements ReportService{
     @Autowired
     private ReportMapper reportMapper;
+    @Override
     public int deleteByPrimaryKey(ReportKey key) {
         return reportMapper.deleteByPrimaryKey(key);
     }
@@ -20,6 +21,7 @@ public class ReportServiceImpl implements ReportService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(Report record) {
         return reportMapper.insert(record);
     }
@@ -30,6 +32,7 @@ public class ReportServiceImpl implements ReportService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(Report record) {
         return reportMapper.insertSelective(record);
     }
@@ -40,6 +43,7 @@ public class ReportServiceImpl implements ReportService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public Report selectByPrimaryKey(ReportKey key) {
         return reportMapper.selectByPrimaryKey(key);
     }
@@ -50,6 +54,7 @@ public class ReportServiceImpl implements ReportService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKeySelective(Report record) {
         return reportMapper.updateByPrimaryKeySelective(record);
     }
@@ -60,6 +65,7 @@ public class ReportServiceImpl implements ReportService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKey(Report record) {
         return reportMapper.updateByPrimaryKey(record);
     }

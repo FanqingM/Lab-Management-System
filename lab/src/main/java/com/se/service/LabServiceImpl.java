@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class LabServiceImpl implements LabService{
     @Autowired
     private LabMapper labMapper;
+    @Override
     public int deleteByPrimaryKey(LabKey key) {
         return labMapper.deleteByPrimaryKey(key);
     }
@@ -20,6 +21,7 @@ public class LabServiceImpl implements LabService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(Lab record) {
         return labMapper.insert(record);
     }
@@ -30,6 +32,7 @@ public class LabServiceImpl implements LabService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(Lab record) {
         return labMapper.insertSelective(record);
     }
@@ -40,6 +43,7 @@ public class LabServiceImpl implements LabService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public Lab selectByPrimaryKey(LabKey key) {
         return labMapper.selectByPrimaryKey(key);
     }
@@ -50,6 +54,7 @@ public class LabServiceImpl implements LabService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKeySelective(Lab record) {
         return labMapper.updateByPrimaryKeySelective(record);
     }
@@ -60,6 +65,7 @@ public class LabServiceImpl implements LabService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKey(Lab record) {
         return labMapper.updateByPrimaryKey(record);
     }

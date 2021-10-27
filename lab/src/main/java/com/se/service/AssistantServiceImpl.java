@@ -15,6 +15,7 @@ public class AssistantServiceImpl implements AssistantService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int deleteByPrimaryKey(AssistantKey key) {
         return assistantMapper.deleteByPrimaryKey(key);
     }
@@ -25,6 +26,7 @@ public class AssistantServiceImpl implements AssistantService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(AssistantKey record) {
         return assistantMapper.insert(record);
     }
@@ -35,6 +37,7 @@ public class AssistantServiceImpl implements AssistantService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(AssistantKey record) {
         return assistantMapper.insertSelective(record);
     }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
     @Autowired
     private UnactivatedAccountMapper unactivatedAccountMapper;
+    @Override
     public int deleteByPrimaryKey(String email) {
         return unactivatedAccountMapper.deleteByPrimaryKey(email);
     }
@@ -19,6 +20,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(UnactivatedAccount record) {
         return unactivatedAccountMapper.insert(record);
     }
@@ -29,6 +31,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(UnactivatedAccount record) {
         return unactivatedAccountMapper.insertSelective(record);
     }
@@ -39,6 +42,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public UnactivatedAccount selectByPrimaryKey(String email) {
         return unactivatedAccountMapper.selectByPrimaryKey(email);
     }
@@ -49,6 +53,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKeySelective(UnactivatedAccount record) {
         return unactivatedAccountMapper.updateByPrimaryKeySelective(record);
     }
@@ -59,6 +64,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKey(UnactivatedAccount record) {
         return unactivatedAccountMapper.updateByPrimaryKey(record);
     }

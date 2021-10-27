@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class TakesServiceImpl implements TakesService{
     @Autowired
     private TakesMapper takesMapper;
+    @Override
     public int deleteByPrimaryKey(TakesKey key) {
         return takesMapper.deleteByPrimaryKey(key);
     }
@@ -20,6 +21,7 @@ public class TakesServiceImpl implements TakesService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(Takes record) {
         return takesMapper.insert(record);
     }
@@ -30,6 +32,7 @@ public class TakesServiceImpl implements TakesService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(Takes record) {
         return takesMapper.insertSelective(record);
     }
@@ -40,6 +43,7 @@ public class TakesServiceImpl implements TakesService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public Takes selectByPrimaryKey(TakesKey key) {
         return takesMapper.selectByPrimaryKey(key);
     }
@@ -50,6 +54,7 @@ public class TakesServiceImpl implements TakesService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKeySelective(Takes record) {
         return takesMapper.updateByPrimaryKeySelective(record);
     }
@@ -60,6 +65,7 @@ public class TakesServiceImpl implements TakesService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKey(Takes record) {
         return takesMapper.updateByPrimaryKey(record);
     }

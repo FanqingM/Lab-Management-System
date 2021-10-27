@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class TeacherAccountServiceImpl implements TeacherAccountService{
     @Autowired
     private TeacherAccountMapper teacherAccountMapper;
+    @Override
     public int deleteByPrimaryKey(String id) {
         return teacherAccountMapper.deleteByPrimaryKey(id);
     }
@@ -19,6 +20,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insert(TeacherAccount record) {
         return teacherAccountMapper.insert(record);
     }
@@ -29,6 +31,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int insertSelective(TeacherAccount record) {
         return teacherAccountMapper.insertSelective(record);
     }
@@ -39,6 +42,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public TeacherAccount selectByPrimaryKey(String id) {
         return teacherAccountMapper.selectByPrimaryKey(id);
     }
@@ -49,6 +53,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKeySelective(TeacherAccount record) {
         return teacherAccountMapper.updateByPrimaryKeySelective(record);
     }
@@ -59,6 +64,7 @@ public class TeacherAccountServiceImpl implements TeacherAccountService{
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    @Override
     public int updateByPrimaryKey(TeacherAccount record) {
         return teacherAccountMapper.updateByPrimaryKey(record);
     }
