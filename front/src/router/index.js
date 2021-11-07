@@ -7,8 +7,55 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Login',
+    component: () =>
+      import('../pages/share/Login.vue')
+  },
+
+  //学生页面
+  {
+    path: "/student",
+    component: () =>
+      import('../pages/student/StudentFrame.vue'),
+    // meta: {
+    //     title: '学生',
+    //     requireAuth: true,
+    //     roles: ['student']
+    // },
+    children: [{
+      path: "home",
+      name: "StudentHome",
+      component: () =>
+        import('../pages/student/StudentHome.vue'),
+      // meta: {
+      //     title: '个人信息',
+      //     requireAuth: true,
+      //     roles: ['student']
+      // }
+    },
+    {
+      path: "experiment",
+      name: "StudentExperiment",
+      component: () =>
+        import('../pages/student/StudentExperiment.vue'),
+      // meta: {
+      //     title: '个人信息',
+      //     requireAuth: true,
+      //     roles: ['student']
+      // }
+    },    
+    {
+      path: "score",
+      name: "StudentScore",
+      component: () =>
+        import('../pages/student/StudentScore.vue'),
+      // meta: {
+      //     title: '个人信息',
+      //     requireAuth: true,
+      //     roles: ['student']
+      // }
+    },
+    ]
   },
   {
     path: '/about',
