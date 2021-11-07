@@ -25,13 +25,14 @@ public class JWTUtils {
          * @param userId
          * @return
          */
-        public static String getToken(String userId) {
+        public static String getToken(String userId,Byte authority) {
             try {
                 Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
                 Algorithm algorithm = Algorithm.HMAC256(SECRET);
                 return JWT.create()
                         // 将 user id 保存到 token 里面
                         .withAudience(userId)
+                        .withAudience(authority.toString())
                         // 五分钟后token过期
                         .withExpiresAt(date)
                         // token 的密钥

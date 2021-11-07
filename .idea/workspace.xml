@@ -4,16 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="" />
+    <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/LoginMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/LoginService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/LoginServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/Msg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/AdministratorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/AdministratorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/StudentAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/StudentAccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/util/JWTUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/JWTUtils.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="20JZ4V0Ww5FdK6iyXV8loARSepL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -26,7 +47,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lab/src/main/java/com/se" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DesignPattern/newbranch/newbranch" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
   <component name="RecentsManager">
@@ -55,10 +76,28 @@
       <workItem from="1635764465007" duration="572000" />
       <workItem from="1635765056027" duration="665000" />
       <workItem from="1635765737742" duration="865000" />
+      <workItem from="1635766664119" duration="116000" />
+      <workItem from="1635835520451" duration="811000" />
+      <workItem from="1635939070679" duration="3958000" />
+      <workItem from="1635944247449" duration="49000" />
+      <workItem from="1636009551535" duration="1579000" />
+      <workItem from="1636029825986" duration="15000" />
+      <workItem from="1636273802288" duration="7409000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

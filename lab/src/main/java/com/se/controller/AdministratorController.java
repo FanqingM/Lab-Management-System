@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 
@@ -51,6 +53,9 @@ public class AdministratorController {
         administratorService.deleteByPrimaryKey(id);
         return id.toString();
     }
+
+
+//    private static Map<String,String> code = new HashMap<>();
 
 
 }
