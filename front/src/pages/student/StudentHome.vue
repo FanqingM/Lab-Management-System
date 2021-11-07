@@ -42,7 +42,7 @@
         <el-card class="upper-card">
           <div slot="header" class="clearfix">
             <span><b>公告</b></span>
-            <router-link to="/OrgFrame/CheckSite">
+            <router-link to="/student/announcement">
               <el-button style="float: right; padding: 3px 0" type="text"
                 >查看更多</el-button
               >
@@ -74,7 +74,7 @@
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
             <span><b>待完成实验</b></span>
-            <router-link to="/OrgFrame/CheckActivity/AllActivities">
+            <router-link to="/student/experiment">
               <el-button style="float: right; padding: 3px 0" type="text"
                 >查看更多</el-button
               >
@@ -111,7 +111,7 @@
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
             <span><b>成绩</b></span>
-            <router-link to="/OrgFrame/CheckSite">
+            <router-link to="/student/score">
               <el-button style="float: right; padding: 3px 0" type="text"
                 >查看更多</el-button
               >
