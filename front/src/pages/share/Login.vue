@@ -143,6 +143,8 @@ export default {
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+            store.state.id = this.form.accountNumber;
+            store.state.membertype = this.identity;
               if (this.identity === 1) {
                 this.$router.push("/student/home");
               } else {

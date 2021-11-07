@@ -92,7 +92,7 @@ export const DELETEOrgFavorites = param => Delete('/api/OrgFavorites', param); /
 //Students
 export const GETStudents = param => Get('/api/Students', param); //ok
 export const POSTStudents = param => Post('/api/Students', param); //ok
-export const GETStudentsID = ID => GetID('/api/Students/', ID); //ok
+export const GETStudentsID = ID => GetID('/student/findOne?id=', ID); //ok
 export const PUTStudentsID = (ID, param) => PutID('/api/Students/', ID, param); //ok
 export const DELETEStudentsID = ID => DeleteID('/api/Students/', ID); //ok
 

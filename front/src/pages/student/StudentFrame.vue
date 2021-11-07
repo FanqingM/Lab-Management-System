@@ -153,18 +153,18 @@ export default {
       this.isCollapse = !this.isCollapse;
     },
     handleClick() {
-      this.$router.push("/OrgFrame/OrgAccountModify");
+      this.$router.push("/student/account");
     },
     handleCommand(command) {
       switch (command) {
         case "accountInfo":
           this.$router.push({
-            path: "/OrgFrame/OrgAccountModify",
+            path: "/student/account",
           });
           break;
         case "modifyPassword":
           this.$router.push({
-            path: "/OrgFrame/ModifyPassword",
+            path: "/student/modify-password",
           });
           break;
         default:

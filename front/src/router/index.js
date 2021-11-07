@@ -55,6 +55,17 @@ const routes = [
       //     roles: ['student']
       // }
     },
+    {
+      path: "account",
+      name: "StudentAccount",
+      component: () =>
+        import('../pages/student/StudentAccount.vue'),
+      // meta: {
+      //     title: '个人信息',
+      //     requireAuth: true,
+      //     roles: ['student']
+      // }
+    },
     ]
   },
   {
