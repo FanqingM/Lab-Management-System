@@ -18,8 +18,15 @@ public class JWTIntercepter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) {
         // 从 http 请求头中取出 token
-        String token = httpServletRequest.getHeader("token");
+//        System.out.println(httpServletRequest.g);
+        String newtoken = httpServletRequest.getHeader("Authorization");
+        String token;
 
+        if (newtoken != null && newtoken.indexOf("Bearer") == 0) {
+            token = newtoken.substring(7);
+        } else {
+            token = newtoken;
+        }
 
         // 如果不是映射到方法直接通过
         if (!(object instanceof HandlerMethod)) {

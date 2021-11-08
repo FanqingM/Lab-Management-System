@@ -4,6 +4,7 @@ import com.se.entity.AdministratorAccount;
 import com.se.entity.StudentAccount;
 import com.se.intercepter.JwtToken;
 import com.se.service.StudentAccountService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class StudentAccountController {
     private StudentAccountService studentAccountService;
 
     @JwtToken
+    @SecurityRequirement(name = "token")
     @GetMapping("findOne")
     public StudentAccount findOne(String id) {
         StudentAccount studentAccount = studentAccountService.selectByPrimaryKey(id);

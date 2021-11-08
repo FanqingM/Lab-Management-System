@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/LoginMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/LoginService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/LoginServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/Msg.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/config/SwaggerConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/AdministratorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/AdministratorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/StudentAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/StudentAccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/util/JWTUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/JWTUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JWTIntercepter.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JWTIntercepter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +44,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DesignPattern/newbranch/newbranch" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
   <component name="RecentsManager">
@@ -82,7 +79,8 @@
       <workItem from="1635944247449" duration="49000" />
       <workItem from="1636009551535" duration="1579000" />
       <workItem from="1636029825986" duration="15000" />
-      <workItem from="1636273802288" duration="7409000" />
+      <workItem from="1636273802288" duration="12156000" />
+      <workItem from="1636371702322" duration="2444000" />
     </task>
     <servers />
   </component>
@@ -99,5 +97,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

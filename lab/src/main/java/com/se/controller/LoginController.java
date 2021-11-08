@@ -6,6 +6,7 @@ import com.se.service.LoginService;
 import com.se.service.LoginServiceImpl;
 import com.se.util.JWTUtils;
 import com.se.util.Msg;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ public class LoginController {
     LoginService loginService;
 
 //    @ApiOperation(value="登录（返回TOKEN）")
+    @Operation
     @PostMapping
     public Msg loginWithToken(@RequestBody UserDTO userDTO){ //传过来的json包装成实体
 //        System.out.println(userDTO);
