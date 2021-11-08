@@ -94,4 +94,25 @@ public class Report extends ReportKey {
     public void setGrades(Integer grades) {
         this.grades = grades;
     }
+
+
+    public String getPurpose() {
+        return purpose;
+    }
+    public void setPurpose(String url) {
+        this.purpose = purpose == null ? null : purpose.trim();
+    }
+    public String getProgress() {
+        return progress;
+    }
+    public void setProgress(String url) {
+        this.progress = progress == null ? null : progress.trim();
+    }
+    public String getPrinciple() {
+        return principle;
+    }
+    public void setPrinciple(String url) {
+        this.principle = principle == null ? null : principle.trim();
+    }
+
 }

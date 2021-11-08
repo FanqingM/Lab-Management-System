@@ -1,9 +1,12 @@
 package com.se.mapper;
 
+import com.se.dto.FinishedReportDTO;
 import com.se.entity.Report;
 import com.se.entity.ReportKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
 @Repository
@@ -55,4 +58,7 @@ public interface ReportMapper {
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
     int updateByPrimaryKey(Report record);
+    List<Report> selectReport(String studentID);
+
+    List<FinishedReportDTO> selectFinishedReports(String studentID);
 }

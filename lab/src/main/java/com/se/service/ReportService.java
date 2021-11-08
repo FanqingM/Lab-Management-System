@@ -1,7 +1,10 @@
 package com.se.service;
 
+import com.se.dto.FinishedReportDTO;
 import com.se.entity.Report;
 import com.se.entity.ReportKey;
+
+import java.util.List;
 
 public interface ReportService {
     /**
@@ -51,4 +54,7 @@ public interface ReportService {
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     int updateByPrimaryKey(Report record);
+    List<Report> selectReport(String studentID);
+
+    List<FinishedReportDTO> selectFinishedReports(String studentID);
 }

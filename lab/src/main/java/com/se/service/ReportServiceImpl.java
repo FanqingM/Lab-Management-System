@@ -1,15 +1,31 @@
 package com.se.service;
 
+import com.se.dto.FinishedReportDTO;
 import com.se.entity.Report;
 import com.se.entity.ReportKey;
 import com.se.mapper.ReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 @Service
 public class ReportServiceImpl implements ReportService{
     @Autowired
     private ReportMapper reportMapper;
+    @Override
+    public List<Report> selectReport(String studentID) {
+        return reportMapper.selectReport(studentID);
+    }
+    @Override
+    public List<FinishedReportDTO> selectFinishedReports(String studentID) {
+        List<FinishedReportDTO> reports;
+        reports =  reportMapper.selectFinishedReports(studentID);
+        return reports;
+    }
     @Override
     public int deleteByPrimaryKey(ReportKey key) {
         return reportMapper.deleteByPrimaryKey(key);
