@@ -15,7 +15,7 @@ public class StudentAccountController {
     @Autowired
     private StudentAccountService studentAccountService;
 
-    @JwtToken
+    @JwtToken(authority = "2")
     @SecurityRequirement(name = "token")
     @GetMapping("findOne")
     public StudentAccount findOne(String id) {

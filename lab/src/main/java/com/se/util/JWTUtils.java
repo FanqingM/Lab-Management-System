@@ -9,6 +9,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.util.Date;
+import java.util.List;
 
 public class JWTUtils {
      /**
@@ -31,8 +32,9 @@ public class JWTUtils {
                 Algorithm algorithm = Algorithm.HMAC256(SECRET);
                 return JWT.create()
                         // 将 user id 保存到 token 里面
-                        .withAudience(userId)
-                        .withAudience(authority.toString())
+                        .withClaim("id",userId)
+                        .withClaim("authority",authority.toString())
+//                        .withAudience(authority.toString())
                         // 五分钟后token过期
                         .withExpiresAt(date)
                         // token 的密钥
@@ -49,12 +51,28 @@ public class JWTUtils {
          */
         public static String getUserId(String token) {
             try {
-                String userId = JWT.decode(token).getAudience().get(0);
+                String userId = JWT.decode(token).getClaim("id").asString();
                 return userId;
             } catch (JWTDecodeException e) {
                 return null;
             }
         }
+
+    /**
+     * 根据token获取userId
+     * @param token
+     * @return
+     */
+    public static String getAuthority(String token) {
+        try {
+//            List string = JWT.decode(token).getAudience();
+            String authority = JWT.decode(token).getClaim("authority").asString();
+            return authority;
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
+
 
         /**
          * 校验token
