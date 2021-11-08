@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/VerifyEmailController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/MailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/MailServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/VerCodeGenerateUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/VerifyCodes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lab/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/StudentAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/StudentAccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JWTIntercepter.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JWTIntercepter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JwtToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JwtToken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/LoginMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/LoginMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/util/JWTUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/JWTUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/test/java/com/se/SpringbootCrudApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/test/java/com/se/SpringbootCrudApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/VerifyEmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/VerifyEmailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/util/VerifyCodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/VerifyCodes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +40,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lab/src/main/java/com/se/service" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -96,7 +85,7 @@
       <workItem from="1636029825986" duration="15000" />
       <workItem from="1636273802288" duration="12156000" />
       <workItem from="1636371702322" duration="8673000" />
-      <workItem from="1636381084985" duration="596000" />
+      <workItem from="1636381084985" duration="3351000" />
     </task>
     <servers />
   </component>
@@ -114,5 +103,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lab/src/main/java/com/se/util/VerifyCodes.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
