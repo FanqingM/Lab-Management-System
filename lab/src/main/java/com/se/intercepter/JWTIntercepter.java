@@ -37,14 +37,26 @@ public class JWTIntercepter implements HandlerInterceptor {
         //检查有没有需要用户权限的注解
         if (method.isAnnotationPresent(JwtToken.class)) {
             JwtToken jwtToken = method.getAnnotation(JwtToken.class);
-            if (jwtToken.required()) {
-                // 执行认证
-                if (token == null) {
-                    throw new RuntimeException("无token，请重新登录");
-                }
-                // 验证 token
+            if (token == null) {
+                throw new RuntimeException("无token，请重新登录");
+            }else{
                 jwtUtil.checkSign(token);
+                if (jwtToken.authority().equals(JWTUtils.getAuthority(token))){
+                    return true;
+                }else {
+                    throw new RuntimeException("您没有权限执行该操作");
+                }
             }
+//            jwtUtil.checkSign(token);
+//            switch (jwtToken.authority().toString().equals(JWTUtils.getAuthority(token)))
+//            if (jwtToken.required() == ) {
+//                // 执行认证
+//                if (token == null) {
+//                    throw new RuntimeException("无token，请重新登录");
+//                }
+//                // 验证 token
+//                jwtUtil.checkSign(token);
+//            }
         }
         return true;
     }

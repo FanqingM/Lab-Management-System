@@ -5,11 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/config/SwaggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/VerifyEmailController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/MailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/MailServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/VerCodeGenerateUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/VerifyCodes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lab/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/StudentAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/StudentAccountController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JWTIntercepter.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JWTIntercepter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JwtToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/intercepter/JwtToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/LoginMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/LoginMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/util/JWTUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/JWTUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/test/java/com/se/SpringbootCrudApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/test/java/com/se/SpringbootCrudApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,14 +53,19 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DesignPattern/newbranch/newbranch" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lab/src/main/java/com/se/service" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\Learning\21-22-1\SE\Lab-Management-System\lab\src\main\java\com\se\service" />
       <recent name="G:\Learning\21-22-1\SE\Lab-Management-System\lab\src\main\java\com\se" />
       <recent name="G:\Learning\21-22-1\SE\Lab-Management-System\lab\src\main\java\com\se\config" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.se.controller" />
+      <recent name="com.se.util" />
     </key>
   </component>
   <component name="RunManager">
@@ -80,7 +95,8 @@
       <workItem from="1636009551535" duration="1579000" />
       <workItem from="1636029825986" duration="15000" />
       <workItem from="1636273802288" duration="12156000" />
-      <workItem from="1636371702322" duration="2444000" />
+      <workItem from="1636371702322" duration="8673000" />
+      <workItem from="1636381084985" duration="596000" />
     </task>
     <servers />
   </component>

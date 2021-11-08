@@ -1,6 +1,5 @@
 package com.se.mapper;
 
-import com.se.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -19,6 +18,6 @@ public interface LoginMapper {
     String AdministratorLogin(String id,String password);
 
     @Select("select ID from TEACHER_ACCOUNT where ID=#{id} and password=#{password}")
-    String TeacherLogin(String id,String password);
+    String TeacherLogin(String id, String password);
 
 }
