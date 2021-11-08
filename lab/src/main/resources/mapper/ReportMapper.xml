@@ -46,7 +46,7 @@
   <select id="selectFinishedReports" parameterType="com.se.entity.ReportKey" resultMap="FinishedReportDTOMap">
     select REPORT.LAB_ID,LAB.NAME,REPORT.GRADES,LAB_INSTANCE.END_TIME
     from REPORT,LAB,LAB_INSTANCE
-    where STUDENT_ID = #{studentId,jdbcType=VARCHAR} and LAB.LAB_ID = REPORT.LAB_ID and LAB.LAB_ID = LAB_INSTANCE.LAB_ID
+    where STUDENT_ID = #{studentId,jdbcType=VARCHAR} and LAB.LAB_ID = REPORT.LAB_ID and LAB.COURSE_ID = REPORT.COURSE_ID
   </select>
 
   <select id="selectFinishedReport" parameterType="com.se.entity.ReportKey" resultMap="BaseResultMap">
