@@ -1,11 +1,14 @@
 package com.se.controller;
 
+import com.se.dto.FinishedReportDTO;
 import com.se.entity.Administrator;
 import com.se.entity.Report;
 import com.se.entity.ReportKey;
 import com.se.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -19,6 +22,16 @@ public class ReportController {
         return report;
     }
 
+//    @GetMapping("findFinishedReport")
+//    public List<Report> findFinishedReport(String studentId) {
+//        List<Report> listReport = reportService.selectFinishedReport(studentId);
+//        return listReport;
+//    }
+    @GetMapping("findFinishedReports")
+    public List<FinishedReportDTO> findFinishedReports(String studentId) {
+        List<FinishedReportDTO> reports = reportService.selectFinishedReports(studentId);
+        return reports;
+    }
     @PostMapping("/add")
     public String add(@RequestBody Report report){
         //保存员工信息
