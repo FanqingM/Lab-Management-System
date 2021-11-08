@@ -22,8 +22,6 @@
         <el-col :span="8">
           <div>
             <h3>用户信息</h3>
-          </div>
-            <div v-if="isTable == true">
               <el-table
                 :show-header="false"
                 :data="tableData"
@@ -31,10 +29,11 @@
                 border
                 style="width: 80%; margin-top: 20px"
               >
-                <el-table-column prop="title" label="标题"> </el-table-column>
+                <el-table-column prop="title" label="标题">
+                </el-table-column>
                 <el-table-column prop="content" label="内容"> </el-table-column>
               </el-table>
-            </div>
+          </div>
         </el-col>
       </el-row>
     </el-card>
@@ -77,14 +76,14 @@ p {
 
 <script>
 import { GETStudentsID, PUTStudentsID } from "../../API/http";
-import store from "../../state/state";
+import store from "../../store/state";
 
 export default {
   created() {
     GETStudentsID(store.state.id)
       .then((data) => {
         this.accountData = data;
-        this.NumToStr();
+        console.log(this.accountData);
         this.updateData();
       })
       .catch((err) => {
@@ -140,46 +139,6 @@ export default {
         return "background:#EFFBEF; font-weight: 700;";
       }
     },
-    focusText() {
-      console.log("this.ruleForm.college");
-      this.options = [];
-      if (this.ruleForm.college == "软件学院") {
-        for (let i = 0; i < this.dicSpecialty.software.length; i++) {
-          this.options.push({
-            label: this.dicSpecialty.software[i],
-            value: this.dicSpecialty.software[i],
-          });
-        }
-      } else if (this.ruleForm.college == "土木工程学院") {
-        for (let i = 0; i < this.dicSpecialty.civilEngineering.length; i++) {
-          this.options.push({
-            label: this.dicSpecialty.civilEngineering[i],
-            value: this.dicSpecialty.civilEngineering[i],
-          });
-        }
-      } else if (this.ruleForm.college == "经济与管理学院") {
-        for (let i = 0; i < this.dicSpecialty.manage.length; i++) {
-          this.options.push({
-            label: this.dicSpecialty.manage[i],
-            value: this.dicSpecialty.manage[i],
-          });
-        }
-      } else if (this.ruleForm.college == "数学科学学院") {
-        for (let i = 0; i < this.dicSpecialty.math.length; i++) {
-          this.options.push({
-            label: this.dicSpecialty.math[i],
-            value: this.dicSpecialty.math[i],
-          });
-        }
-      } else if (this.ruleForm.college == "电子与信息工程学院") {
-        for (let i = 0; i < this.dicSpecialty.electronic.length; i++) {
-          this.options.push({
-            label: this.dicSpecialty.electronic[i],
-            value: this.dicSpecialty.electronic[i],
-          });
-        }
-      }
-    },
     updateData() {
       this.tableData[0].content = this.accountData.id;
       this.tableData[1].content = this.accountData.email;
@@ -200,11 +159,10 @@ export default {
       }).catch((err) => {
         console.log(err);
         this.submitState = false;
-        this.$message("学生信息传输错误");
+        this.$message("用户信息获取失败");
       });
     },
     edit() {
-      this.isTable = false;
       setTimeout(() => {
         this.isForm = true;
       }, 400);
@@ -217,7 +175,6 @@ export default {
           if (this.submitState == true) {
             this.isForm = false;
             setTimeout(() => {
-              this.isTable = true;
               this.updateData();
             }, 400);
             this.$alert("编辑成功！", {

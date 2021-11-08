@@ -214,7 +214,7 @@
 </template>
 
 <script>
-import store from "../../state/state";
+import store from "../../store/state";
 import {
   GETActivities,
   DELETEActivitiesID,
