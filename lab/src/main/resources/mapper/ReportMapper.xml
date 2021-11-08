@@ -22,7 +22,7 @@
   <resultMap id="FinishedReportDTOMap" type="com.se.dto.FinishedReportDTO">
     <result property="labId" column="LAB_ID"/>
     <result property="labName" column="NAME"/>
-    <result property="endTime" column="END_TIME"/>
+<!--    <result property="endTime" column="END_TIME"/>-->
     <result property="grades" column="GRADES"/>
   </resultMap>
   <sql id="Base_Column_List">
@@ -44,7 +44,7 @@
   </select>
 
   <select id="selectFinishedReports" parameterType="com.se.entity.ReportKey" resultMap="FinishedReportDTOMap">
-    select REPORT.LAB_ID,LAB.NAME,REPORT.GRADES,LAB_INSTANCE.END_TIME
+    select distinct REPORT.LAB_ID,LAB.NAME,REPORT.GRADES
     from REPORT,LAB,LAB_INSTANCE
     where STUDENT_ID = #{studentId,jdbcType=VARCHAR} and LAB.LAB_ID = REPORT.LAB_ID and LAB.COURSE_ID = REPORT.COURSE_ID
   </select>
