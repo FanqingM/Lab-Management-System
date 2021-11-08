@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/VerifyEmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/VerifyEmailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/util/VerifyCodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/util/VerifyCodes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/blog.iml" beforeDir="false" afterPath="$PROJECT_DIR$/lab/blog.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lab/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +85,8 @@
       <workItem from="1636029825986" duration="15000" />
       <workItem from="1636273802288" duration="12156000" />
       <workItem from="1636371702322" duration="8673000" />
-      <workItem from="1636381084985" duration="3351000" />
+      <workItem from="1636381084985" duration="4352000" />
+      <workItem from="1636386636521" duration="493000" />
     </task>
     <servers />
   </component>
@@ -111,6 +112,11 @@
           <url>file://$PROJECT_DIR$/lab/src/main/java/com/se/util/VerifyCodes.java</url>
           <line>21</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lab/src/main/java/com/se/service/ReportServiceImpl.java</url>
+          <line>74</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
