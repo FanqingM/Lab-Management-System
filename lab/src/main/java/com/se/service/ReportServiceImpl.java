@@ -17,8 +17,8 @@ public class ReportServiceImpl implements ReportService{
     @Autowired
     private ReportMapper reportMapper;
     @Override
-    public List<Report> selectFinishedReport(String studentID) {
-        return reportMapper.selectFinishedReport(studentID);
+    public List<Report> selectReport(String studentID) {
+        return reportMapper.selectReport(studentID);
     }
     @Override
     public List<FinishedReportDTO> selectFinishedReports(String studentID) {

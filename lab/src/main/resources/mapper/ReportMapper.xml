@@ -49,7 +49,7 @@
     where STUDENT_ID = #{studentId,jdbcType=VARCHAR} and LAB.LAB_ID = REPORT.LAB_ID and LAB.COURSE_ID = REPORT.COURSE_ID
   </select>
 
-  <select id="selectFinishedReport" parameterType="com.se.entity.ReportKey" resultMap="BaseResultMap">
+  <select id="selectReport" parameterType="com.se.entity.ReportKey" resultMap="BaseResultMap">
 <!--    select-->
 <!--    <include refid="Base_Column_List" />-->
 <!--    from REPORT-->
@@ -152,7 +152,7 @@
       GRADES = #{grades,jdbcType=INTEGER},
       PURPOSE = #{purpose,jdbcType=VARCHAR},
       PROGRESS = #{progress,jdbcType=VARCHAR},
-      PRINCIPLE = #{principle,jdbcType=VARCHAR},
+      PRINCIPLE = #{principle,jdbcType=VARCHAR}
     where STUDENT_ID = #{studentId,jdbcType=VARCHAR}
       and COURSE_ID = #{courseId,jdbcType=VARCHAR}
       and SECTION_ID = #{sectionId,jdbcType=VARCHAR}

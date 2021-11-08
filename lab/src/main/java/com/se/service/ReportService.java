@@ -54,7 +54,7 @@ public interface ReportService {
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     int updateByPrimaryKey(Report record);
-    List<Report> selectFinishedReport(String studentID);
+    List<Report> selectReport(String studentID);
 
     List<FinishedReportDTO> selectFinishedReports(String studentID);
 }

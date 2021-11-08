@@ -22,11 +22,11 @@ public class ReportController {
         return report;
     }
 
-//    @GetMapping("findFinishedReport")
-//    public List<Report> findFinishedReport(String studentId) {
-//        List<Report> listReport = reportService.selectFinishedReport(studentId);
-//        return listReport;
-//    }
+    @GetMapping("findReport")
+    public List<Report> findReport(String studentId) {
+        List<Report> listReports = reportService.selectReport(studentId);
+        return listReports;
+    }
     @GetMapping("findFinishedReports")
     public List<FinishedReportDTO> findFinishedReports(String studentId) {
         List<FinishedReportDTO> reports = reportService.selectFinishedReports(studentId);

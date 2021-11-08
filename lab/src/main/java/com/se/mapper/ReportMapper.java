@@ -58,7 +58,7 @@ public interface ReportMapper {
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
     int updateByPrimaryKey(Report record);
-    List<Report> selectFinishedReport(String studentID);
+    List<Report> selectReport(String studentID);
 
     List<FinishedReportDTO> selectFinishedReports(String studentID);
 }
