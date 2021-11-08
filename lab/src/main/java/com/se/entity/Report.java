@@ -25,10 +25,16 @@ public class Report extends ReportKey {
      *
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
-    public Report(String studentId, String courseId, String sectionId, String labId, String url, Integer grades) {
+    private String purpose;
+    private String progress;
+    private String principle;
+    public Report(String studentId, String courseId, String sectionId, String labId, String url, Integer grades, String purpose, String progress, String principle) {
         super(studentId, courseId, sectionId, labId);
         this.url = url;
         this.grades = grades;
+        this.purpose = purpose;
+        this.progress = progress;
+        this.principle = principle;
     }
 
     /**
