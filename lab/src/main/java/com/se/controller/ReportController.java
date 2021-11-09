@@ -41,7 +41,7 @@ public class ReportController {
         //回到员工列表页面，可以使用redirect或者forward
         return Integer.toString(res);
     }
-
+    @CrossOrigin
     @PutMapping("/update")
     public Report updateReport(@RequestBody Report report){
         reportService.updateByPrimaryKey(report);
