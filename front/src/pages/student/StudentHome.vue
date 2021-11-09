@@ -15,19 +15,10 @@
               </div>
             </el-col>
             <el-col :span="15">
-              <div class="name">{{ orgnizationInfo.name }}</div>
+              <div class="name">{{ accountData.name }}</div>
               <div class="other-info">
-                <br />ID：{{ orgnizationInfo.accountNumber }}<br />负责人：{{
-                  orgnizationInfo.functionary == null
-                    ? "请完善个人信息"
-                    : orgnizationInfo.functionary
-                }}<br />组织类型：<el-tag type="success" class="tag">
-                  {{
-                    orgnizationInfo.type == null
-                      ? "请完善个人信息"
-                      : orgnizationInfo.type
-                  }}
-                </el-tag>
+                <br />ID：{{ accountData.id }}
+                <br />{{ accountData.schoolName }}
               </div>
               <div class="date">
                 {{ semesterInfo.fromYear }}-{{ semesterInfo.toYear }}年度第{{
@@ -172,73 +163,39 @@
 </template>
 
 <script>
-import {
-  GETOrganizationsID,
-  GETSystemAnnouncements,
-  GETMaintenanceAnnouncements,
-  GETActivities,
-  GETGrounds,
-} from "../../API/http";
-import store from "../../state/state";
+import { GETStudentsID } from "../../API/http";
+import store from "../../store/state";
 export default {
   created() {
-    GETOrganizationsID(this.OrgID)
+    console.log("ID: ", store.state.id);
+    GETStudentsID(store.state.id)
       .then((data) => {
-        //console.log("12345698",data);
-        this.orgnizationInfo = data;
-        this.orgnizationInfo.header =
-          "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png";
+        this.accountData = data;
+        console.log(this.accountData);
       })
       .catch((err) => {
         console.log(err);
-        this.$message("组织信息获取错误");
-      }); //获取组织信息
-    GETSystemAnnouncements()
-      .then((data) => {
-        this.systemData = data;
-        this.dealWithSystemAnnouncements(this.systemData);
-      })
-      .catch((err) => {
-        this.data = err;
+        this.$message("学生信息获取错误");
       });
-    GETMaintenanceAnnouncements()
-      .then((data) => {
-        this.maintenanceData = data;
-        this.dealWithMaintenanceAnnouncements(this.maintenanceData);
-      })
-      .catch((err) => {
-        this.data = err;
-      });
-    GETActivities()
-      .then((data) => {
-        this.futureActivity = data["待举办"];
-        console.log("12345698", this.futureActivity[0].startTime);
-        for (var i = 0; i < this.futureActivity.length; i++) {
-          this.futureActivity[i].startTime = this.futureActivity[i].startTime
-            .replace("T", " ")
-            .split(".")[0];
-        }
-      })
-      .catch((err) => {
-        this.data = err;
-      });
-    var curTime = this.getCurrentTime();
-    console.log("curTime", curTime);
-    GETGrounds({
-      occupyDateTime: curTime,
-    })
-      .then((data) => {
-        //console.log("12345698",data);
-        this.dealWithOccupyGrounds(data); //这里需要根据state来进行筛选
-      })
-      .catch((err) => {
-        this.data = err;
-      });
+    // GETSystemAnnouncements()
+    //   .then((data) => {
+    //     this.systemData = data;
+    //     this.dealWithSystemAnnouncements(this.systemData);
+    //   })
+    //   .catch((err) => {
+    //     this.data = err;
+    //   });
   },
   data() {
     return {
       systemData: null,
-      maintenanceData: null,
+      accountData: {
+        id: "",
+        email: "",
+        name: "",
+        classnum: "",
+        schoolName: ""
+      },
       //第一块卡片信息
       orgnizationInfo: {},
       semesterInfo: {
@@ -295,56 +252,8 @@ export default {
       }
       console.log(this.systemAnnouncement);
     },
-    dealWithMaintenanceAnnouncements(data) {
-      console.log("run dealwith");
-      for (var i = 0; i < data.length; i++) {
-        var temp = {
-          groundId: "",
-          groundName: "",
-          title: "",
-          maintenanceAnnouncementDate: "",
-          content: "",
-        };
-        temp.groundName = data[i].groundName;
-        temp.groundId = data[i].groundId;
-        temp.maintenanceAnnouncementDate = data[
-          i
-        ].maintenanceAnnouncementDate.replace("T", " ");
-        temp.title = data[i].content.substr(0, data[i].content.search("##"));
-        temp.content = data[i].content.slice(data[i].content.search("##") + 2);
-        this.groundAnnouncement.push(temp);
-      }
-      console.log(this.groundAnnouncement);
-    },
-    dealWithOccupyGrounds(data) {
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].state == "占用") {
-          this.occupation.push(data[i]);
-        }
-      }
-      console.log(this.occupation);
-    },
-    getCurrentTime() {
-      //获取当前时间并打印
-      var curTime = this;
-      let yy = new Date().getFullYear();
-      let mm = new Date().getMonth() + 1;
-      let dd = new Date().getDate();
-      let hh = new Date().getHours();
-      let mf =
-        new Date().getMinutes() < 10
-          ? "0" + new Date().getMinutes()
-          : new Date().getMinutes();
-      let ss =
-        new Date().getSeconds() < 10
-          ? "0" + new Date().getSeconds()
-          : new Date().getSeconds();
-      curTime.getTime =
-        yy + "-" + mm + "-" + dd + "T" + hh + ":" + mf + ":" + ss;
-      return curTime.getTime;
-    },
     showAnnouncement() {
-      this.$router.push("/OrgFrame/Announcement");
+      this.$router.push("/student/announcement");
     },
     onRowClick(row) {
       this.dialogTitle = row.title;

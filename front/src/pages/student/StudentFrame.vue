@@ -10,16 +10,8 @@
             ></el-button>
           </el-row>
         </el-col>
-        <el-col :span="18" class="header-row-col1">
+        <el-col :span="20" class="header-row-col1">
           <div style="font-size:30px">实验教学管理系统</div>
-        </el-col>
-        <el-col :span="2" class="header-row-col2">
-          <el-button
-            type="text"
-            style="white-space: pre-wrap"
-            slot="reference"
-            >{{ this.nowDate }} {{ this.nowWeek }} {{ this.nowTime }}
-          </el-button>
         </el-col>
         <el-col :span="3" class="header-row-col3">
           <el-row class="headarrow" type="flex" justify="end" align="middle">
@@ -87,7 +79,7 @@
 
 <script>
 import { GETOrganizationsID } from "../../API/http";
-import store from "../../state/state";
+import store from "../../store/state";
 //import router from "../../router/index"
 export default {
   created() {
@@ -153,19 +145,20 @@ export default {
       this.isCollapse = !this.isCollapse;
     },
     handleClick() {
-      this.$router.push("/OrgFrame/OrgAccountModify");
+      this.$router.push("/student/account");
     },
     handleCommand(command) {
       switch (command) {
         case "accountInfo":
           this.$router.push({
-            path: "/OrgFrame/OrgAccountModify",
+            path: "/student/account",
           });
           break;
         case "modifyPassword":
-          this.$router.push({
-            path: "/OrgFrame/ModifyPassword",
-          });
+          this.$message("功能不可用");
+          // this.$router.push({
+          //   path: "/student/modify-password",
+          // });
           break;
         default:
           this.confirmLogout();
@@ -191,53 +184,6 @@ export default {
       this.$router.push({
         path: "/GroundsAdmin/AccountModify",
       });
-    },
-    /**
-     * @description 获取路由数组
-     * @params val 路由参数
-     */
-    updateSeries(time, series, type) {
-      var isCritical =
-        Math.floor(time) === 0 || (type === "second" && time === 1);
-      if (isCritical && this.timeUpdatedStatus[type] === true) {
-        this.timeUpdatedStatus[type] = false;
-        series.data[0].value = 0;
-        series.clockwise = true;
-        this.option.animationDurationUpdate = 0;
-        //this.myChart.setOption(this.option, true);
-      }
-      series.data[0].value = time;
-      series.clockwise = true;
-      if (time === 0) {
-        this.timeUpdatedStatus[type] = true;
-        series.clockwise = false;
-      }
-    },
-    reNewTime() {
-      let myDate = new Date();
-      let wk = myDate.getDay();
-      let yy = String(myDate.getFullYear());
-      let mm = myDate.getMonth() + 1;
-      let dd = String(
-        myDate.getDate() < 10 ? "0" + myDate.getDate() : myDate.getDate()
-      );
-      let hou = String(
-        myDate.getHours() < 10 ? "0" + myDate.getHours() : myDate.getHours()
-      );
-      let min = String(
-        myDate.getMinutes() < 10
-          ? "0" + myDate.getMinutes()
-          : myDate.getMinutes()
-      );
-      let sec = String(
-        myDate.getSeconds() < 10
-          ? "0" + myDate.getSeconds()
-          : myDate.getSeconds()
-      );
-      let week = this.weeks[wk];
-      this.nowDate = yy + "-" + mm + "-" + dd;
-      this.nowTime = hou + ":" + min + ":" + sec;
-      this.nowWeek = week;
     },
   },
 };
