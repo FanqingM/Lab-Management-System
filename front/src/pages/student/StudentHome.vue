@@ -31,7 +31,7 @@
       </el-col>
       <el-col :span="14" class="upper-row-col2">
         <el-card class="upper-card" >
-          <div id="chartPie" class="pie-wrap" style="width: 600px;height:400px;"></div>
+          <div id="chartPie" class="pie-wrap" style="width: 600px;height:310px;"></div>
           <!-- <div slot="header" class="clearfix">
             <span><b>公告</b></span>
             <router-link to="/student/announcement">
@@ -252,8 +252,8 @@ export default {
         this.chartPie = echarts.init(document.getElementById('chartPie'),'macarons');
         this.chartPie.setOption({
           title: {
-            text: 'Pie Chart',
-            subtext: '纯属虚构',
+            text: '实验成绩分布',
+            subtext: '',
             x: 'center'
           },
           tooltip: {
@@ -261,7 +261,7 @@ export default {
             formatter: "{a} <br/>{b} : {c} ({d}%)",
           },
           legend: {
-            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+            data: ['计算机网络实验', '生物实验', '物理实验', '化学实验', '计算机组成原理实验'],
             left:"center",                              
             top:"bottom",                              
             orient:"horizontal",                        
@@ -273,11 +273,11 @@ export default {
               radius: ['50%', '70%'],
               center: ['50%', '50%'],
               data: [
-                {value: 335, name: '直接访问'},
-                {value: 310, name: '邮件营销'},
-                {value: 234, name: '联盟广告'},
-                {value: 135, name: '视频广告'},
-                {value: 1548, name: '搜索引擎'}
+                {value: 335, name: '计算机网络实验'},
+                {value: 310, name: '生物实验'},
+                {value: 234, name: '物理实验'},
+                {value: 135, name: '化学实验'},
+                {value: 1548, name: '计算机组成原理实验'}
               ],
               animationEasing: 'cubicInOut',
               animationDuration: 2600,
