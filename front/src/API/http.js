@@ -16,7 +16,7 @@ export const DELETEActivitiesID = ID => DeleteID('/api/Activities/', ID);
 export const GETActivitiesID = ID => GetID('/api/Activities/', ID); //ok
 
 /*Reports*/
-export const PUTReport = param => Post('/report/update', param);
+export const PUTReport = param => Put('/report/update', param);
 
 /*CreditRecords*/
 export const GETCreditRecords = param => Get('/api/creditrecords', param) //ok
