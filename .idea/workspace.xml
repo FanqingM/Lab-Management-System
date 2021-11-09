@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/blog.iml" beforeDir="false" afterPath="$PROJECT_DIR$/lab/blog.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lab/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,6 +39,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lab/src/main/java/com/se/service" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
@@ -86,7 +83,10 @@
       <workItem from="1636273802288" duration="12156000" />
       <workItem from="1636371702322" duration="8673000" />
       <workItem from="1636381084985" duration="4352000" />
-      <workItem from="1636386636521" duration="493000" />
+      <workItem from="1636386636521" duration="886000" />
+      <workItem from="1636387581609" duration="205000" />
+      <workItem from="1636433947419" duration="227000" />
+      <workItem from="1636434210728" duration="619000" />
     </task>
     <servers />
   </component>
@@ -117,6 +117,11 @@
           <url>file://$PROJECT_DIR$/lab/src/main/java/com/se/service/ReportServiceImpl.java</url>
           <line>74</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lab/src/main/java/com/se/controller/ReportController.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

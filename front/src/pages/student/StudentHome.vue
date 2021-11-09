@@ -10,7 +10,7 @@
                 <br />
                 <el-avatar
                   :size="130"
-                  :src="orgnizationInfo.header"
+                  :src="circleUrl"
                 ></el-avatar>
               </div>
             </el-col>
@@ -30,8 +30,9 @@
         </el-card>
       </el-col>
       <el-col :span="14" class="upper-row-col2">
-        <el-card class="upper-card">
-          <div slot="header" class="clearfix">
+        <el-card class="upper-card" >
+          <div id="chartPie" class="pie-wrap" style="width: 600px;height:310px;"></div>
+          <!-- <div slot="header" class="clearfix">
             <span><b>公告</b></span>
             <router-link to="/student/announcement">
               <el-button style="float: right; padding: 3px 0" type="text"
@@ -56,7 +57,7 @@
                 }}</span>
               </template>
             </el-table-column>
-          </el-table>
+          </el-table> -->
         </el-card>
       </el-col>
     </el-row>
@@ -165,6 +166,9 @@
 <script>
 import { GETStudentsID } from "../../API/http";
 import store from "../../store/state";
+import * as echarts from 'echarts';
+require('echarts/theme/macarons');//引入主题
+
 export default {
   created() {
     console.log("ID: ", store.state.id);
@@ -177,18 +181,18 @@ export default {
         console.log(err);
         this.$message("学生信息获取错误");
       });
-    // GETSystemAnnouncements()
-    //   .then((data) => {
-    //     this.systemData = data;
-    //     this.dealWithSystemAnnouncements(this.systemData);
-    //   })
-    //   .catch((err) => {
-    //     this.data = err;
-    //   });
+
   },
+  mounted() {
+      this.$nextTick(() => {
+        this.drawPieChart();
+      })
+    },
   data() {
     return {
+      chartPie: null,
       systemData: null,
+      circleUrl:"https://car3.autoimg.cn/cardfs/product/g2/M04/EE/1D/1400x0_1_q95_autohomecar__ChsEkF242U6ADiMLAAaEhG82eyQ499.jpg",
       accountData: {
         id: "",
         email: "",
@@ -232,6 +236,61 @@ export default {
     };
   },
   methods: {
+ 
+ drawPieChart() {
+        let mytextStyle = {
+          color: "#333",                          
+          fontSize: 18,                            
+        };
+        let mylabel = {
+          show: true,                 
+          position: "right",          
+          offset: [30, 40],             
+          formatter: '{b} : {c} ({d}%)',      
+          textStyle: mytextStyle
+        };
+        this.chartPie = echarts.init(document.getElementById('chartPie'),'macarons');
+        this.chartPie.setOption({
+          title: {
+            text: '实验成绩分布',
+            subtext: '',
+            x: 'center'
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)",
+          },
+          legend: {
+            data: ['计算机网络实验', '生物实验', '物理实验', '化学实验', '计算机组成原理实验'],
+            left:"center",                              
+            top:"bottom",                              
+            orient:"horizontal",                        
+          },
+          series: [
+            {
+              name: '访问来源',
+              type: 'pie',
+              radius: ['50%', '70%'],
+              center: ['50%', '50%'],
+              data: [
+                {value: 335, name: '计算机网络实验'},
+                {value: 310, name: '生物实验'},
+                {value: 234, name: '物理实验'},
+                {value: 135, name: '化学实验'},
+                {value: 1548, name: '计算机组成原理实验'}
+              ],
+              animationEasing: 'cubicInOut',
+              animationDuration: 2600,
+              label: {           
+                emphasis: mylabel
+              }
+            }
+          ]
+        });
+      },
+
+
+
     dealWithSystemAnnouncements(data) {
       console.log("run dealwith");
       for (var i = 0; i < data.length; i++) {
@@ -290,11 +349,11 @@ body {
 }
 .upperrow {
   padding: 5px;
-  height: 40%;
+  height: 60%;
 }
 .lowerrow {
   padding: 5px;
-  height: 60%;
+  height: 40%;
 }
 .el-dialog {
   border-radius: 12px;
@@ -325,10 +384,10 @@ body {
 }
 
 .upper-card {
-  height: 240px;
+  height: 340px;
 }
 .lower-card {
-  height: 340px;
+  height: 240px;
 }
 .el-dialog__header {
   border-bottom: 1px solid #ebebeb;
