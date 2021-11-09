@@ -106,16 +106,11 @@ import store from "../../store/state";
 import { POSTActivities,
          PUTActivitiesID } from "../../API/http";
 export default {
-  components: {
-    Mycalendar,
-  },
-  created() {
-    this.getAllSite();
-  },
   data() {
     return {
+      labId: this.$route.params.ID,
         lab: {
-            title: ""
+          title: ""
         },
       rules: {
         name: [
@@ -128,36 +123,6 @@ export default {
           },
         ],
         date: [{ required: true, message: "请选择活动日期", trigger: "blur" }],
-        time: [
-          { required: true, message: "请选择活动时间", trigger: "blur" },
-          {
-            required: true,
-            trigger: "blur",
-            validator: (rule, value, callback) => {
-              if (
-                (this.ruleform.time[1][0] - this.ruleform.time[0][0]) * 600 +
-                  (this.ruleform.time[1][1] - this.ruleform.time[0][1]) * 60 +
-                  (this.ruleform.time[1][3] - this.ruleform.time[0][3]) * 10 +
-                  (this.ruleform.time[1][4] - this.ruleform.time[0][4]) * 1 <
-                30
-              ) {
-                callback(new Error("时长不超过30分钟"));
-              } else if (
-                this.ruleform.time[1][0] == "2" &&
-                this.ruleform.time[1][1] >= "2"
-              ) {
-                callback(new Error("场地晚间22点之后关闭申请"));
-              } else if (
-                this.ruleform.time[0][0] == "0" &&
-                this.ruleform.time[0][1] < "8"
-              ) {
-                callback(new Error("场地8点之前关闭申请"));
-              } else {
-                callback();
-              }
-            },
-          },
-        ],
         special: [
           { required: false, message: "请输入特殊需求", trigger: "blur" },
           {

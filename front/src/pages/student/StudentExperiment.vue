@@ -11,7 +11,7 @@
             :header-row-style="{ height: '20px' }"
             :cell-style="{ padding: '5px' }"
             ref="filterTable1"
-            :data="tableData.未完成"
+            :data="unfinished"
             height="465"
             stripe
             highlight-current-row
@@ -19,20 +19,18 @@
             style="width: 100%"
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
-            <el-table-column prop="name" label="实验名称">
+            <el-table-column prop="labName" label="实验名称">
             </el-table-column>
             <el-table-column prop="date" sortable label="实验时间">
             </el-table-column>
             <el-table-column prop="due" sortable label="截止时间">
             </el-table-column>
-            <el-table-column prop="option" label="操作">
-            </el-table-column>
-            <el-table-column>
+            <el-table-column label="操作">
               <template slot-scope="scope">
                 <router-link
                   :to="{
                     name: 'StudentReport',
-                    params: { ID: scope.row.experimentID },
+                    params: { ID: scope.row.labId },
                   }"
                 >
                   <el-button @click="handleClick(scope.row)" type="text"
@@ -49,7 +47,7 @@
             :cell-style="{ padding: '5px' }"
             v-loading="loading"
             ref="filterTable2"
-            :data="tableData.已完成"
+            :data="finished"
             height="465"
             stripe
             highlight-current-row
@@ -57,28 +55,26 @@
             style="width: 100%"
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
-                      <el-table-column prop="name" label="实验名称">
+            <el-table-column prop="labName" label="实验名称">
             </el-table-column>
             <el-table-column prop="date" sortable label="实验时间">
             </el-table-column>
             <el-table-column prop="due" sortable label="截止时间">
             </el-table-column>
-            <el-table-column prop="option" label="操作">
-            </el-table-column>
             <el-table-column
               prop="status"
               label="状态"
             >
-              <template slot-scope="scope1">
+              <!-- <template slot-scope="scope1">
                 <el-tag
                   :type="tagType[scope1.row.activityState]"
                   disable-transitions
                 >
                   未批改
                 </el-tag>
-              </template>
+              </template> -->
             </el-table-column>
-            <el-table-column>
+            <el-table-column label="操作">
               <template slot-scope="scope">
                 <router-link
                   :to="{
@@ -87,7 +83,7 @@
                   }"
                 >
                   <el-button @click="handleClick(scope.row)" type="text"
-                    >完成报告</el-button
+                    >查看</el-button
                   >
                 </router-link>
               </template>
@@ -96,163 +92,59 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
-
-    <!-- 以下是场地反馈的弹出窗口 -->
-    <!-- <FeedbackDialog
-        :feedbackVisible="feedbackVisible"
-        :message="feedbackRow"
-      /> -->
-
-    <!-- 以下需要增加参数  -->
-
-    <div>
-      <el-dialog
-        title="使用凭证预览和下载"
-        :visible.sync="dialogVisible"
-        width="60%"
-        :before-close="handleClose"
-        class="dialog"
-      >
-        <div id="pdfDom">
-          <div class="proBox">
-            <p class="tit">场地使用凭证</p>
-            <p class="proid">
-              <span>编号：</span> <span>{{ drawDetail.ID }}</span>
-            </p>
-            <p class="con">
-              <span class="con-name">{{ drawDetail.groupname }}</span>
-              组织于<span>{{ drawDetail.date }} {{ drawDetail.time }}</span
-              >申请使用{{ drawDetail.groundname }}场地，经批准，予以使用。
-            </p>
-            <div class="con-unit">
-              <p>同济大学校园场地管理系统</p>
-              <p class="time">{{ formatTime.replace("T", " ") }}</p>
-            </div>
-            <p class="con-footer">同济大学校务处 监制</p>
-
-            <div class="chapter" v-show="isShow">
-              <canvas id="chapterCanvas" height="150"></canvas>
-            </div>
-          </div>
-        </div>
-        <span slot="footer" class="dialog-footer">
-          <el-switch
-            inactive-color="#67c23a"
-            v-model="downType"
-            active-text="图片下载"
-            inactive-text="pdf下载"
-            style="margin-right: 20px"
-          >
-          </el-switch>
-          <el-checkbox v-model="isShow" style="margin-right: 20px"
-            >添加盖章</el-checkbox
-          >
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="getPdf('#pdfDom')">下载</el-button>
-        </span>
-      </el-dialog>
-    </div>
-    <!-- <feedback-dialog :feedbackRow="feedbackRow" :feedbackVisible="feedbackVisible" @closeDialog="feedbackVisible=false"></feedback-dialog> -->
-    <el-dialog title="场地反馈" :visible.sync="feedbackVisible" class="dialog">
-      <div class="content">
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-position="left"
-          class="demo-table"
-        >
-          <el-form-item label="活动ID">
-            <label slot="label"><b>活动ID</b></label>
-            <span>{{ feedbackRow.ID }}</span>
-          </el-form-item>
-          <el-form-item label="活动时间">
-            <label slot="label"><b>活动时间</b></label>
-            <span>{{ feedbackRow.time }}</span>
-          </el-form-item>
-          <el-form-item label="活动地点">
-            <label slot="label"><b>活动地点</b></label>
-            <span>{{ feedbackRow.groundname }}</span>
-          </el-form-item>
-          <el-form-item label="活动评分">
-            <label slot="label"><b>活动评分</b></label>
-            <div>
-              <p>
-                <el-rate
-                  class="block"
-                  v-model="ruleForm.score"
-                  :colors="colors"
-                  show-text
-                ></el-rate>
-              </p>
-            </div>
-          </el-form-item>
-          <el-form-item label="详细意见">
-            <label slot="label"><b>详细意见</b></label>
-            <span>
-              <el-input
-                :autosize="{ minRows: 2, maxRows: 6 }"
-                class="input"
-                type="textarea"
-                :rows="5"
-                placeholder="请输入内容"
-                v-model="ruleForm.textarea"
-                maxlength="100"
-                show-word-limit
-              >
-              </el-input>
-            </span>
-          </el-form-item>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="feedbackVisible = false">取消</el-button>
-        <el-button type="primary" @click="submit">提交</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import store from "../../store/state";
 import {
-  GETActivities,
-  DELETEActivitiesID,
+  GETLabs,
   POSTFeedbackRecords,
 } from "../../API/http";
-// import FeedbackDialog from '../../components/FeedbackDialog.vue';
 export default {
   //  components: {
   //     FeedbackDialog,
   //  },
+  created() {
+    GETLabs({
+      studentId: store.state.id
+      })
+      .then((data) => {
+        console.log("data", data);
+        for (var i = 0; i < data.length; ++i) {
+          if (data[i].grades != null) {
+            this.finished.push({
+              labId: data[i].labId,
+              labName: data[i].labName,
+              grades: data[i].grades,
+              date: "2021/11/1",
+              due: "2021/11/8",
+              status: (data[i].grades === 0) ? "未评分" : "已评分"
+            });
+          }
+          else {
+            this.unfinished.push({
+              labId: data[i].labId,
+              labName: data[i].labName,
+              grades: data[i].grades,
+              date: "2021/11/1",
+              due: "2021/11/10",
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("学生信息获取错误");
+      });
+  },
   data() {
     return {
-      //这是下载pdf的参数 别删了嗷
-      drawDetail: "", //这是选中那一行
-      dialogVisible: false,
-      pageData: null, //接收html格式代码
-      isShow: true,
-      isCanvas: false,
-      downType: true, // false为 pdf , true为图片
-      htmlTitle: "场地使用凭证",
-      loading: true,
-      tableData: {
-        审核中: [],
-        待举办: [],
-        待反馈: [],
-        已反馈: [],
-        被驳回: [],
-        已完成: [],
-        已过期: [],
-      },
+      unfinished: [],
+      finished: [],
       ruleForm: {
         score: null,
         textarea: "",
-      },
-      rules: {
-        textarea: [
-          { required: true, message: "请输入场地反馈", trigger: "blur" },
-        ],
       },
 
       feedbackRow: {
@@ -268,7 +160,7 @@ export default {
         time: "",
       },
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"], // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
-      activeName: "second",
+      activeName: "first",
 
       //以下是调用api后新增的内容
       axiosdata: "",
@@ -286,10 +178,6 @@ export default {
     formatter(row) {
       return row.groundname;
     },
-    // handleEdit(index, row) {
-    //   console.log(index, row);
-    // },
-    //wy编辑
     handleDelete(index, row, type) {
       console.log(index, row);
 
@@ -371,34 +259,6 @@ export default {
         },
       });
     },
-    //以下是调用api后新增的函数，有问题找wy
-    //删除某一条活动信息
-    deleteAppointment(id) {
-      DELETEActivitiesID(id)
-        .then((data) => {
-          console.log("run deleteAppointment", data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    //取得所有活动信息
-    fetchData() {
-      this.loading = true;
-      const that = this;
-      GETActivities({ orgId: that.orgId }) //应该加accountNumber
-        .then((data) => {
-          // console.log("run GETActivities");
-          that.axiosdata = data;
-          that.dealWithActivities(that.axiosdata);
-          //console.log("that.axiosdata", that.axiosdata);
-        })
-        .catch((err) => {
-          that.data = err;
-        });
-
-      this.loading = false;
-    },
     dealWithActivities(data) {
       console.log("run dealwithActivities", data);
 
@@ -440,58 +300,6 @@ export default {
       }
       console.log(this.tableData);
     },
-    //以下是下载的函数，有问题找wy
-    handleClose() {
-      this.dialogVisible = false;
-    },
-    preview(index, row) {
-      this.drawDetail = row;
-      this.dialogVisible = true;
-      this.$nextTick(() => {
-        if (!this.isCanvas) {
-          // 只绘画一次
-          this.isCanvas = true;
-          this.getChapter();
-        }
-      });
-    },
-    submit() {
-      if (this.ruleForm.score == null || this.ruleForm.textarea == "") {
-        this.$alert("未输入所有备选项", "反馈失败", {
-          confirmButtonText: "确定",
-          callback: (action) => {
-            if (action === "confirm") {
-              console.log("ID", this.$route.query.activityID);
-              this.$message({
-                type: "error",
-                message: "反馈失败",
-              });
-            }
-          },
-        });
-      } else {
-        var tmp = {
-          feedbackDate: this.formatTime,
-          feedbackTime: this.formatTime,
-          content: this.ruleForm.textarea,
-          score: this.ruleForm.score,
-          id: this.feedbackRow.ID,
-          groundName: this.feedbackRow.groundname,
-        };
-        console.log(tmp);
-        POSTFeedbackRecords(tmp)
-          .then((data) => {
-            console.log(data);
-            this.$message({ message: "反馈成功", type: "success" });
-            this.$router.push({ path: "/OrgFrame/Appointment" });
-          })
-          .catch((err) => {
-            err;
-            this.$message({ message: "反馈失败", type: "error" });
-          });
-      }
-      this.feedbackVisible = false;
-    },
   },
   computed: {
     formatTime() {
@@ -524,9 +332,6 @@ export default {
 
       return sresult;
     },
-  },
-  mounted() {
-    this.fetchData();
   },
 };
 </script>

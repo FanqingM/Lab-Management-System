@@ -8,7 +8,8 @@ import { Get, Post, DeleteID, PutID, GetID, Delete, Put } from './config'
 
 
 /*Activities*/
-export const GETActivities = param => Get('/api/Activities', param); //ok
+export const GETLab = param => Get('/lab/findOne', param); //ok
+export const GETLabs = param => Get('/report/findFinishedReports', param); //ok
 export const POSTActivities = param => Post('/api/Activities', param); //ok
 export const PUTActivitiesID = (ID, param) => PutID('/api/Activities/', ID, param); //ok
 export const DELETEActivitiesID = ID => DeleteID('/api/Activities/', ID);
