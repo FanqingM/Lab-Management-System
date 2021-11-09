@@ -8,7 +8,8 @@ import { Get, Post, DeleteID, PutID, GetID, Delete, Put } from './config'
 
 
 /*Activities*/
-export const GETActivities = param => Get('/api/Activities', param); //ok
+export const GETLab = param => Get('/lab/findOne', param); //ok
+export const GETLabs = param => Get('/report/findFinishedReports', param); //ok
 export const POSTActivities = param => Post('/api/Activities', param); //ok
 export const PUTActivitiesID = (ID, param) => PutID('/api/Activities/', ID, param); //ok
 export const DELETEActivitiesID = ID => DeleteID('/api/Activities/', ID);
@@ -92,7 +93,7 @@ export const DELETEOrgFavorites = param => Delete('/api/OrgFavorites', param); /
 //Students
 export const GETStudents = param => Get('/api/Students', param); //ok
 export const POSTStudents = param => Post('/api/Students', param); //ok
-export const GETStudentsID = ID => GetID('/api/Students/', ID); //ok
+export const GETStudentsID = id => GetID('/student/findOne?id=', id); //ok
 export const PUTStudentsID = (ID, param) => PutID('/api/Students/', ID, param); //ok
 export const DELETEStudentsID = ID => DeleteID('/api/Students/', ID); //ok
 
@@ -117,7 +118,7 @@ export const DELETESystemAnnouncements = param => Delete('/api/SystemAnnouncemen
 export const GETPositions = param => Get('/api/Positions', param); //wy测试ok
 
 //login
-export const Login = param => Get('/api/Login', param);
+export const Login = param => Post('/login', param);
 export const GETIdentity = param => Get('/api/Login/identity', param);
 export const LoginTest = param => Get('/api/Login/test/student', param);
 export const LoginTestOrg = param => Get('/api/Login/test/organization', param);

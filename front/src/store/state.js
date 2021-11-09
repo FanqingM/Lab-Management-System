@@ -5,6 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    id: null,
+    membertype: null,  //1: student; 2: instructor
   },
   mutations: {
   },

@@ -51,10 +51,10 @@
           <el-radio-group v-model="identity" style="margin: 0px 0 15px 0px">
             <el-row :gutter="35" style="margin: 0px 0 5px 0px">
               <el-col :span="14">
-                <el-radio :label="1">学生</el-radio>
+                <el-radio :label="0">学生</el-radio>
               </el-col>
               <el-col :span="10">
-                <el-radio :label="2">教师</el-radio>
+                <el-radio :label="1">教师</el-radio>
               </el-col>
             </el-row>
           </el-radio-group>
@@ -89,7 +89,7 @@
 
 <script>
 import { Login } from "../../API/http";
-import store from "../../state/state";
+import store from "../../store/state";
 import md5 from "js-md5";
 export default {
   data() {
@@ -120,69 +120,54 @@ export default {
             trigger: "blur",
           },
           {
-            pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}$/,
-            message:
-              "必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间",
+            // pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}$/,
+            // message:
+            //   "必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间",
             trigger: "blur",
           },
         ],
       },
-      identity: 1,
+      identity: 0,
     };
-  },
-  computed: {
-    role() {
-      if (this.identity === 1) {
-        return "student";
-      } else {
-        return "instructor";
-      }
-    },
   },
   methods: {
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-              if (this.identity === 1) {
-                this.$router.push("/student/home");
-              } else {
-                this.$router.push("/instructor");
-              }
-              this.$message("登录成功");
-        //   //提交表单到后台验证身份，并路由到指定页面
-        //   //console.log(md5(this.form.password,"hhh"));
-        //   Login({
-        //     accountNumber: this.form.accountNumber,
-        //     secretPassword: md5(this.form.password, "hhh"),
-        //     role: this.role,
-        //   })
-        //     .then((data) => {
-        //       localStorage.setItem("uutype", this.role);
-        //       localStorage.setItem("uuid", this.form.accountNumber);
-        //       localStorage.setItem("uutoken", data.accessToken);
-        //       store.state.ID = this.form.accountNumber;
-        //       store.state.membertype = this.role;
-        //       if (this.identity === 1) {
-        //         this.$router.push("/StuFrame/Main");
-        //       } else if (this.identity === 2) {
-        //         this.$router.push("/GroundsAdmin/Main");
-        //       } else if (this.identity === 3) {
-        //         this.$router.push("/OrgFrame/Main");
-        //       } else if (this.identity === 4) {
-        //         this.$router.push("/SysAdminFrame/SysAdminHomePage");
-        //       }
-        //       this.$message("登录成功");
-        //     })
-        //     .catch((err) => {
-        //       if (err.response.status == 404) {
-        //         this.$message.error("账户不存在");
-        //       } else if (err.response.status == 401) {
-        //         this.$message.error("该账户还未被审核，请稍后再试");
-        //       } else {
-        //         this.$message.error("账户或密码错误");
-        //         console.log(typeof err.response.status);
-        //       }
-        //     });
+            Login({   
+              id: this.form.accountNumber,
+              password: this.form.password,
+              authority: this.identity,
+              //secretPassword: md5(this.form.password, "hhh"),
+            })
+            .then((data) => {
+              console.log(data);
+              if (data.status === 200) {
+                localStorage.setItem("uutype", this.identity);
+                localStorage.setItem("uuid", this.form.accountNumber);
+                localStorage.setItem("uutoken", data.data.token);
+                store.state.id = this.form.accountNumber;
+                store.state.membertype = this.identity;
+                if (this.identity === 0) {
+                  this.$router.push("/student/home");
+                } else {
+                  this.$router.push("/instructor/home");
+                }
+              }             
+              this.$message(data.message);
+            })
+            .catch((err) => {
+              console.log(err);
+              this.$message.error("连接错误");
+              // if (err.response.status == 404) {
+              //   this.$message.error("账户不存在");
+              // } else if (err.response.status == 401) {
+              //   this.$message.error("该账户还未被审核，请稍后再试");
+              // } else {
+              //   this.$message.error("账户或密码错误");
+              //   console.log(typeof err.response.status);
+              // }
+            });
         }
       });
     },
@@ -203,11 +188,6 @@ h1 {
 
 h4 {
   color: white;
-}
-
-.logoImage {
-  height: 100%;
-  width: 100%;
 }
 
 .blur {
