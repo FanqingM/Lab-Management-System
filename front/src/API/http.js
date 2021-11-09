@@ -7,13 +7,17 @@ import { Get, Post, DeleteID, PutID, GetID, Delete, Put } from './config'
 //只有id可以直接传入 例如"1000007"  其他必须作为对象传入 例如{"accountNumber:1000001"}
 
 
-/*Activities*/
+/*Labs*/
 export const GETLab = param => Get('/lab/findOne', param); //ok
 export const GETLabs = param => Get('/report/findFinishedReports', param); //ok
 export const POSTActivities = param => Post('/api/Activities', param); //ok
 export const PUTActivitiesID = (ID, param) => PutID('/api/Activities/', ID, param); //ok
 export const DELETEActivitiesID = ID => DeleteID('/api/Activities/', ID);
 export const GETActivitiesID = ID => GetID('/api/Activities/', ID); //ok
+
+/*Reports*/
+export const PUTReport = param => Post('/report/update', param);
+
 /*CreditRecords*/
 export const GETCreditRecords = param => Get('/api/creditrecords', param) //ok
 export const POSTCreditRecords = param => Post('/api/creditrecords', param) //ok

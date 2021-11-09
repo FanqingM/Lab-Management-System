@@ -96,23 +96,6 @@ export default {
   },
   data() {
     return {
-      timeUpdatedStatus: {
-        second: false,
-        minute: false,
-        hour: false,
-      },
-      nowWeek: "",
-      nowDate: "",
-      nowTime: "",
-      weeks: [
-        "星期日",
-        "星期一",
-        "星期二",
-        "星期三",
-        "星期四",
-        "星期五",
-        "星期六",
-      ],
       clock: null,
       option: null,
       isCollapse: true,
@@ -120,25 +103,6 @@ export default {
       name: "",
       id: store.state.ID,
     };
-  },
-  mounted() {
-    // console.log("option", this.option);
-    const that = this;
-    setInterval(function () {
-      var date = new Date();
-      var second = date.getSeconds();
-      var minute = date.getMinutes() + second / 60;
-      var hour = (date.getHours() % 12) + minute / 60;
-      //console.log(that.option);
-      that.updateSeries(second, that.option.series[2], "second");
-      that.updateSeries(minute, that.option.series[1], "minute");
-      that.updateSeries(hour, that.option.series[0], "hour");
-      that.option.animationDurationUpdate = 300;
-      that.reNewTime();
-      //console.log("Week", that.nowTime);
-      that.clock.setOption(that.option, true);
-      date = null;
-    }, 1000);
   },
   methods: {
     test() {

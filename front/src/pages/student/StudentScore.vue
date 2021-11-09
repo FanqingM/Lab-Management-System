@@ -10,7 +10,7 @@
         :header-row-style="{ height: '20px' }"
         :cell-style="{ padding: '5px' }"
         ref="filterTable1"
-        :data="tableData.待举办"
+        :data="tableData"
         height="465"
         stripe
         highlight-current-row
@@ -65,16 +65,8 @@ export default {
       isCanvas: false,
       downType: true, // false为 pdf , true为图片
       htmlTitle: "场地使用凭证",
-      loading: true,
-      tableData: {
-        审核中: [],
-        待举办: [],
-        待反馈: [],
-        已反馈: [],
-        被驳回: [],
-        已完成: [],
-        已过期: [],
-      },
+      loading: false,
+      tableData: [],
       ruleForm: {
         score: null,
         textarea: "",
@@ -356,7 +348,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchData();
+    //this.fetchData();
   },
 };
 </script>
