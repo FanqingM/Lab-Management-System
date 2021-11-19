@@ -10,7 +10,7 @@
         :header-row-style="{ height: '20px' }"
         :cell-style="{ padding: '5px' }"
         ref="filterTable1"
-        :data="tableData.待举办"
+        :data="tableData"
         height="465"
         stripe
         highlight-current-row
@@ -18,13 +18,12 @@
         style="width: 100%"
         :default-sort="{ prop: 'date', order: 'descending' }"
       >
-        <el-table-column prop="name" label="实验名称"> </el-table-column>
+        <el-table-column prop="labName" label="实验名称"> </el-table-column>
         <el-table-column prop="date" sortable label="实验时间">
         </el-table-column>
-        <el-table-column prop="score" sortable label="评分">
+        <el-table-column prop="grades" sortable label="评分">
         </el-table-column>
-        <el-table-column prop="option" label="操作"> </el-table-column>
-        <el-table-column>
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <router-link
               :to="{
@@ -46,6 +45,7 @@
 <script>
 import store from "../../store/state";
 import {
+  GETLabs,
   GETActivities,
   DELETEActivitiesID,
   POSTFeedbackRecords,
@@ -55,6 +55,29 @@ export default {
   //  components: {
   //     FeedbackDialog,
   //  },
+  created() {
+    GETLabs({
+      studentId: store.state.id
+      })
+      .then((data) => {
+        console.log("data", data);
+        for (var i = 0; i < data.length; ++i) {
+          if (data[i].grades != null && data[i].grades !== 0) {
+            this.tableData.push({
+              labId: data[i].labId,
+              labName: data[i].labName,
+              grades: data[i].grades,
+              date: "2021/11/1",
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("学生信息获取错误");
+      });
+  },
+
   data() {
     return {
       //这是下载pdf的参数 别删了嗷
@@ -65,16 +88,8 @@ export default {
       isCanvas: false,
       downType: true, // false为 pdf , true为图片
       htmlTitle: "场地使用凭证",
-      loading: true,
-      tableData: {
-        审核中: [],
-        待举办: [],
-        待反馈: [],
-        已反馈: [],
-        被驳回: [],
-        已完成: [],
-        已过期: [],
-      },
+      loading: false,
+      tableData: [],
       ruleForm: {
         score: null,
         textarea: "",
@@ -356,7 +371,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchData();
+    //this.fetchData();
   },
 };
 </script>
