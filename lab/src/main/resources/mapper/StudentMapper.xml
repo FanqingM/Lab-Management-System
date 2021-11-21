@@ -15,6 +15,11 @@
       <arg column="SCHOOL_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="StudentDTOMap" type="com.se.dto.StudentDTO">
+    <result property="Id" column="ID"/>
+    <result property="Name" column="NAME"/>
+    <result property="schoolName" column="SCHOOL_NAME"/>
+  </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -23,6 +28,14 @@
     -->
     ID, EMAIL, NAME, CLASSNUM, SCHOOL_NAME
   </sql>
+
+
+  <select id="selectAllStudents" resultMap="StudentDTOMap">
+    select distinct STUDENT.ID,STUDENT.NAME,STUDENT.SCHOOL_NAME
+    from STUDENT
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated

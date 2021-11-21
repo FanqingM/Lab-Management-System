@@ -1,5 +1,5 @@
 <template>
-  <el-container height="100%">
+  <el-container style="height: 100%">
     <el-header class="header" style="height: 60px">
       <el-row class="header-row">
         <el-col :span="1" class="header-row-col1">
@@ -22,7 +22,7 @@
             </el-button>
             <el-dropdown trigger="click" @command="handleCommand">
               <span class="el-dropdown-link" trigger="click">
-                {{ this.name }}<i class="el-icon-arrow-down el-icon--right"></i>
+                {{ this.accountData.name }}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="accountInfo"
@@ -39,7 +39,7 @@
       </el-row>
     </el-header>
 
-    <el-container style="height: 100%">
+    <el-container style="height: calc(100% - 60px)">
       <el-aside style="width: auto">
         <el-menu
           class="el-menu-vertical-demo"
@@ -78,13 +78,22 @@
 </template>
 
 <script>
-import { GETOrganizationsID } from "../../API/http";
+import { GETStudentsID } from "../../API/http";
 import store from "../../store/state";
 //import router from "../../router/index"
 export default {
   created() {
-    this.id = "123456"
-    this.name = "测试账号";
+    GETStudentsID(store.state.id)
+  .then((data) => {
+    this.accountData = data;
+    console.log(this.accountData);
+  })
+  .catch((err) => {
+    console.log(err);
+    this.$message("学生信息获取错误");
+  });
+    this.id = this.accountData.id;
+    this.name = this.accountData.name;
     // GETOrganizationsID(this.id)
     //   .then((data) => {
     //     this.name = data.name;
@@ -100,8 +109,13 @@ export default {
       option: null,
       isCollapse: true,
       value: "",
-      name: "",
-      id: store.state.ID,
+      accountData: {
+        id: "",
+        email: "",
+        name: "",
+        classnum: "",
+        schoolName: ""
+      },
     };
   },
   methods: {
@@ -168,7 +182,7 @@ body,
   background-color: rgb(0, 128, 255);
 }
 .el-card {
-  border-radius: 15px;
+  border-radius: 10px;
 }
 .header-row {
   height: 100%;
@@ -206,7 +220,4 @@ body,
   height: 40px;
   width: 40px;
 } */
-.el-card {
-  border-radius: 15px;
-}
 </style>

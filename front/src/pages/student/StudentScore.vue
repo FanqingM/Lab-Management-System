@@ -289,17 +289,6 @@ export default {
     handleClose() {
       this.dialogVisible = false;
     },
-    preview(index, row) {
-      this.drawDetail = row;
-      this.dialogVisible = true;
-      this.$nextTick(() => {
-        if (!this.isCanvas) {
-          // 只绘画一次
-          this.isCanvas = true;
-          this.getChapter();
-        }
-      });
-    },
     submit() {
       if (this.ruleForm.score == null || this.ruleForm.textarea == "") {
         this.$alert("未输入所有备选项", "反馈失败", {

@@ -14,6 +14,11 @@
       <arg column="IS_SENIOR_TEACHER" javaType="java.lang.Boolean" jdbcType="BIT" />
     </constructor>
   </resultMap>
+  <resultMap id="TeacherDTOMap" type="com.se.dto.TeacherDTO">
+    <result property="Id" column="ID"/>
+    <result property="Name" column="NAME"/>
+    <result property="schoolName" column="SCHOOL_NAME"/>
+  </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -22,6 +27,12 @@
     -->
     ID, NAME, SCHOOL_NAME, IS_SENIOR_TEACHER
   </sql>
+
+  <select id="selectAllTeachers" resultMap="TeacherDTOMap">
+    select distinct TEACHER.ID,TEACHER.NAME,TEACHER.SCHOOL_NAME
+    from TEACHER
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated

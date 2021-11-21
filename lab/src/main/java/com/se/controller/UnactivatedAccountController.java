@@ -1,10 +1,14 @@
 package com.se.controller;
 
+import com.se.dto.TeacherDTO;
+import com.se.dto.UnactivatedAccountDTO;
 import com.se.entity.AdministratorAccount;
 import com.se.entity.UnactivatedAccount;
 import com.se.service.UnactivatedAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -13,9 +17,20 @@ public class UnactivatedAccountController {
     @Autowired
     private UnactivatedAccountService unactivatedAccountService;
 
+    @GetMapping("findAll")
+    public List<UnactivatedAccountDTO> selectAllUnactivatedAccounts() {
+        List<UnactivatedAccountDTO> res = unactivatedAccountService.selectAllUnactivatedAccounts();
+        return res;
+    }
+
+    @GetMapping("activate")
+    public int activateAccount(String id) {
+        int res = unactivatedAccountService.activateAccount(id);
+        return res;
+    }
     @GetMapping("findOne")
-    public UnactivatedAccount findOne(String email) {
-        UnactivatedAccount unactivatedAccount = unactivatedAccountService.selectByPrimaryKey(email);
+    public UnactivatedAccount findOne(String id) {
+        UnactivatedAccount unactivatedAccount = unactivatedAccountService.selectByPrimaryKey(id);
         return unactivatedAccount;
     }
 
