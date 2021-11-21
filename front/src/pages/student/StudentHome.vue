@@ -173,7 +173,7 @@ export default {
         console.log(err);
         this.$message("学生信息获取错误");
       });
-        GETLabs({
+    GETLabs({
       studentId: store.state.id
       })
       .then((data) => {
@@ -404,9 +404,18 @@ body {
 .lower-row {
   height: 50%;
 }
-.lower-row-col1,
-.lower-row-col2,
-.upper-row-col1,
+.lower-row-col1{
+  height: 100%;
+  padding: 5px;
+}
+.lower-row-col2{
+  height: 100%;
+  padding: 5px;
+}
+.upper-row-col1{
+  height: 100%;
+  padding: 5px;
+}
 .upper-row-col2 {
   height: 100%;
   padding: 5px;

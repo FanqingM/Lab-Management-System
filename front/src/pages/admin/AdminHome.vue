@@ -3,29 +3,26 @@
     <el-row class="upper-row">
       <el-col :span="10" class="upper-row-col1"
         ><!--左上角的两块-->
-
         <el-card class="upper-card">
           <el-row>
             <el-col :span="9">
               <div>
-                 <br />
-                <el-avatar :size="130" :src="sysInfo.image"></el-avatar>
+                <br />
+                <el-avatar :size="130" :src="circleUrl"></el-avatar>
               </div>
             </el-col>
             <el-col :span="15">
-              <br />
-              <div class="name">系统管理员 </div>
+              <div class="name">{{ accountData.name }}</div>
               <div class="other-info">
-                <br />账号：<el-tag type="success">
-                  {{ sysInfo.accountNumber }}
-                </el-tag><br />
+                <br />ID：{{ accountData.id }} <br />{{
+                  accountData.schoolName
+                }}
               </div>
               <div class="date">
                 {{ semesterInfo.fromYear }}-{{ semesterInfo.toYear }}年度第{{
                   semesterInfo.semester
                 }}学期第{{ semesterInfo.week }}周
               </div>
-              <div class="other-info">祝您工作愉快！</div>
             </el-col>
           </el-row>
         </el-card>
@@ -53,7 +50,6 @@
                 :data="groundAnnouncement"
                 stripe
                 style="width: 100%"
-                height="136"
                 @row-click="onRowClick"
                 :show-header="false"
               >
@@ -110,7 +106,6 @@
             :data="userInfo"
             stripe
             style="width: 100%"
-            height="241"
             :show-header="false"
           >
             <el-table-column prop="accountNumber" label="ID" width="auto">
@@ -121,7 +116,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-dialog :visible.sync="dialogVisible" width="50%" class="dialog">
+    <!-- <el-dialog :visible.sync="dialogVisible" width="50%" class="dialog">
       <span slot="title">
         <h3>{{ dialogTitle }}</h3>
       </span>
@@ -133,14 +128,15 @@
           >确定</el-button
         >
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
 
 <script>
-import store from "../../state/state";
+import store from "../../store/state";
 import {
+  GETAdminID,
   GETMaintenanceAnnouncements,
   GETSystemAnnouncements,
   GETOrganizations,
@@ -153,6 +149,15 @@ import {
 } from "../../API/http";
 export default {
   created() {
+    GETAdminID(store.state.id)
+      .then((data) => {
+        this.accountData = data;
+        console.log(this.accountData);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("学生信息获取错误");
+      });
     //获取场地公告
     GETMaintenanceAnnouncements()
       .then((data) => {
@@ -217,6 +222,7 @@ export default {
   },
   data() {
     return {
+      accountData: null,
       dialogTitle: "",
       dialogContent: "",
       dialogVisible: false,
@@ -323,41 +329,24 @@ export default {
 </script>
 
 <style>
-.upper-card,
-.lower-card {
-  overflow: auto;
-  border-radius: 15px;
-}
-/* .upper-row {
-  padding: 5px;
-  height: 40%;
-}
-.lower-row {
-  padding: 5px;
-  height: 60%;
-} */
-.lower-row-col1,
-.lower-row-col2,
-.upper-row-col1,
-.upper-row-col2 {
+html,
+body {
+  padding: 0px;
+  margin: 0px;
   height: 100%;
-  padding: 5px;
 }
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
+.tag {
+  margin-top: 4px;
+  margin-bottom: 1px;
+  margin-right: 5px;
 }
-.clearfix:after {
-  clear: both;
-}
-
-.upper-card {
-  height: 230px;
+.upper-card{
+  height: 100%;
+  border-radius: 10px;
 }
 .lower-card {
-  height: 340px;
+  height: 100%;
+  border-radius: 10px;
 }
 .el-dialog {
   border-radius: 12px;
@@ -368,8 +357,44 @@ export default {
 .content {
   height: 320px;
 }
+.upper-row {
+  height: 50%;
+}
+.lower-row {
+  height: 50%;
+}
+.lower-row-col1{
+  height: 100%;
+  padding: 5px;
+}
+.lower-row-col2{
+  height: 100%;
+  padding: 5px;
+}
+.upper-row-col1{
+  height: 100%;
+  padding: 5px;
+}
+.upper-row-col2 {
+  height: 100%;
+  padding: 5px;
+}
+.el-card {border-radius
+  : 10px;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+.el-dialog__header {
+  border-bottom: 1px solid #ebebeb;
+}
 .name {
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 550;
   line-height: 20px;
 }
@@ -379,20 +404,8 @@ export default {
   font-weight: 500;
 }
 .date {
-  font-size: 18px;
+  font-size: 20px;
   line-height: 40px;
-  font-weight: 600;
-}
-.el-dialog__header {
-  border-bottom: 1px solid #ebebeb;
-}
-.el-dialog {
-  border-radius: 12px;
-}
-.dialog {
-  backdrop-filter: blur(10px);
-}
-.el-card {
-  border-radius: 15px;
+  font-weight: 700;
 }
 </style>

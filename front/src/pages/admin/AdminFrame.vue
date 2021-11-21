@@ -49,17 +49,17 @@
           :collapse="isCollapse"
           style="height: 100%"
         >
-          <el-menu-item index="/SysAdminFrame/SysAdminHomePage">
+          <el-menu-item index="/admin/home">
             <i class="el-icon-house"></i>
             <span style="font-size: 14px">主页</span>
           </el-menu-item>
-          <el-menu-item index="/SysAdminFrame/GroupVerifyList">
+          <el-menu-item index="/admin/verification">
             <i class="el-icon-finished"></i>
-            <span style="font-size: 14px">审核组织注册</span>
+            <span style="font-size: 14px">审核注册</span>
           </el-menu-item>
-          <el-menu-item index="/SysAdminFrame/MaintainUserInfo">
+          <el-menu-item index="/admin/user-management">
             <i class="el-icon-edit"></i>
-            <span style="font-size: 14px">维护用户信息</span>
+            <span style="font-size: 14px">用户管理</span>
           </el-menu-item>
           <!-- <el-menu-item index="/SysAdminFrame/SystemAnnouncement">
             <i class="el-icon-document"></i>
@@ -85,25 +85,18 @@
 html,
 body,
 #app,
-.el-container {
-  /*设置内部填充为0，几个布局元素之间没有间距*/
-  padding: 0px;
-  /*外部间距也是如此设置*/
-  margin: 0px;
-  /*统一设置高度为100%*/
-  height: 100%;
-  overflow: hidden;
-}
-
-.el-main {
-  overflow: auto;
-  /* background-color: wheat; */
-  background-color: rgb(237, 241, 245);
-}
 .header {
   background-color: white;
   padding-left: 16px;
   border-bottom: 0.5px solid rgba(85, 79, 78, 0.178);
+}
+.el-main {
+  overflow: auto;
+  /* background-color: wheat; */
+  background-color: rgb(0, 128, 255);
+}
+.el-card {
+  border-radius: 10px;
 }
 .header-row {
   height: 100%;
@@ -123,7 +116,7 @@ body,
   padding-left: 20px;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 180px;
+  width: 200px;
   min-height: 400px;
 }
 .fold-button {
@@ -133,7 +126,7 @@ body,
   border-color: white;
   background-color: white; */
 }
-.headerrow {
+.headarrow {
   font-size: 30px;
   height: 100%;
 }
@@ -141,21 +134,6 @@ body,
   height: 40px;
   width: 40px;
 } */
-.el-card {
-  border-radius: 15px;
-}
-/* 面包屑导航 */
-.el-breadcrumb {
-  /* background-color: thistle; */
-  box-sizing: border-box;
-  /* height: 100%;
-  width: 90%; */
-  padding: 5%;
-  /* border-bottom: 1px solid #eee; */
-}
-.el-card {
-  border-radius: 15px;
-}
 </style>
 
 <script>

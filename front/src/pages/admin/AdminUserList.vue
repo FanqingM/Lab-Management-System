@@ -22,25 +22,6 @@
         </el-row>
       </div>
 
-      <!-- <el-row :gutter="1" type="flex" align="middle">
-        <el-col :span="16">
-          <div class="maintitle">维护用户信息</div>
-        </el-col>
-        <el-col :span="3">
-          <el-button size="medium" @click="addUser()" type="primary" plain
-            >添加用户</el-button
-          >
-        </el-col>
-        <el-col :span="5">
-          <el-input
-            clearable
-            v-model="toMatch"
-            placeholder="请输入用户ID搜索"
-            @input="search"
-          ></el-input>
-        </el-col>
-      </el-row> -->
-
       <el-table
         :data="matchList"
         max-height="500"
