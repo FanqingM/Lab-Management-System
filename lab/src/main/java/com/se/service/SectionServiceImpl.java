@@ -1,10 +1,13 @@
 package com.se.service;
 
+import com.se.dto.SectionDTO;
 import com.se.entity.Section;
 import com.se.entity.SectionKey;
 import com.se.mapper.SectionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SectionServiceImpl implements SectionService{
@@ -68,5 +71,10 @@ public class SectionServiceImpl implements SectionService{
     @Override
     public int updateByPrimaryKey(Section record) {
         return sectionMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<SectionDTO> findSectionsOfTeacher(String teacherId) {
+        return sectionMapper.findSectionsOfTeacher(teacherId);
     }
 }

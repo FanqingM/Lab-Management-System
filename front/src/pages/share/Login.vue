@@ -137,7 +137,7 @@ export default {
             Login({   
               id: this.form.accountNumber,
               password: this.form.password,
-              authority: this.identity,
+              authority: this.identity == 0?0:2,
               //secretPassword: md5(this.form.password, "hhh"),
             })
             .then((data) => {
@@ -151,7 +151,7 @@ export default {
                 if (this.identity === 0) {
                   this.$router.push("/student/home");
                 } else {
-                  this.$router.push("/instructor/home");
+                  this.$router.push("/teacher/home");
                 }
               }             
               this.$message(data.message);

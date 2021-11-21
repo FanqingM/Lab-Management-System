@@ -1,5 +1,6 @@
 package com.se.controller;
 
+import com.se.dto.SectionDTO;
 import com.se.entity.Lab;
 import com.se.entity.LabKey;
 import com.se.entity.Section;
@@ -7,6 +8,8 @@ import com.se.entity.SectionKey;
 import com.se.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -42,5 +45,10 @@ public class SectionController {
         //根据id删除员工
         sectionService.deleteByPrimaryKey(key);
         return key.toString();
+    }
+
+    @GetMapping("teacherSection")
+    public List<SectionDTO> findSectionsOfTeacher(String teacherId) {
+        return sectionService.findSectionsOfTeacher(teacherId);
     }
 }
