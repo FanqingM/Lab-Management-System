@@ -23,9 +23,14 @@ public class UnactivatedAccountController {
         return res;
     }
 
+    @GetMapping("activate")
+    public int activateAccount(String id) {
+        int res = unactivatedAccountService.activateAccount(id);
+        return res;
+    }
     @GetMapping("findOne")
-    public UnactivatedAccount findOne(String email) {
-        UnactivatedAccount unactivatedAccount = unactivatedAccountService.selectByPrimaryKey(email);
+    public UnactivatedAccount findOne(String id) {
+        UnactivatedAccount unactivatedAccount = unactivatedAccountService.selectByPrimaryKey(id);
         return unactivatedAccount;
     }
 
