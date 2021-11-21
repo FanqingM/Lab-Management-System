@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="" />
+    <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/front/src/pages/teacher/TeacherFrame.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/pages/teacher/TeacherHome.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/pages/teacher/TeacherSection.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/dto/SectionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/API/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/API/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/share/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/share/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lab/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/SectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/SectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/SectionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/SectionMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/service/SectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/SectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/service/SectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/SectionServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +34,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="20JZ4V0Ww5FdK6iyXV8loARSepL" />
   <component name="ProjectLevelVcsManager">
@@ -38,13 +60,15 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lab/src/main/java/com/se/service" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lab" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\Learning\21-22-1\SE\Lab-Management-System\front\src\pages\teacher" />
       <recent name="G:\Learning\21-22-1\SE\Lab-Management-System\lab\src\main\java\com\se\service" />
       <recent name="G:\Learning\21-22-1\SE\Lab-Management-System\lab\src\main\java\com\se" />
       <recent name="G:\Learning\21-22-1\SE\Lab-Management-System\lab\src\main\java\com\se\config" />
@@ -87,6 +111,7 @@
       <workItem from="1636387581609" duration="205000" />
       <workItem from="1636433947419" duration="227000" />
       <workItem from="1636434210728" duration="619000" />
+      <workItem from="1637462212668" duration="1361000" />
     </task>
     <servers />
   </component>
