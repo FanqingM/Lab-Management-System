@@ -8,17 +8,15 @@
             <el-col :span="9">
               <div>
                 <br />
-                <el-avatar
-                  :size="130"
-                  :src="circleUrl"
-                ></el-avatar>
+                <el-avatar :size="130" :src="circleUrl"></el-avatar>
               </div>
             </el-col>
             <el-col :span="15">
               <div class="name">{{ accountData.name }}</div>
               <div class="other-info">
-                <br />ID：{{ accountData.id }}
-                <br />{{ accountData.schoolName }}
+                <br />ID：{{ accountData.id }} <br />{{
+                  accountData.schoolName
+                }}
               </div>
               <div class="date">
                 {{ semesterInfo.fromYear }}-{{ semesterInfo.toYear }}年度第{{
@@ -30,8 +28,12 @@
         </el-card>
       </el-col>
       <el-col :span="14" class="upper-row-col2">
-        <el-card class="upper-card" >
-          <div id="chartPie" class="pie-wrap" style="width: 600px;height:310px;"></div>
+        <el-card class="upper-card">
+          <div
+            id="chartPie"
+            class="pie-wrap"
+            style="width: 600px; height: 250px"
+          ></div>
           <!-- <div slot="header" class="clearfix">
             <span><b>公告</b></span>
             <router-link to="/student/announcement">
@@ -61,11 +63,11 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row class="lowerrow">
+    <el-row class="lower-row">
       <el-col :span="15" class="lower-row-col1">
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
-            <span><b>待完成实验</b></span>
+            <span><b>待办</b></span>
             <router-link to="/student/experiment">
               <el-button style="float: right; padding: 3px 0" type="text"
                 >查看更多</el-button
@@ -73,28 +75,33 @@
             </router-link>
           </div>
           <el-table
-            :data="futureActivity"
+            :header-row-style="{ height: '15px' }"
+            :cell-style="{ padding: '5px' }"
+            :data="unfinished"
             stripe
-            style="width: 100%"
-            height="241"
-            @row-click="onActivityRowClick"
-            :show-header="false"
+            highlight-current-row
+            @current-change="handleCurrentChange1"
+            style="width: 100%; overflow: auto"
+            :default-sort="{ prop: 'date', order: 'descending' }"
           >
-            <el-table-column prop="name" label="活动名称" width="auto">
+            <el-table-column prop="labName" label="实验名称"> </el-table-column>
+            <el-table-column prop="date" sortable label="实验时间">
             </el-table-column>
-            <el-table-column
-              prop="organizationName"
-              label="发起组织"
-              width="auto"
-            >
+            <el-table-column prop="due" sortable label="截止时间">
             </el-table-column>
-            <el-table-column prop="startTime" label="时间" width="auto">
+            <el-table-column label="操作">
               <template slot-scope="scope">
-                <i class="el-icon-time"></i>
-                <span style="margin-left: 10px">{{ scope.row.startTime }}</span>
+                <router-link
+                  :to="{
+                    name: 'StudentReport',
+                    params: { ID: scope.row.labId },
+                  }"
+                >
+                  <el-button @click="handleClick(scope.row)" type="text"
+                    >完成报告</el-button
+                  >
+                </router-link>
               </template>
-            </el-table-column>
-            <el-table-column prop="groundName" label="地点" width="auto">
             </el-table-column>
           </el-table>
         </el-card>
@@ -109,65 +116,50 @@
               >
             </router-link>
           </div>
-
-          <el-table
-            :data="occupation"
-            stripe
-            style="width: 100%"
-            @row-click="onOccupyRowClick"
-            height="241"
-            :show-header="false"
-          >
-            <el-table-column prop="name" label="地点" width="auto">
-            </el-table-column>
-            <el-table-column prop="activityName" label="活动名" width="auto">
-            </el-table-column>
-          </el-table>
+<el-table
+        v-loading="loading"
+        :header-row-style="{ height: '15px' }"
+        :cell-style="{ padding: '5px' }"
+        ref="filterTable1"
+        :data="grade"
+        height="465"
+        stripe
+        highlight-current-row
+        @current-change="handleCurrentChange1"
+        style="width: 100%"
+        :default-sort="{ prop: 'date', order: 'descending' }"
+      >
+        <el-table-column prop="labName" label="实验名称"> </el-table-column>
+        <el-table-column prop="date" sortable label="实验时间">
+        </el-table-column>
+        <el-table-column prop="grades" sortable label="评分">
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <router-link
+              :to="{
+                name: 'StudentReport',
+                params: { ID: scope.row.experimentID },
+              }"
+            >
+              <el-button @click="handleClick(scope.row)" type="text"
+                >查看详情</el-button
+              >
+            </router-link>
+          </template>
+        </el-table-column>
+      </el-table>
         </el-card>
       </el-col>
     </el-row>
-    <el-dialog :visible.sync="dialogVisible" width="50%" class="dialog">
-      <span slot="title">
-        <h3>{{ dialogTitle }}</h3>
-      </span>
-      <div class="content">
-        <span>{{ dialogContent }}</span>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false"
-          >确定</el-button
-        >
-      </span>
-    </el-dialog>
-    <el-dialog
-      :visible.sync="activityVisible"
-      width="50%"
-      title="活动详情"
-      class="dialog"
-    >
-      <div class="content">
-        <p><b>活动ID：</b>{{ activitySelected.id }}</p>
-        <p><b>活动名称：</b>{{ activitySelected.name }}</p>
-        <p><b>举办组织：</b>{{ activitySelected.organizationName }}</p>
-        <p><b>活动时间：</b>{{ activitySelected.startTime }}</p>
-        <p><b>活动地点：</b>{{ activitySelected.groundName }}</p>
-        <p><b>参与人数：</b>{{ activitySelected.participantNum }}</p>
-        <p><b>活动描述：</b>{{ activitySelected.description }}</p>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="activityVisible = false"
-          >确定</el-button
-        >
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { GETStudentsID } from "../../API/http";
+import { GETStudentsID, GETLabs } from "../../API/http";
 import store from "../../store/state";
-import * as echarts from 'echarts';
-require('echarts/theme/macarons');//引入主题
+import * as echarts from "echarts";
+require("echarts/theme/macarons"); //引入主题
 
 export default {
   created() {
@@ -181,24 +173,65 @@ export default {
         console.log(err);
         this.$message("学生信息获取错误");
       });
-
+        GETLabs({
+      studentId: store.state.id
+      })
+      .then((data) => {
+        console.log("data", data);
+        for (var i = 0; i < data.length; ++i) {
+          if (data[i].grades == null) {
+            this.unfinished.push({
+              labId: data[i].labId,
+              labName: data[i].labName,
+              grades: data[i].grades,
+              date: "2021/11/1",
+              due: "2021/11/10",
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("实验信息获取错误");
+      });
+          GETLabs({
+      studentId: store.state.id
+      })
+      .then((data) => {
+        console.log("data", data);
+        for (var i = 0; i < data.length; ++i) {
+          if (data[i].grades != null && data[i].grades !== 0) {
+            this.grade.push({
+              labId: data[i].labId,
+              labName: data[i].labName,
+              grades: data[i].grades,
+              date: "2021/11/1",
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("成绩获取错误");
+      });
   },
   mounted() {
-      this.$nextTick(() => {
-        this.drawPieChart();
-      })
-    },
+    this.$nextTick(() => {
+      this.drawPieChart();
+    });
+  },
   data() {
     return {
       chartPie: null,
       systemData: null,
-      circleUrl:"https://car3.autoimg.cn/cardfs/product/g2/M04/EE/1D/1400x0_1_q95_autohomecar__ChsEkF242U6ADiMLAAaEhG82eyQ499.jpg",
+      circleUrl:
+        "https://car3.autoimg.cn/cardfs/product/g2/M04/EE/1D/1400x0_1_q95_autohomecar__ChsEkF242U6ADiMLAAaEhG82eyQ499.jpg",
       accountData: {
         id: "",
         email: "",
         name: "",
         classnum: "",
-        schoolName: ""
+        schoolName: "",
       },
       //第一块卡片信息
       orgnizationInfo: {},
@@ -230,66 +263,72 @@ export default {
       systemAnnouncement: [],
 
       //第三块卡片信息
-      futureActivity: [],
+      unfinished: [],
       //第四片卡片信息
-      occupation: [],
+      grade: [],
     };
   },
   methods: {
- 
- drawPieChart() {
-        let mytextStyle = {
-          color: "#333",                          
-          fontSize: 18,                            
-        };
-        let mylabel = {
-          show: true,                 
-          position: "right",          
-          offset: [30, 40],             
-          formatter: '{b} : {c} ({d}%)',      
-          textStyle: mytextStyle
-        };
-        this.chartPie = echarts.init(document.getElementById('chartPie'),'macarons');
-        this.chartPie.setOption({
-          title: {
-            text: '实验成绩分布',
-            subtext: '',
-            x: 'center'
+    drawPieChart() {
+      let mytextStyle = {
+        color: "#333",
+        fontSize: 18,
+      };
+      let mylabel = {
+        show: true,
+        position: "right",
+        offset: [30, 40],
+        formatter: "{b} : {c} ({d}%)",
+        textStyle: mytextStyle,
+      };
+      this.chartPie = echarts.init(
+        document.getElementById("chartPie"),
+        "macarons"
+      );
+      this.chartPie.setOption({
+        title: {
+          text: "实验成绩分布",
+          subtext: "",
+          x: "center",
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
+        },
+        legend: {
+          data: [
+            "计算机网络实验",
+            "生物实验",
+            "物理实验",
+            "化学实验",
+            "计算机组成原理实验",
+          ],
+          left: "center",
+          top: "bottom",
+          orient: "horizontal",
+        },
+        series: [
+          {
+            name: "访问来源",
+            type: "pie",
+            radius: ["50%", "70%"],
+            center: ["50%", "50%"],
+            data: [
+              { value: 335, name: "计算机网络实验" },
+              { value: 310, name: "生物实验" },
+              { value: 234, name: "物理实验" },
+              { value: 135, name: "化学实验" },
+              { value: 1548, name: "计算机组成原理实验" },
+            ],
+            animationEasing: "cubicInOut",
+            animationDuration: 2600,
+            label: {
+              emphasis: mylabel,
+            },
           },
-          tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)",
-          },
-          legend: {
-            data: ['计算机网络实验', '生物实验', '物理实验', '化学实验', '计算机组成原理实验'],
-            left:"center",                              
-            top:"bottom",                              
-            orient:"horizontal",                        
-          },
-          series: [
-            {
-              name: '访问来源',
-              type: 'pie',
-              radius: ['50%', '70%'],
-              center: ['50%', '50%'],
-              data: [
-                {value: 335, name: '计算机网络实验'},
-                {value: 310, name: '生物实验'},
-                {value: 234, name: '物理实验'},
-                {value: 135, name: '化学实验'},
-                {value: 1548, name: '计算机组成原理实验'}
-              ],
-              animationEasing: 'cubicInOut',
-              animationDuration: 2600,
-              label: {           
-                emphasis: mylabel
-              }
-            }
-          ]
-        });
-      },
-
-
+        ],
+      });
+    },
 
     dealWithSystemAnnouncements(data) {
       console.log("run dealwith");
@@ -342,18 +381,13 @@ body {
   margin-bottom: 1px;
   margin-right: 5px;
 }
-.upper-card,
+.upper-card{
+  height: 100%;
+  border-radius: 10px;
+}
 .lower-card {
-  overflow: auto;
-  border-radius: 15px;
-}
-.upperrow {
-  padding: 5px;
-  height: 60%;
-}
-.lowerrow {
-  padding: 5px;
-  height: 40%;
+  height: 100%;
+  border-radius: 10px;
 }
 .el-dialog {
   border-radius: 12px;
@@ -364,6 +398,12 @@ body {
 .content {
   height: 320px;
 }
+.upper-row {
+  height: 50%;
+}
+.lower-row {
+  height: 50%;
+}
 .lower-row-col1,
 .lower-row-col2,
 .upper-row-col1,
@@ -371,8 +411,8 @@ body {
   height: 100%;
   padding: 5px;
 }
-.el-card {
-  border-radius: 15px;
+.el-card {border-radius
+  : 10px;
 }
 .clearfix:before,
 .clearfix:after {
@@ -381,13 +421,6 @@ body {
 }
 .clearfix:after {
   clear: both;
-}
-
-.upper-card {
-  height: 340px;
-}
-.lower-card {
-  height: 240px;
 }
 .el-dialog__header {
   border-bottom: 1px solid #ebebeb;

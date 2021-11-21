@@ -99,7 +99,6 @@
 import store from "../../store/state";
 import {
   GETLabs,
-  POSTFeedbackRecords,
 } from "../../API/http";
 export default {
   //  components: {
@@ -135,8 +134,9 @@ export default {
       })
       .catch((err) => {
         console.log(err);
-        this.$message("学生信息获取错误");
+        this.$message("实验信息获取错误");
       });
+    this.loading = false;
   },
   data() {
     return {
@@ -146,7 +146,7 @@ export default {
         score: null,
         textarea: "",
       },
-
+      loading:true,
       feedbackRow: {
         ID: "",
         additionalRequest: "",
@@ -159,7 +159,7 @@ export default {
         tag: "",
         time: "",
       },
-      colors: ["#99A9BF", "#F7BA2A", "#FF9900"], // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
       activeName: "first",
 
       //以下是调用api后新增的内容
@@ -193,7 +193,6 @@ export default {
           for (var i = 0; i < tempList.length; i++) {
             if (tempList[i].ID == row.ID) {
               tempList.splice(i, 1);
-
               this.deleteAppointment(row.ID);
               break;
             }
