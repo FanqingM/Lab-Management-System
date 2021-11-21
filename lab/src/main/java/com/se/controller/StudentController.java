@@ -1,11 +1,14 @@
 package com.se.controller;
 
+import com.se.dto.StudentDTO;
 import com.se.entity.AdministratorAccount;
 import com.se.entity.Student;
 import com.se.service.SectionService;
 import com.se.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -14,6 +17,11 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @GetMapping("findAll")
+    public List<StudentDTO> selectAllStudents() {
+        List<StudentDTO> res = studentService.selectAllStudents();
+        return res;
+    }
     @GetMapping("findOne")
     public Student findOne(String id) {
         Student student = studentService.selectByPrimaryKey(id);

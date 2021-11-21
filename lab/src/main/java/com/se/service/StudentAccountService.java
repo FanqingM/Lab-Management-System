@@ -1,6 +1,9 @@
 package com.se.service;
 
+import com.se.dto.StudentDTO;
 import com.se.entity.StudentAccount;
+
+import java.util.List;
 
 public interface StudentAccountService {
     /**
