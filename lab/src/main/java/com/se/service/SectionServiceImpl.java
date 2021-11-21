@@ -75,6 +75,15 @@ public class SectionServiceImpl implements SectionService{
 
     @Override
     public List<SectionDTO> findSectionsOfTeacher(String teacherId) {
-        return sectionMapper.findSectionsOfTeacher(teacherId);
+        List<SectionDTO> secList = sectionMapper.findSectionsOfTeacher(teacherId);
+        List<SectionKey> noGradingKey = sectionMapper.findSectionsOfTeacherHasNoGrading(teacherId);
+        for (SectionDTO sectionDTO:secList){
+            if (noGradingKey.contains(new SectionKey(sectionDTO.getCourseId(),sectionDTO.getSectionId()))) {
+                sectionDTO.setHasNotGrading(true);
+            }else{
+                sectionDTO.setHasNotGrading(false);
+            }
+        }
+        return secList;
     }
 }

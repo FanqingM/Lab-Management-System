@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20828ad4-858f-44af-b3a4-49e2c6ee68d1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/front/src/pages/teacher/TeacherFrame.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/src/pages/teacher/TeacherHome.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/src/pages/teacher/TeacherSection.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/dto/SectionDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/API/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/API/http.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/pages/share/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/share/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lab/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/SectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/controller/SectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/dto/SectionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/dto/SectionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/entity/SectionKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/entity/SectionKey.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/SectionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/mapper/SectionMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/service/SectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/SectionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab/src/main/java/com/se/service/SectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab/src/main/java/com/se/service/SectionServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +103,7 @@
       <workItem from="1636387581609" duration="205000" />
       <workItem from="1636433947419" duration="227000" />
       <workItem from="1636434210728" duration="619000" />
-      <workItem from="1637462212668" duration="1361000" />
+      <workItem from="1637462212668" duration="1587000" />
     </task>
     <servers />
   </component>

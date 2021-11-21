@@ -62,4 +62,7 @@ public interface SectionMapper {
 
     @Select("SELECT * FROM COURSE JOIN SECTION S on COURSE.ID = S.COURSE_ID WHERE TERCHER_ID = #{teacherId}")
     List<SectionDTO> findSectionsOfTeacher(String teacherId);
+
+    @Select("SELECT DISTINCT S.COURSE_ID,S.SECTION_ID FROM SECTION S NATURAL JOIN REPORT WHERE TERCHER_ID = #{teacherId} AND GRADES IS NULL")
+    List<SectionKey> findSectionsOfTeacherHasNoGrading(String teacherId);
 }
