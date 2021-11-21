@@ -141,4 +141,4 @@ export const GETTeachersID = id => GetID('/teacher/findOne?id=', id); //ok
 
 //Section
 export const GETSectionOfTeacher = id => GetID('/section/teacherSection?teacherId=', id);
-export const GETSectionInfo = id => GetID('/section/findOneSection?courseId=',courseId,'&section_Id=01teacherId=', sectionId);
+export const GETSectionInfo = param => Get('/section/findOneSection', param);

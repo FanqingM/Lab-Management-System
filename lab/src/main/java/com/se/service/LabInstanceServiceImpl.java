@@ -1,5 +1,6 @@
 package com.se.service;
 
+import com.se.dto.LabInstenceDTO;
 import com.se.entity.LabInstance;
 import com.se.entity.LabInstanceKey;
 import com.se.mapper.LabInstanceMapper;
@@ -68,5 +69,10 @@ public class LabInstanceServiceImpl implements LabInstanceService{
     @Override
     public int updateByPrimaryKey(LabInstance record) {
         return labInstanceMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public LabInstenceDTO findOne(LabInstanceKey labInstanceKey) {
+        return labInstanceMapper.findOne(labInstanceKey);
     }
 }

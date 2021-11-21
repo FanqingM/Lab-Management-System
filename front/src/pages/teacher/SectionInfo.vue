@@ -6,23 +6,13 @@
         <div slot="header" class="clearfix">
           <span class="maintitle">课程详情 </span>
         </div>
-        <!-- <h1 class="maintitle">活动详情</h1>
-          <el-divider></el-divider> -->
         <div class="detailinfo">
-          <el-col :span="12">
             <p class=""><b>课程名称：</b>{{ sectionInfo.courseName }}</p>
             <p class=""><b>课程代号：</b>{{ sectionInfo.courseId }}</p>
             <p class=""><b>班级代号：</b>{{ sectionInfo.sectionId }}</p>
             <p class=""><b>课程学年：</b>{{ sectionInfo.year }}</p>
             <p class=""><b>课程学期：</b>{{ sectionInfo.semeter }}</p>
             <p class=""><b>课程学分：</b>{{ sectionInfo.credits }}</p>
-          </el-col>
-          <el-col :span="12">
-            <p class=""><b>活动时长：</b>{{ duration }}分钟</p>
-            <p class=""><b>参与人数：</b>{{ participantNum }}</p>
-            <p class=""><b>场地名称：</b>{{ groundName }}</p>
-            <p class=""><b>活动描述：</b>{{ description }}</p>
-          </el-col>
         </div>
       </el-card>
     </el-row>
@@ -164,9 +154,9 @@ export default {
   mounted() {
     const that = this;
     console.log(that.$route.params.courseId,that.$route.params.sectionId);
-    GETSectionInfo(that.$route.params.courseId,that.$route.params.sectionId).then((data)=>{
+    GETSectionInfo({"courseId":that.$route.params.courseId,"section_Id":that.$route.params.sectionId}).then((data)=>{
       that.sectionInfo = data;
-      console.log("sectionInfo",data);
+      console.log("sectionInfo",that.sectionInfo);
     }).catch((err) => {
       console.log(err);
       this.$message("评分数据请求错误");

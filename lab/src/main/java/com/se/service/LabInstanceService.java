@@ -1,5 +1,6 @@
 package com.se.service;
 
+import com.se.dto.LabInstenceDTO;
 import com.se.entity.LabInstance;
 import com.se.entity.LabInstanceKey;
 
@@ -51,4 +52,6 @@ public interface LabInstanceService {
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     int updateByPrimaryKey(LabInstance record);
+
+    LabInstenceDTO findOne(LabInstanceKey labInstanceKey);
 }

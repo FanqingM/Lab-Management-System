@@ -1,5 +1,6 @@
 package com.se.controller;
 
+import com.se.dto.LabInstenceDTO;
 import com.se.entity.Lab;
 import com.se.entity.LabInstance;
 import com.se.entity.LabInstanceKey;
@@ -43,4 +44,10 @@ public class LabInstanceController {
         labInstanceService.deleteByPrimaryKey(key);
         return key.toString();
     }
+
+    @GetMapping("findOneInfo")
+    public LabInstenceDTO findOneInfo(LabInstanceKey labInstanceKey){
+        return labInstanceService.findOne(labInstanceKey);
+    }
+
 }
