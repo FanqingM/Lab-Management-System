@@ -182,7 +182,7 @@ body,
   background-color: rgb(0, 128, 255);
 }
 .el-card {
-  border-radius: 15px;
+  border-radius: 10px;
 }
 .header-row {
   height: 100%;
@@ -220,7 +220,4 @@ body,
   height: 40px;
   width: 40px;
 } */
-.el-card {
-  border-radius: 15px;
-}
 </style>

@@ -101,16 +101,16 @@ export const GETStudentsID = id => GetID('/student/findOne?id=', id); //ok
 export const PUTStudentsID = (ID, param) => PutID('/api/Students/', ID, param); //ok
 export const DELETEStudentsID = ID => DeleteID('/api/Students/', ID); //ok
 
+//Instructors
+export const GETInstructorID = id => GetID('/teacher/findOne?id=', id); //ok
 
 // StuFavorites
 export const GETStuFavoritesID = ID => GetID('/api/StuFavorites/', ID); //ok
 export const DELETEStuFavorites = param => Delete('/api/StuFavorites/', param); //ok
 export const POSTStuFavorites = param => Post('/api/StuFavorites', param); //ok
 
-//SystemAdministrators
-export const PUTSystemAdministratorsID = (ID, param) => PutID('/api/SystemAdministrators/', ID, param); //正在编写
-export const GETSystemAdministrators = param => Get('/api/SystemAdministrators', param); //目前有4个
-export const GETSystemAdministratorsID = ID => GetID('/api/SystemAdministrators/', ID); //ok
+// Admin
+export const GETAdminID = id => GetID('/administrator/findOne?id=', id); //ok
 
 //SystemAnnouncements
 export const GETSystemAnnouncements = param => Get('/api/SystemAnnouncements', param); //ok

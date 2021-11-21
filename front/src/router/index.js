@@ -113,6 +113,72 @@ const routes = [
         ]
     },
 
+    {
+        path: "/admin",
+        component: () =>
+            import('../pages/admin/AdminFrame.vue'),
+        // meta: {
+        //     title: '管理员',
+        //     requireAuth: true,
+        //     roles: ['admin']
+        // },
+        children: [{
+            path: "home",
+            name: "StudentHome",
+            component: () =>
+                import('../pages/student/StudentHome.vue'),
+            // meta: {
+            //     title: '个人信息',
+            //     requireAuth: true,
+            //     roles: ['student']
+            // }
+        },
+            {
+                path: "experiment",
+                name: "StudentExperiment",
+                component: () =>
+                    import('../pages/student/StudentExperiment.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "score",
+                name: "StudentScore",
+                component: () =>
+                    import('../pages/student/StudentScore.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "report",
+                name: "StudentReport",
+                component: () =>
+                    import('../pages/student/StudentReport.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "account",
+                name: "StudentAccount",
+                component: () =>
+                    import('../pages/student/StudentAccount.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+        ]
+    },
 
     {
         path: '/about',

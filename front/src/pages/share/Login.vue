@@ -50,11 +50,14 @@
         <el-col>
           <el-radio-group v-model="identity" style="margin: 0px 0 15px 0px">
             <el-row :gutter="35" style="margin: 0px 0 5px 0px">
-              <el-col :span="14">
+              <el-col :span="8">
                 <el-radio :label="0">学生</el-radio>
               </el-col>
-              <el-col :span="10">
-                <el-radio :label="1">教师</el-radio>
+              <el-col :span="8">
+                <el-radio :label="2">教师</el-radio>
+              </el-col>
+              <el-col :span="8">
+                <el-radio :label="1">管理员</el-radio>
               </el-col>
             </el-row>
           </el-radio-group>
@@ -137,7 +140,7 @@ export default {
             Login({   
               id: this.form.accountNumber,
               password: this.form.password,
-              authority: this.identity == 0?0:2,
+              authority: this.identity,
               //secretPassword: md5(this.form.password, "hhh"),
             })
             .then((data) => {
@@ -150,8 +153,10 @@ export default {
                 store.state.membertype = this.identity;
                 if (this.identity === 0) {
                   this.$router.push("/student/home");
-                } else {
+                } else if (this.identity === 2) {
                   this.$router.push("/teacher/home");
+                } else {
+                  this.$router.push("/admin/home");
                 }
               }             
               this.$message(data.message);
