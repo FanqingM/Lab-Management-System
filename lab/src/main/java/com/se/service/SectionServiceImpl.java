@@ -86,4 +86,9 @@ public class SectionServiceImpl implements SectionService{
         }
         return secList;
     }
+
+    @Override
+    public SectionDTO findOneSection(String courseId, String section_Id) {
+        return sectionMapper.findOneSection(courseId,section_Id);
+    }
 }

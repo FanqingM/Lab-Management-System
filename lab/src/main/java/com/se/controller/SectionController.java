@@ -17,6 +17,7 @@ import java.util.List;
 public class SectionController {
     @Autowired
     private SectionService sectionService;
+
     @GetMapping("findOne")
     public Section findOne(SectionKey key) {
         Section section = sectionService.selectByPrimaryKey(key);
@@ -24,7 +25,7 @@ public class SectionController {
     }
 
     @PostMapping("/add")
-    public String add(@RequestBody Section section){
+    public String add(@RequestBody Section section) {
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
 //        System.out.println(employee.getEmail());
@@ -34,14 +35,14 @@ public class SectionController {
     }
 
     @PutMapping("/update")
-    public Section updateSection(@RequestBody Section section){
+    public Section updateSection(@RequestBody Section section) {
         sectionService.updateByPrimaryKey(section);
         //回到员工列表页面
         return section;
     }
 
     @DeleteMapping("/delete/{key}")
-    public String deleteSection(@PathVariable("key")SectionKey key){
+    public String deleteSection(@PathVariable("key") SectionKey key) {
         //根据id删除员工
         sectionService.deleteByPrimaryKey(key);
         return key.toString();
@@ -50,5 +51,10 @@ public class SectionController {
     @GetMapping("teacherSection")
     public List<SectionDTO> findSectionsOfTeacher(String teacherId) {
         return sectionService.findSectionsOfTeacher(teacherId);
+    }
+
+    @GetMapping("findOneSection")
+    public SectionDTO findOneSection(String courseId, String section_Id) {
+        return sectionService.findOneSection(courseId, section_Id);
     }
 }

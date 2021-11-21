@@ -33,17 +33,28 @@ const routes = [
             //     roles: ['student']
             // }
         },
-        {
-            path: "section",
-            name: "TeacherSection",
-            component: () =>
-                import('../pages/teacher/TeacherSection.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
+            {
+                path: "section",
+                name: "TeacherSection",
+                component: () =>
+                    import('../pages/teacher/TeacherSection.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "sectionInfo/:courseId/:sectionId",
+                name: "TeacherSectionInfo",
+                component: () =>
+                    import('../pages/teacher/SectionInfo.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
         ]
     },
     {
@@ -66,50 +77,50 @@ const routes = [
             //     roles: ['student']
             // }
         },
-        {
-            path: "experiment",
-            name: "StudentExperiment",
-            component: () =>
-                import('../pages/student/StudentExperiment.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
-        {
-            path: "score",
-            name: "StudentScore",
-            component: () =>
-                import('../pages/student/StudentScore.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
-        {
-            path: "report",
-            name: "StudentReport",
-            component: () =>
-                import('../pages/student/StudentReport.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
-        {
-            path: "account",
-            name: "StudentAccount",
-            component: () =>
-                import('../pages/student/StudentAccount.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
+            {
+                path: "experiment",
+                name: "StudentExperiment",
+                component: () =>
+                    import('../pages/student/StudentExperiment.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "score",
+                name: "StudentScore",
+                component: () =>
+                    import('../pages/student/StudentScore.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "report",
+                name: "StudentReport",
+                component: () =>
+                    import('../pages/student/StudentReport.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "account",
+                name: "StudentAccount",
+                component: () =>
+                    import('../pages/student/StudentAccount.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
         ]
     },
 
@@ -133,50 +144,50 @@ const routes = [
             //     roles: ['student']
             // }
         },
-        {
-            path: "verification",
-            name: "AdminVerify",
-            component: () =>
-                import('../pages/admin/AdminVerifyList.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
-        {
-            path: "user-management",
-            name: "StudentScore",
-            component: () =>
-                import('../pages/admin/AdminUserList.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
-        {
-            path: "report",
-            name: "StudentReport",
-            component: () =>
-                import('../pages/student/StudentReport.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
-        {
-            path: "account",
-            name: "StudentAccount",
-            component: () =>
-                import('../pages/student/StudentAccount.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
+            {
+                path: "verification",
+                name: "AdminVerify",
+                component: () =>
+                    import('../pages/admin/AdminVerifyList.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "user-management",
+                name: "StudentScore",
+                component: () =>
+                    import('../pages/admin/AdminUserList.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "report",
+                name: "StudentReport",
+                component: () =>
+                    import('../pages/student/StudentReport.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
+                path: "account",
+                name: "StudentAccount",
+                component: () =>
+                    import('../pages/student/StudentAccount.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
         ]
     },
 
