@@ -17,6 +17,13 @@
       <arg column="IS_SENIOR_TERCHER" javaType="java.lang.Boolean" jdbcType="BIT" />
     </constructor>
   </resultMap>
+
+  <resultMap id="UnactivatedAccountDTOMap" type="com.se.dto.UnactivatedAccountDTO">
+    <result property="Id" column="ID"/>
+    <result property="Name" column="NAME"/>
+    <result property="isTeacher" column="IS_TEACHER"/>
+    <result property="isSeniorTeacher" column="IS_SENIOR_TERCHER"/>
+  </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -25,6 +32,13 @@
     -->
     EMAIL, NAME, PASSWORD, IDCARD, ID, IS_TEACHER, IS_SENIOR_TERCHER
   </sql>
+
+  <select id="selectAllUnactivatedAccounts" resultMap="UnactivatedAccountDTOMap">
+    select distinct UNACTIVATED_ACCOUNT.ID,UNACTIVATED_ACCOUNT.NAME,UNACTIVATED_ACCOUNT.IS_TEACHER,UNACTIVATED_ACCOUNT.IS_SENIOR_TERCHER
+    from UNACTIVATED_ACCOUNT
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated

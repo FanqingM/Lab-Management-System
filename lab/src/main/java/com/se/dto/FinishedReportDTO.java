@@ -11,12 +11,15 @@ public class FinishedReportDTO {
     private String labName;
 //    private Date endTime;
     private Integer grades;
+    private String courseName;
+    private Date endTime;
 
-    public FinishedReportDTO(String labId,String labName, Integer grades)
+    public FinishedReportDTO(String labId,String labName, Integer grades, String courseName, Date endTime)
     {
         this.grades = grades;
         this.labId = labId;
         this.labName = labName;
-//        this.endTime = endTime;
+        this.courseName = courseName;
+        this.endTime = endTime;
     }
 }
