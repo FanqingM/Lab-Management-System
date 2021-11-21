@@ -1,7 +1,10 @@
 package com.se.service;
 
+import com.se.dto.SectionDTO;
 import com.se.entity.Section;
 import com.se.entity.SectionKey;
+
+import java.util.List;
 
 public interface SectionService {
     /**
@@ -51,4 +54,6 @@ public interface SectionService {
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     int updateByPrimaryKey(Section record);
+
+    List<SectionDTO> findSectionsOfTeacher(String teacherId);
 }

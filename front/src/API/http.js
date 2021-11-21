@@ -134,3 +134,10 @@ export const GETOrgEmail = param => Get('/api/Organizations/QQEmail', param)
     //modify password
 export const PUTStuPassword = param => Put('/api/Students', param);
 export const PUTOrgPassword = param => Put('/api/Organizations', param);
+
+
+//Teacher
+export const GETTeachersID = id => GetID('/teacher/findOne?id=', id); //ok
+
+//Section
+export const GETSectionOfTeacher = id => GetID('/section/teacherSection?teacherId=', id);

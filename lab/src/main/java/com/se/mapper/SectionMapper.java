@@ -1,9 +1,13 @@
 package com.se.mapper;
 
+import com.se.dto.SectionDTO;
 import com.se.entity.Section;
 import com.se.entity.SectionKey;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
 @Repository
@@ -55,4 +59,7 @@ public interface SectionMapper {
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
     int updateByPrimaryKey(Section record);
+
+    @Select("SELECT * FROM COURSE JOIN SECTION S on COURSE.ID = S.COURSE_ID WHERE TERCHER_ID = #{teacherId}")
+    List<SectionDTO> findSectionsOfTeacher(String teacherId);
 }
