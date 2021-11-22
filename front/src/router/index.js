@@ -12,6 +12,13 @@ const routes = [
             import('../pages/share/Login.vue')
     },
 
+    {
+        path: '/register',
+        name: 'Register',
+        component: () =>
+            import('../pages/share/Register.vue')
+    },
+
     //教师
     {
         path: "/teacher",
