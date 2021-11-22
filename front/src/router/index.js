@@ -66,6 +66,17 @@ const routes = [
                 //     roles: ['student']
                 // }
             },
+            {
+                path: "gradingReport/:courseId/:sectionId/:labId/:studentId",
+                name: "TeacherGradingReport",
+                component: () =>
+                    import('../pages/teacher/TeacherReport.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
         ]
     },
     {

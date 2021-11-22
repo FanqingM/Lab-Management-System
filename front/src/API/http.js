@@ -151,3 +151,4 @@ export const GETLabInstanceInfo = param => Get('/labInstance/findOneInfo', param
 
 //Report
 export const GETReportOfLabInstace = param => Get('/report/findReportsOfLabInstance', param);
+export const GETOneReport = param => Get('/report/findOne', param);

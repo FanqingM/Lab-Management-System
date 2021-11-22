@@ -45,30 +45,30 @@
           <el-table-column prop="studentId" sortable label="学号"></el-table-column>
           <el-table-column prop="name" sortable label="姓名">
           </el-table-column>
-          <el-table-column prop="grades" sortable label="分数">
-          </el-table-column>
           <el-table-column
-              prop="grades"
-              label="分数"
-              :filters="[{ text: '有', value: '有' }, { text: '无', value: '无' }]"
+              prop="graded"
+              label="是否已评分"
+              :filters="[{ text: '否', value: false }, { text: '是', value: true }]"
               :filter-method="filterTag"
               filter-placement="bottom-end">
             <template slot-scope="scope">
               <el-tag
-                  :type="scope.row.hasNotGrading === '有' ? 'primary' : 'success'"
-                  disable-transitions>{{scope.row.hasNotGrading}}</el-tag>
+                  :type="scope.row.graded === true ? 'primary' : 'success'"
+                  disable-transitions>{{scope.row.graded?"是":"否"}}</el-tag>
             </template>
+          </el-table-column>
+          <el-table-column prop="grades" sortable label="分数">
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <router-link
                   :to="{
-                name: 'TeacherSectionInfo',
-                params: { courseId: scope.row.courseId ,sectionId: scope.row.sectionId},
+                name: 'TeacherGradingReport',
+                params: { studentId:scope.row.studentId,courseId: scope.row.courseId ,sectionId: scope.row.sectionId,labId:scope.row.labId},
               }"
               >
                 <el-button @click="handleClick(scope.row)" type="text"
-                >查看详情
+                >{{scope.row.graded?"查看报告":"评分"}}
                 </el-button
                 >
               </router-link>
