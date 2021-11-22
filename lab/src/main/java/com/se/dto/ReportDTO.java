@@ -9,6 +9,7 @@ import java.util.PrimitiveIterator;
 public class ReportDTO extends ReportKey {
     Integer grades;
     String name;
+    Boolean graded;
 
     public ReportDTO(String studentId, String courseId, String sectionId, String labId, Integer grades, String name) {
         super(studentId, courseId, sectionId, labId);

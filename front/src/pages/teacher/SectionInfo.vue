@@ -42,7 +42,7 @@
             highlight-current-row
             @current-change="handleCurrentChange1"
             style="width: 100%"
-            :default-sort="{ prop: 'date', order: 'descending' }"
+            :default-sort="{ prop: 'labId', order: 'descending' }"
         >
           <el-table-column prop="labId" sortable label="实验ID"></el-table-column>
           <el-table-column prop="name" sortable label="实验名称">

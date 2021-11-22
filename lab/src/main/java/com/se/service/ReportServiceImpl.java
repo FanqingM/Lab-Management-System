@@ -91,6 +91,15 @@ public class ReportServiceImpl implements ReportService{
 
     @Override
     public List<ReportDTO> findReportsOfLabInstance(LabInstanceKey labInstanceKey) {
-        return reportMapper.findReportsOfLabInstance(labInstanceKey);
+        List<ReportDTO> reportDTOList = reportMapper.findReportsOfLabInstance(labInstanceKey);
+        for (ReportDTO reportDTO:reportDTOList){
+            if (reportDTO.getGrades().equals(null)){
+                reportDTO.setGraded(false);
+            }
+            else {
+                reportDTO.setGraded(true);
+            }
+        }
+        return reportDTOList;
     }
 }

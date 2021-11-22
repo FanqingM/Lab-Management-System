@@ -148,3 +148,6 @@ export const GETSectionInfo = param => Get('/section/findOneSection', param);
 //LabInstance
 export const GETLabInstanceOfSection = param => Get('/labInstance/findLabInstanceOfSection', param);
 export const GETLabInstanceInfo = param => Get('/labInstance/findOneInfo', param);
+
+//Report
+export const GETReportOfLabInstace = param => Get('/report/findReportsOfLabInstance', param);

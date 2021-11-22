@@ -34,7 +34,7 @@
             :header-row-style="{ height: '20px' }"
             :cell-style="{ padding: '5px' }"
             ref="filterTable1"
-            :data="lanInstanceInfo"
+            :data="reportInfo"
             height="465"
             stripe
             highlight-current-row
@@ -42,12 +42,22 @@
             style="width: 100%"
             :default-sort="{ prop: 'date', order: 'descending' }"
         >
-          <el-table-column prop="labId" sortable label="实验ID"></el-table-column>
-          <el-table-column prop="name" sortable label="实验名称">
+          <el-table-column prop="studentId" sortable label="学号"></el-table-column>
+          <el-table-column prop="name" sortable label="姓名">
           </el-table-column>
-          <el-table-column prop="endTime" sortable label="截止时间">
+          <el-table-column prop="grades" sortable label="分数">
           </el-table-column>
-          <el-table-column prop="submitNum" sortable label="提交人数">
+          <el-table-column
+              prop="grades"
+              label="分数"
+              :filters="[{ text: '有', value: '有' }, { text: '无', value: '无' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end">
+            <template slot-scope="scope">
+              <el-tag
+                  :type="scope.row.hasNotGrading === '有' ? 'primary' : 'success'"
+                  disable-transitions>{{scope.row.hasNotGrading}}</el-tag>
+            </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -115,7 +125,13 @@ body,
 
 
 <script>
-import {GETActivitiesID, GETLabInstanceInfo, GETLabInstanceOfSection, GETSectionInfo} from "../../API/http";
+import {
+  GETActivitiesID,
+  GETLabInstanceInfo,
+  GETLabInstanceOfSection,
+  GETReportOfLabInstace,
+  GETSectionInfo
+} from "../../API/http";
 // import { GETOrganizationsID } from "../../API/http";
 import {GETCreditRecordsID} from "../../API/http";
 import {POSTCreditRecords} from "../../API/http";
@@ -126,7 +142,7 @@ export default {
   data() {
     return {
       url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
-      sectionInfo: null,
+      reportInfo: null,
       lanInstanceInfo: null,
       ruleForm: {
         reason: "",
@@ -168,7 +184,17 @@ export default {
       console.log(err);
       this.$message("实验实例数据请求错误");
     });
-
+    GETReportOfLabInstace({
+      "courseId": that.$route.params.courseId,
+      "sectionId": that.$route.params.sectionId,
+      "labId": that.$route.params.labId
+    }).then((data) => {
+      that.reportInfo = data;
+      console.log("reportInfo", that.reportInfo);
+    }).catch((err) => {
+      console.log(err);
+      this.$message("实验报告数据请求错误");
+    });
   },
   methods: {
     dealWithActivitiy(data) {
