@@ -1,9 +1,13 @@
 package com.se.mapper;
 
 import com.se.dto.FinishedReportDTO;
+import com.se.dto.ReportDTO;
+import com.se.entity.LabInstanceKey;
 import com.se.entity.Report;
 import com.se.entity.ReportKey;
+import com.se.entity.SectionKey;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -61,4 +65,7 @@ public interface ReportMapper {
     List<Report> selectReport(String studentID);
 
     List<FinishedReportDTO> selectFinishedReports(String studentID);
+
+    @Select("SELECT * FROM REPORT JOIN STUDENT ON STUDENT_ID = ID WHERE COURSE_ID = #{courseId} and SECTION_ID = #{sectionId} and LAB_ID = #{labId}")
+    List<ReportDTO> findReportsOfLabInstance(LabInstanceKey labInstanceKey);
 }

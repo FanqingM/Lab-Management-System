@@ -1,9 +1,8 @@
 package com.se.controller;
 
 import com.se.dto.FinishedReportDTO;
-import com.se.entity.Administrator;
-import com.se.entity.Report;
-import com.se.entity.ReportKey;
+import com.se.dto.ReportDTO;
+import com.se.entity.*;
 import com.se.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -55,4 +54,10 @@ public class ReportController {
         reportService.deleteByPrimaryKey(key);
         return key.toString();
     }
+
+    @GetMapping("findReportsOfLabInstance")
+    public List<ReportDTO> findReportsOfLabInstance(LabInstanceKey labInstanceKey){
+        return reportService.findReportsOfLabInstance(labInstanceKey);
+    }
+
 }

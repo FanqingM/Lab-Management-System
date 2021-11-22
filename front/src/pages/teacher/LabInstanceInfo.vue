@@ -4,24 +4,22 @@
     <el-row class="upper-row">
       <el-card class="maincard">
         <div slot="header" class="clearfix">
-          <span class="maintitle">课程详情 </span>
+          <span class="maintitle">实验详情 </span>
         </div>
-         <el-col :span="12">
-           <el-image
-               style="width: 500px; height: 250px"
-               :src="url"
-               fit="contain"></el-image>
-
-         </el-col>
+        <el-col :span="12">
+          <p class=""><b>课程代号：</b>{{ lanInstanceInfo.courseId }}</p>
+          <p class=""><b>班级代号：</b>{{ lanInstanceInfo.sectionId }}</p>
+          <p class=""><b>实验代号：</b>{{ lanInstanceInfo.labId }}</p>
+          <p class=""><b>实验名称：</b>{{ lanInstanceInfo.name }}</p>
+        </el-col>
         <el-col :span="12">
 
           <div class="detailinfo">
-            <p class=""><b>课程名称：</b>{{ sectionInfo.courseName }}</p>
-            <p class=""><b>课程代号：</b>{{ sectionInfo.courseId }}</p>
-            <p class=""><b>班级代号：</b>{{ sectionInfo.sectionId }}</p>
-            <p class=""><b>课程学年：</b>{{ sectionInfo.year }}</p>
-            <p class=""><b>课程学期：</b>{{ sectionInfo.semeter }}</p>
-            <p class=""><b>课程学分：</b>{{ sectionInfo.credits }}</p>
+
+            <p class=""><b>起始时间：</b>{{ lanInstanceInfo.startTime }}</p>
+            <p class=""><b>截止时间：</b>{{ lanInstanceInfo.endTime }}</p>
+            <p class=""><b>提交人数：</b>{{ lanInstanceInfo.submitNum }}</p>
+
           </div>
         </el-col>
       </el-card>
@@ -29,7 +27,7 @@
     <el-row class="lower-row">
       <el-card class="maincard">
         <div slot="header" class="clearfix">
-          <span class="maintitle">课程实验 </span>
+          <span class="maintitle">已交报告 </span>
         </div>
         <el-table
             v-loading="loading"
@@ -55,8 +53,8 @@
             <template slot-scope="scope">
               <router-link
                   :to="{
-                name: 'TeacherLabInstanceInfo',
-                params: { courseId: scope.row.courseId ,sectionId: scope.row.sectionId,labId: scope.row.labId},
+                name: 'TeacherSectionInfo',
+                params: { courseId: scope.row.courseId ,sectionId: scope.row.sectionId},
               }"
               >
                 <el-button @click="handleClick(scope.row)" type="text"
@@ -117,7 +115,7 @@ body,
 
 
 <script>
-import {GETActivitiesID, GETLabInstanceOfSection, GETSectionInfo} from "../../API/http";
+import {GETActivitiesID, GETLabInstanceInfo, GETLabInstanceOfSection, GETSectionInfo} from "../../API/http";
 // import { GETOrganizationsID } from "../../API/http";
 import {GETCreditRecordsID} from "../../API/http";
 import {POSTCreditRecords} from "../../API/http";
@@ -128,8 +126,8 @@ export default {
   data() {
     return {
       url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
-      sectionInfo:null,
-      lanInstanceInfo:null,
+      sectionInfo: null,
+      lanInstanceInfo: null,
       ruleForm: {
         reason: "",
       },
@@ -158,19 +156,19 @@ export default {
   },
   mounted() {
     const that = this;
-    console.log(that.$route.params.courseId,that.$route.params.sectionId);
-    GETSectionInfo({"courseId":that.$route.params.courseId,"section_Id":that.$route.params.sectionId}).then((data)=>{
-      that.sectionInfo = data;
-      console.log("sectionInfo",that.sectionInfo);
+    console.log(that.$route.params.courseId, that.$route.params.sectionId);
+    GETLabInstanceInfo({
+      "courseId": that.$route.params.courseId,
+      "sectionId": that.$route.params.sectionId,
+      "labId": that.$route.params.labId
+    }).then((data) => {
+      that.lanInstanceInfo = data;
+      console.log("labinstacedata", that.lanInstanceInfo);
     }).catch((err) => {
       console.log(err);
-      this.$message("评分数据请求错误");
+      this.$message("实验实例数据请求错误");
     });
-    GETLabInstanceOfSection({"courseId":that.$route.params.courseId,"sectionId":that.$route.params.sectionId}).then((data=>{
-      that.lanInstanceInfo = data;
-      console.log("lanInstanceInfo",that.lanInstanceInfo);
 
-    }))
   },
   methods: {
     dealWithActivitiy(data) {

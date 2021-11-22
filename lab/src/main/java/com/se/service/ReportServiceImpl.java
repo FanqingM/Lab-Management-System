@@ -1,8 +1,11 @@
 package com.se.service;
 
 import com.se.dto.FinishedReportDTO;
+import com.se.dto.ReportDTO;
+import com.se.entity.LabInstanceKey;
 import com.se.entity.Report;
 import com.se.entity.ReportKey;
+import com.se.entity.SectionKey;
 import com.se.mapper.ReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,5 +87,10 @@ public class ReportServiceImpl implements ReportService{
     @Override
     public int updateByPrimaryKey(Report record) {
         return reportMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<ReportDTO> findReportsOfLabInstance(LabInstanceKey labInstanceKey) {
+        return reportMapper.findReportsOfLabInstance(labInstanceKey);
     }
 }

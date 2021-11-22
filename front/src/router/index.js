@@ -55,6 +55,17 @@ const routes = [
                 //     roles: ['student']
                 // }
             },
+            {
+                path: "labInstanceInfo/:courseId/:sectionId/:labId",
+                name: "TeacherLabInstanceInfo",
+                component: () =>
+                    import('../pages/teacher/LabInstanceInfo.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
         ]
     },
     {
