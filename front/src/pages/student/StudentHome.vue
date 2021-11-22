@@ -116,39 +116,38 @@
               >
             </router-link>
           </div>
-<el-table
-        v-loading="loading"
-        :header-row-style="{ height: '15px' }"
-        :cell-style="{ padding: '5px' }"
-        ref="filterTable1"
-        :data="grade"
-        height="465"
-        stripe
-        highlight-current-row
-        @current-change="handleCurrentChange1"
-        style="width: 100%"
-        :default-sort="{ prop: 'date', order: 'descending' }"
-      >
-        <el-table-column prop="labName" label="实验名称"> </el-table-column>
-        <el-table-column prop="date" sortable label="实验时间">
-        </el-table-column>
-        <el-table-column prop="grades" sortable label="评分">
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <router-link
-              :to="{
-                name: 'StudentReport',
-                params: { ID: scope.row.experimentID },
-              }"
-            >
-              <el-button @click="handleClick(scope.row)" type="text"
-                >查看详情</el-button
-              >
-            </router-link>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table
+            v-loading="loading"
+            :header-row-style="{ height: '15px' }"
+            :cell-style="{ padding: '5px' }"
+            ref="filterTable1"
+            :data="grade"
+            stripe
+            highlight-current-row
+            @current-change="handleCurrentChange1"
+            style="width: 100%"
+            :default-sort="{ prop: 'date', order: 'descending' }"
+          >
+            <el-table-column prop="labName" label="实验名称"> </el-table-column>
+            <el-table-column prop="date" sortable label="实验时间">
+            </el-table-column>
+            <el-table-column prop="grades" sortable label="评分">
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <router-link
+                  :to="{
+                    name: 'StudentReport',
+                    params: { ID: scope.row.experimentID },
+                  }"
+                >
+                  <el-button @click="handleClick(scope.row)" type="text"
+                    >查看详情</el-button
+                  >
+                </router-link>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-card>
       </el-col>
     </el-row>
@@ -174,8 +173,8 @@ export default {
         this.$message("学生信息获取错误");
       });
     GETLabs({
-      studentId: store.state.id
-      })
+      studentId: store.state.id,
+    })
       .then((data) => {
         console.log("data", data);
         for (var i = 0; i < data.length; ++i) {
@@ -194,9 +193,9 @@ export default {
         console.log(err);
         this.$message("实验信息获取错误");
       });
-          GETLabs({
-      studentId: store.state.id
-      })
+    GETLabs({
+      studentId: store.state.id,
+    })
       .then((data) => {
         console.log("data", data);
         for (var i = 0; i < data.length; ++i) {
@@ -329,42 +328,6 @@ export default {
         ],
       });
     },
-
-    dealWithSystemAnnouncements(data) {
-      console.log("run dealwith");
-      for (var i = 0; i < data.length; i++) {
-        var temp = {
-          accountNumber: "",
-          title: "",
-          systemAnnouncementDate: "",
-          content: "",
-        };
-        temp.accountNumber = data[i].accountNumber;
-        temp.systemAnnouncementDate = data[i].systemAnnouncementDate.replace(
-          "T",
-          " "
-        );
-        temp.title = data[i].content.substr(0, data[i].content.search("##"));
-        temp.content = data[i].content.slice(data[i].content.search("##") + 2);
-        this.systemAnnouncement.push(temp);
-      }
-      console.log(this.systemAnnouncement);
-    },
-    showAnnouncement() {
-      this.$router.push("/student/announcement");
-    },
-    onRowClick(row) {
-      this.dialogTitle = row.title;
-      this.dialogContent = row.content;
-      this.dialogVisible = true;
-    },
-    onActivityRowClick(row) {
-      this.activitySelected = row;
-      this.activityVisible = true;
-    },
-    onOccupyRowClick(row) {
-      this.$router.push("/OrgFrame/CheckSite/ShowSchedule/" + row.groundId);
-    },
   },
 };
 </script>
@@ -381,7 +344,7 @@ body {
   margin-bottom: 1px;
   margin-right: 5px;
 }
-.upper-card{
+.upper-card {
   height: 100%;
   border-radius: 10px;
 }
@@ -389,12 +352,12 @@ body {
   height: 100%;
   border-radius: 10px;
 }
-.el-dialog {
+/* .el-dialog {
   border-radius: 12px;
 }
 .dialog {
   backdrop-filter: blur(10px);
-}
+} */
 .content {
   height: 320px;
 }
@@ -404,15 +367,15 @@ body {
 .lower-row {
   height: 50%;
 }
-.lower-row-col1{
+.lower-row-col1 {
   height: 100%;
   padding: 5px;
 }
-.lower-row-col2{
+.lower-row-col2 {
   height: 100%;
   padding: 5px;
 }
-.upper-row-col1{
+.upper-row-col1 {
   height: 100%;
   padding: 5px;
 }
@@ -420,8 +383,8 @@ body {
   height: 100%;
   padding: 5px;
 }
-.el-card {border-radius
-  : 10px;
+.el-card {
+  border-radius: 10px;
 }
 .clearfix:before,
 .clearfix:after {

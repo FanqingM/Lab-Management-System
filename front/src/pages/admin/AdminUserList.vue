@@ -155,10 +155,6 @@ body,
 
 <script>
 import {
-  GETStudents,
-  GETOrganizations,
-  // DELETEOrganizationsID,
-  DELETEStudentsID,
   PUTOrganizations,
 } from "../../API/http";
 
@@ -171,77 +167,6 @@ export default {
     filterTag(value, row, column) {
       const property = column["property"];
       return row[property] === value;
-    },
-    fetchData: async function () {
-      const that = this;
-      GETStudents()
-        .then((data) => {
-          console.log("这是从后端获取的学生信息", data);
-          that.axiosdata = data;
-          for (var i = 0; i < data.length; i++) {
-            var temp = {
-              name: "李",
-              accountNumber: "180034",
-              status: "学生",
-            };
-
-            temp.name = data[i].name;
-            temp.accountNumber = data[i].accountNumber;
-
-            that.tableData.push(temp);
-            that.matchList = that.tableData;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          that.$message("学生数据请求错误");
-        });
-
-      console.log("这是已经加好的学生信息", that.matchList);
-
-      GETOrganizations()
-        .then((data) => {
-          that.axiosdata = data;
-          // console.log("这是从后端获取的组织信息", data);
-
-          // console.log("这是信息长度", data.length);
-
-          for (var j = 0; j < data.length; j++) {
-            var temp = {
-              name: "软件学院",
-              accountNumber: "12234",
-              status: "组织",
-              state: "0",
-            };
-
-            temp.name = data[j].name;
-            temp.accountNumber = data[j].accountNumber;
-            temp.state = data[j].state;
-
-            console.log("这是每次获得的temp数据", j,data[j]);
-            console.log("这是每个组织的state", j,data[j].state);
-
-            if (data[j].state == "通过") {
-              // console.log("这是要添加的组织信息", temp.state);
-              that.matchList.push(temp);
-              // console.log("这是通过的组织信息", that.matchList);
-            }
-
-            // that.matchList += that.tableData;
-            // that.matchList.status = "组织";
-            //console.log("测试",that.$route.params);
-            // if (that.$route.params.state != "") {
-            //   that.toMatchStatus = that.$route.params.building;
-            //   that.searchGroup();
-            // }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          that.$message("组织数据请求错误");
-        });
-
-      // that.matchList = that.tableData;
     },
     handleChange() {
       this.$router.push({ path: "UserModify" });
@@ -308,8 +233,6 @@ export default {
             }
               break;
             }
-           
-            
           }
           that.$message({
             type: "success",

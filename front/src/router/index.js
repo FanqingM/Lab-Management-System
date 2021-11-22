@@ -128,25 +128,36 @@ const routes = [
             component: () =>
                 import('../pages/admin/AdminHome.vue'),
             // meta: {
-            //     title: '个人信息',
+            //     title: '管理员',
             //     requireAuth: true,
-            //     roles: ['student']
-            // }
+            //     roles: ['admin']
+            // },
         },
         {
             path: "verification",
-            name: "AdminVerify",
+            name: "AdminVerifyList",
             component: () =>
                 import('../pages/admin/AdminVerifyList.vue'),
             // meta: {
-            //     title: '个人信息',
+            //     title: '管理员',
             //     requireAuth: true,
-            //     roles: ['student']
-            // }
+            //     roles: ['admin']
+            // },
+        },
+        {
+            path: "verification-detail",
+            name: "AdminVerify",
+            component: () =>
+                import('../pages/admin/AdminVerify.vue'),
+            // meta: {
+            //     title: '管理员',
+            //     requireAuth: true,
+            //     roles: ['admin']
+            // },
         },
         {
             path: "user-management",
-            name: "StudentScore",
+            name: "AdminUserList",
             component: () =>
                 import('../pages/admin/AdminUserList.vue'),
             // meta: {
@@ -154,29 +165,7 @@ const routes = [
             //     requireAuth: true,
             //     roles: ['student']
             // }
-        },
-        {
-            path: "report",
-            name: "StudentReport",
-            component: () =>
-                import('../pages/student/StudentReport.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
-        {
-            path: "account",
-            name: "StudentAccount",
-            component: () =>
-                import('../pages/student/StudentAccount.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
+        }
         ]
     },
 

@@ -79,7 +79,6 @@ export const POSTMaintenanceAnnouncements = param => Post('/api/MaintenanceAnnou
 //OccupyTimes
 export const GETOccupyTimes = param => Get('/api/OccupyTimes', param); //ok 但是现在表是空的
 
-
 //Organizations
 export const GETOrganizations = param => Get('/api/Organizations', param); //ok
 export const PUTOrganizations = param => Put('/api/Organizations', param); //ok
@@ -88,6 +87,11 @@ export const GETOrganizationsID = ID => GetID('/api/Organizations/', ID); //ok
 export const PUTOrganizationsID = (ID, param) => PutID('/api/Organizations/', ID, param); //ok
 export const DELETEOrganizationsID = ID => DeleteID('/api/Organizations/', ID); //ok
 
+//Activate
+export const GETUnactivatedAccounts = () => Get('/unactivatedAccount/findAll');
+export const GETUnactivatedAccountID = ID => GetID('/unactivatedAccount/findOne?id=', ID);
+export const ActivateAccount = ID => GetID('/unactivatedAccount/activate?id=', ID);
+export const DELETEUnactivatedAccount = ID => DeleteID('/unactivatedAccount/delete/', ID);
 
 //OrgFavorites
 export const GETOrgFavorites = param => Get('/api/OrgFavorites', param); //ok
@@ -95,14 +99,12 @@ export const POSTOrgFavorites = param => Post('/api/OrgFavorites', param); //ok
 export const DELETEOrgFavorites = param => Delete('/api/OrgFavorites', param); //ok
 
 //Students
-export const GETStudents = param => Get('/api/Students', param); //ok
-export const POSTStudents = param => Post('/api/Students', param); //ok
+export const GETStudents = () => Get('/student/findAll'); //ok
 export const GETStudentsID = id => GetID('/student/findOne?id=', id); //ok
-export const PUTStudentsID = (ID, param) => PutID('/api/Students/', ID, param); //ok
-export const DELETEStudentsID = ID => DeleteID('/api/Students/', ID); //ok
 
 //Instructors
 export const GETInstructorID = id => GetID('/teacher/findOne?id=', id); //ok
+export const GETInstructors = () => Get('/teacher/findAll');
 
 // StuFavorites
 export const GETStuFavoritesID = ID => GetID('/api/StuFavorites/', ID); //ok

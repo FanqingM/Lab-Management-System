@@ -75,7 +75,7 @@ p {
 </style>
 
 <script>
-import { GETStudentsID, PUTStudentsID } from "../../API/http";
+import { GETStudentsID } from "../../API/http";
 import store from "../../store/state";
 
 export default {
@@ -146,22 +146,22 @@ export default {
       this.tableData[3].content = this.accountData.classnum;
       this.tableData[4].content = this.accountData.schoolName;
     },
-    setToDB() {
-      PUTStudentsID(this.ruleForm.account, {
-        accountNumber: this.ruleForm.account,
-        name: this.ruleForm.name,
-        gender: this.numData.gender,
-        grade: this.numData.grade,
-        academy: this.numData.college,
-        eMailAddress: this.ruleForm.email,
-        major: this.ruleForm.specialty,
-        nation: this.numData.country,
-      }).catch((err) => {
-        console.log(err);
-        this.submitState = false;
-        this.$message("用户信息获取失败");
-      });
-    },
+    // setToDB() {
+    //   PUTStudentsID(this.ruleForm.account, {
+    //     accountNumber: this.ruleForm.account,
+    //     name: this.ruleForm.name,
+    //     gender: this.numData.gender,
+    //     grade: this.numData.grade,
+    //     academy: this.numData.college,
+    //     eMailAddress: this.ruleForm.email,
+    //     major: this.ruleForm.specialty,
+    //     nation: this.numData.country,
+    //   }).catch((err) => {
+    //     console.log(err);
+    //     this.submitState = false;
+    //     this.$message("用户信息获取失败");
+    //   });
+    // },
     edit() {
       setTimeout(() => {
         this.isForm = true;
@@ -171,7 +171,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.StrToNum();
-          this.setToDB();
+          // this.setToDB();
           if (this.submitState == true) {
             this.isForm = false;
             setTimeout(() => {

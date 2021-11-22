@@ -29,39 +29,7 @@
       </el-col>
       <el-col :span="14" class="upper-row-col2">
         <el-card class="upper-card">
-          <el-tabs  :addable='true' @tab-add="showAnnouncement">
-            <!-- addable="true" @tab-add="showAnnouncement" -->
-            <el-tab-pane label="系统公告">
-              <el-table
-                :data="systemAnnouncement"
-                stripe
-                style="width: 100%"
-                height="136"
-                @row-click="onRowClick"
-                :show-header="false"
-              >
-                <el-table-column prop="title" width="auto"> </el-table-column>
-                <el-table-column prop="systemAnnouncementDate" width="auto">
-                </el-table-column>
-              </el-table>
-            </el-tab-pane>
-            <el-tab-pane label="场地公告">
-              <el-table
-                :data="groundAnnouncement"
-                stripe
-                style="width: 100%"
-                @row-click="onRowClick"
-                :show-header="false"
-              >
-                <el-table-column prop="title" width="auto"> </el-table-column>
-                <el-table-column
-                  prop="maintenanceAnnouncementDate"
-                  width="auto"
-                >
-                </el-table-column>
-              </el-table>
-            </el-tab-pane>
-          </el-tabs>
+
         </el-card>
       </el-col>
     </el-row>
@@ -69,50 +37,58 @@
       <el-col :span="15" class="lower-row-col1">
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
-            <span>组织注册信息</span>
-            <router-link to="/SysAdminFrame/GroupVerifyList">
+            <span><b>待审核注册</b></span>
+            <router-link to="/admin/verification">
               <el-button style="float: right; padding: 3px 0" type="text"
                 >查看更多</el-button
               >
             </router-link>
           </div>
-          <el-table
-            :data="groupInfo"
-            stripe
-            style="width: 100%"
-            height="241"
-            :show-header="false"
-          >
-            <el-table-column prop="joinDate" label="申请时间" width="auto">
-            </el-table-column>
-            <el-table-column prop="functionary" label="申请人" width="auto">
-            </el-table-column>
-            <el-table-column prop="name" label="组织" width="auto">
-            </el-table-column>
-          </el-table>
+<el-table 
+          :data="unactivatedAccounts"
+          stripe
+          style="width: 100%"
+          :header-row-style="{ height: '20px' }"
+          :cell-style="{ padding: '5px' }"
+        >
+          <el-table-column prop="id" label="负责人">
+          </el-table-column>
+
+          <el-table-column prop="name" label="姓名">
+          </el-table-column>
+
+          <el-table-column label="类型">
+            <template slot-scope="scope">{{(scope.row.isTeacher == 0) ? "学生" : "教师"}}</template>
+          </el-table-column>
+          
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <router-link
+                :to="{
+                  path: 'GroupVerify',
+                  query: {
+                    accountNumber: scope.row.accountNumber,
+                  },
+                }"
+                >
+                <el-button type="text" @click="shandleEdit(scope.row.accountNumber, scope.$index)">审核</el-button>
+              </router-link>
+              
+            </template>
+          </el-table-column>
+        </el-table>
         </el-card>
       </el-col>
       <el-col :span="9" class="lower-row-col2">
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
             <span>学生信息</span>
-            <router-link to="/SysAdminFrame/MaintainUserInfo">
+            <router-link to="/admin/user-management">
               <el-button style="float: right; padding: 3px 0" type="text"
                 >查看更多</el-button
               >
             </router-link>
           </div>
-          <el-table
-            :data="userInfo"
-            stripe
-            style="width: 100%"
-            :show-header="false"
-          >
-            <el-table-column prop="accountNumber" label="ID" width="auto">
-            </el-table-column>
-            <el-table-column prop="name" label="账号" width="auto">
-            </el-table-column>
-          </el-table>
         </el-card>
       </el-col>
     </el-row>
@@ -137,7 +113,7 @@
 import store from "../../store/state";
 import {
   GETAdminID,
-  GETMaintenanceAnnouncements,
+  GETUnactivatedAccounts,
   GETSystemAnnouncements,
   GETOrganizations,
   GETStudents,
@@ -159,42 +135,13 @@ export default {
         this.$message("学生信息获取错误");
       });
     //获取场地公告
-    GETMaintenanceAnnouncements()
+    GETUnactivatedAccounts()
       .then((data) => {
-        console.log(data);
-        this.axiosdata = data;
-        this.dealWithmaintenanceAnnouncements(this.axiosdata);
+        this.unactivatedAccounts = data;
       })
       .catch((err) => {
         console.log(err);
-        this.$message("场地公告数据请求错误");
-      });
-
-    //获取系统公告
-    GETSystemAnnouncements()
-      .then((data) => {
-        console.log("data");
-        this.axiosdata = data;
-        this.dealWithAnnouncements(this.axiosdata);
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$message("系统公告数据请求错误");
-      });
-
-    //获取组织注册信息
-    GETOrganizations()
-      .then((data) => {
-        this.groupInfo = data;
-        for(var i = 0; i < data.length; i++)
-        {
-          this.groupInfo[i].joinDate=data[i].joinDate.replace("T", " ");
-        }
-        console.log(">>>>>>", data);
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$message("组织注册信息请求错误");
+        this.$message("数据请求错误");
       });
 
     //获取学生信息
@@ -226,6 +173,7 @@ export default {
       dialogTitle: "",
       dialogContent: "",
       dialogVisible: false,
+      unactivatedAccounts: [],
       groundAnnouncement: [],
       systemAnnouncement: [],
 
@@ -292,43 +240,11 @@ export default {
       }
       console.log(this.systemAnnouncement);
     },
-
-    dealWithmaintenanceAnnouncements(data) {
-      console.log("run dealwith");
-      for (var i = 0; i < data.length; i++) {
-        var temp = {
-          groundName: "123123",
-          groundId: "1000001",
-          title: "关于饮水机的公告##C楼饮水机坏了，望周知",
-          maintenanceAnnouncementDate: "2020-05-17T00:00:00",
-          content: "C楼饮水机坏了，望周知",
-        };
-        temp.groundName = data[i].groundName;
-        temp.groundId = data[i].groundId;
-        temp.maintenanceAnnouncementDate = data[
-          i
-        ].maintenanceAnnouncementDate.replace("T", " ");
-        temp.title = data[i].content.substr(0, data[i].content.search("##"));
-        temp.content = data[i].content.slice(data[i].content.search("##") + 2);
-        this.groundAnnouncement.push(temp);
-      }
-      console.log(this.groundAnnouncement);
-    },
-
-    showAnnouncement() {
-      this.$router.push("/SysAdminFrame/Announcement");
-    },
-
-    onRowClick(row) {
-      this.dialogTitle = row.title;
-      this.dialogContent = row.content;
-      this.dialogVisible = true;
-    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 html,
 body {
   padding: 0px;
@@ -348,12 +264,12 @@ body {
   height: 100%;
   border-radius: 10px;
 }
-.el-dialog {
+/* .el-dialog {
   border-radius: 12px;
-}
-.dialog {
+} */
+/* .dialog {
   backdrop-filter: blur(10px);
-}
+} */
 .content {
   height: 320px;
 }
@@ -379,8 +295,8 @@ body {
   height: 100%;
   padding: 5px;
 }
-.el-card {border-radius
-  : 10px;
+.el-card {
+  border-radius: 10px;
 }
 .clearfix:before,
 .clearfix:after {
