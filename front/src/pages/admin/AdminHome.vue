@@ -34,7 +34,7 @@
       </el-col>
     </el-row>
     <el-row class="lower-row">
-      <el-col :span="15" class="lower-row-col1">
+      <el-col :span="12" class="lower-row-col1">
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
             <span><b>待审核注册</b></span>
@@ -65,13 +65,13 @@
             <template slot-scope="scope">
               <router-link
                 :to="{
-                  path: 'GroupVerify',
+                  path: '/admin/verification-detail',
                   query: {
-                    accountNumber: scope.row.accountNumber,
+                    ID: scope.row.id,
                   },
                 }"
-                >
-                <el-button type="text" @click="shandleEdit(scope.row.accountNumber, scope.$index)">审核</el-button>
+              >
+                <el-button type="text">审核</el-button>
               </router-link>
               
             </template>
@@ -79,16 +79,74 @@
         </el-table>
         </el-card>
       </el-col>
-      <el-col :span="9" class="lower-row-col2">
+      <el-col :span="12" class="lower-row-col2">
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
-            <span>学生信息</span>
+            <span><b>账户信息</b></span>
             <router-link to="/admin/user-management">
               <el-button style="float: right; padding: 3px 0" type="text"
                 >查看更多</el-button
               >
             </router-link>
           </div>
+          <el-table
+            :data="userList"
+            stripe
+            style="width: 100%"
+            :header-row-style="{ height: '20px' }"
+            :cell-style="{ padding: '5px' }"
+          >
+            <el-table-column label="学工号" prop="id"> </el-table-column>
+            <el-table-column label="姓名" prop="name"> </el-table-column>
+            <el-table-column label="学院" prop="schoolName"> </el-table-column>
+            <el-table-column
+              label="类型"
+              prop="type"
+              :filters="[
+                { text: '学生', value: 'student' },
+                { text: '教师', value: 'instructor' },
+              ]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end"
+            >
+              <template slot-scope="scope">
+                <el-tag
+                  :type="scope.row.type == 'student' ? 'primary' : 'success'"
+                  disable-transitions
+                >
+                  {{ scope.row.type == "student" ? "学生" : "教师" }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <div v-if="scope.row.type == 'student'">
+                  <router-link
+                    :to="{
+                      path: '/admin/modify-student',
+                      query: {
+                        id: scope.row.id,
+                      },
+                    }"
+                  >
+                  <el-button type="text">编辑信息</el-button>
+                  </router-link>
+                </div>
+                <div v-else>
+                  <router-link
+                    :to="{
+                      path: '/admin/modify-instructor',
+                      query: {
+                        id: scope.row.id,
+                      },
+                    }"
+                  >
+                  <el-button type="text">编辑信息</el-button>
+                  </router-link>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-card>
       </el-col>
     </el-row>
@@ -114,9 +172,8 @@ import store from "../../store/state";
 import {
   GETAdminID,
   GETUnactivatedAccounts,
-  GETSystemAnnouncements,
-  GETOrganizations,
   GETStudents,
+  GETInstructors,
   GETSystemAdministratorsID,
 
   // GETStudentsID,
@@ -166,6 +223,34 @@ export default {
         console.log(err);
         this.$message("管理员信息请求错误");
       });
+  },
+  mounted() {
+    this.userList = [];
+      GETStudents()
+        .then((data) => {
+          console.log(data);
+          for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            item["type"] = "student";
+            this.userList.push(item);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("数据请求错误");
+        });
+      GETInstructors()
+        .then((data) => {
+          for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            item["type"] = "instructor";
+            this.userList.push(item);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("数据请求错误");
+        });
   },
   data() {
     return {

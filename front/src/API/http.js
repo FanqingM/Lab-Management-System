@@ -101,10 +101,14 @@ export const DELETEOrgFavorites = param => Delete('/api/OrgFavorites', param); /
 //Students
 export const GETStudents = () => Get('/student/findAll'); //ok
 export const GETStudentsID = id => GetID('/student/findOne?id=', id); //ok
+export const DELETEStudent = id => DeleteID('/student/delete/', id);
+export const PUTStudent = param => Put('/student/update', param);
 
 //Instructors
 export const GETInstructorID = id => GetID('/teacher/findOne?id=', id); //ok
 export const GETInstructors = () => Get('/teacher/findAll');
+export const DELETEInstructor = id => DeleteID('/teacher/delete/', id);
+export const PUTInstructor = param => Put('/teacher/update', param);
 
 // StuFavorites
 export const GETStuFavoritesID = ID => GetID('/api/StuFavorites/', ID); //ok

@@ -91,7 +91,7 @@ export default {
 
   data() {
     return {
-      accountId: this.$route.params.ID,
+      accountId: this.$route.query.ID,
       accountDetail: {
         email: "",
         name: "",

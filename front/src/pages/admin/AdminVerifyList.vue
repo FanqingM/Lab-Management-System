@@ -27,8 +27,8 @@
             <template slot-scope="scope">
               <router-link
                 :to="{
-                  name: 'AdminVerify',
-                  params: {
+                  path: '/admin/verification-detail',
+                  query: {
                     ID: scope.row.id,
                   },
                 }"
@@ -77,7 +77,6 @@ import { GETUnactivatedAccounts } from "../../API/http";
 
 export default {
   created() {
-
     GETUnactivatedAccounts()
       .then((data) => {
         this.tableData = data;
