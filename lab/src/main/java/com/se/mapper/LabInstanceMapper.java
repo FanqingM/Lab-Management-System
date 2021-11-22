@@ -1,8 +1,10 @@
 package com.se.mapper;
 
+import com.se.dto.LabInstenceDTO;
 import com.se.entity.LabInstance;
 import com.se.entity.LabInstanceKey;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 @Mapper
@@ -55,4 +57,7 @@ public interface LabInstanceMapper {
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
     int updateByPrimaryKey(LabInstance record);
+
+    @Select("SELECT * FROM LAB_INSTANCE NATURAL JOIN LAB WHERE COURSE_ID = #{courseId} and SECTION_ID = #{sectionId} AND LAB_ID = #{labId}")
+    LabInstenceDTO findOne(LabInstanceKey labInstanceKey);
 }

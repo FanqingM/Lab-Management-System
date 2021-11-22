@@ -56,4 +56,6 @@ public interface SectionService {
     int updateByPrimaryKey(Section record);
 
     List<SectionDTO> findSectionsOfTeacher(String teacherId);
+
+    SectionDTO findOneSection(String courseId,String section_Id);
 }

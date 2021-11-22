@@ -18,12 +18,24 @@
           style="width: 100%"
           :default-sort="{ prop: 'date', order: 'descending' }"
       >
-        <el-table-column prop="name" label="课程名称"></el-table-column>
+        <el-table-column prop="courseName" label="课程名称"></el-table-column>
         <el-table-column prop="courseId" sortable label="课号">
         </el-table-column>
         <el-table-column prop="year" sortable label="学年">
         </el-table-column>
         <el-table-column prop="semeter" sortable label="学期">
+        </el-table-column>
+        <el-table-column
+            prop="hasNotGrading"
+            label="是否待评分报告"
+            :filters="[{ text: '有', value: '有' }, { text: '无', value: '无' }]"
+            :filter-method="filterTag"
+            filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+                :type="scope.row.hasNotGrading === '有' ? 'primary' : 'success'"
+                disable-transitions>{{scope.row.hasNotGrading}}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -60,9 +72,10 @@ export default {
   //  },
   created() {
     GETSectionOfTeacher(store.state.id).then((data) => {
-      console.log(data);
+      console.log("data",data);
       for (var i = 0; i < data.length; ++i) {
         data[i].semeter = data[i].semeter == true ? "下学期":"上学期";
+        data[i].hasNotGrading = data[i].hasNotGrading==true?'有':'无';
         this.tableData.push(data[i]);
       }
       console.log(this.tableData);
