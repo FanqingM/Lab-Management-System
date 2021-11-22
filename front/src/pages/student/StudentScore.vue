@@ -46,7 +46,6 @@
 import store from "../../store/state";
 import {
   GETLabs,
-  GETActivities,
   DELETEActivitiesID,
   POSTFeedbackRecords,
 } from "../../API/http";
@@ -227,23 +226,6 @@ export default {
           console.log(err);
         });
     },
-    //取得所有活动信息
-    fetchData() {
-      this.loading = true;
-      const that = this;
-      GETActivities({ orgId: that.orgId }) //应该加accountNumber
-        .then((data) => {
-          // console.log("run GETActivities");
-          that.axiosdata = data;
-          that.dealWithActivities(that.axiosdata);
-          //console.log("that.axiosdata", that.axiosdata);
-        })
-        .catch((err) => {
-          that.data = err;
-        });
-
-      this.loading = false;
-    },
     dealWithActivities(data) {
       console.log("run dealwithActivities", data);
 
@@ -358,9 +340,6 @@ export default {
 
       return sresult;
     },
-  },
-  mounted() {
-    //this.fetchData();
   },
 };
 </script>
