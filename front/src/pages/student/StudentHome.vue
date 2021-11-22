@@ -81,7 +81,7 @@
             stripe
             highlight-current-row
             @current-change="handleCurrentChange1"
-            style="width: 100%; overflow: auto"
+            style="width: 100%"
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
             <el-table-column prop="labName" label="实验名称"> </el-table-column>
@@ -351,6 +351,7 @@ body {
 .lower-card {
   height: 100%;
   border-radius: 10px;
+  overflow: auto;
 }
 /* .el-dialog {
   border-radius: 12px;

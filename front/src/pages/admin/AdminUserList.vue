@@ -7,9 +7,9 @@
             <span><b>用户管理</b></span>
           </el-col>
           <el-col :span="2" class="buttoncol">
-            <el-button size="medium" @click="addUser()" type="primary" plain
+            <!-- <el-button size="medium" @click="addUser()" type="primary" plain
               >添加用户</el-button
-            >
+            > -->
           </el-col>
           <el-col :span="4">
             <el-input

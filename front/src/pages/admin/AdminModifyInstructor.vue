@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="page">
+  <div class="height: 100%">
     <el-card class="infoMain">
       <div slot="header" class="clearfix">
         <span><b>用户信息</b></span>
