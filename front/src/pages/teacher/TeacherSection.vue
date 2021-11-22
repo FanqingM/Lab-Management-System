@@ -41,8 +41,8 @@
           <template slot-scope="scope">
             <router-link
                 :to="{
-                name: 'StudentReport',
-                params: { ID: scope.row.experimentID },
+                name: 'TeacherSectionInfo',
+                params: { courseId: scope.row.courseId ,sectionId: scope.row.sectionId},
               }"
             >
               <el-button @click="handleClick(scope.row)" type="text"

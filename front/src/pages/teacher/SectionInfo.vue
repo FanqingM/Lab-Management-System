@@ -6,14 +6,24 @@
         <div slot="header" class="clearfix">
           <span class="maintitle">课程详情 </span>
         </div>
-        <div class="detailinfo">
+         <el-col :span="12">
+           <el-image
+               style="width: 500px; height: 250px"
+               :src="url"
+               fit="contain"></el-image>
+
+         </el-col>
+        <el-col :span="12">
+
+          <div class="detailinfo">
             <p class=""><b>课程名称：</b>{{ sectionInfo.courseName }}</p>
             <p class=""><b>课程代号：</b>{{ sectionInfo.courseId }}</p>
             <p class=""><b>班级代号：</b>{{ sectionInfo.sectionId }}</p>
             <p class=""><b>课程学年：</b>{{ sectionInfo.year }}</p>
             <p class=""><b>课程学期：</b>{{ sectionInfo.semeter }}</p>
             <p class=""><b>课程学分：</b>{{ sectionInfo.credits }}</p>
-        </div>
+          </div>
+        </el-col>
       </el-card>
     </el-row>
     <el-row class="lower-row">
@@ -21,49 +31,54 @@
         <div slot="header" class="clearfix">
           <span class="maintitle">课程实验 </span>
         </div>
-<!--        <div class="scoringForm" v-if="!hasCredit">-->
-<!--          <el-form-->
-<!--              :model="ruleForm"-->
-<!--              :rules="rules"-->
-<!--              ref="ruleForm"-->
-<!--              label-width="80px"-->
-<!--          >-->
-<!--            <el-form-item label="评分">-->
-<!--              <el-input-number-->
-<!--                  size="small"-->
-<!--                  v-model="score"-->
-<!--                  :step="1"-->
-<!--                  :max="5"-->
-<!--                  :min="-5"-->
-<!--              ></el-input-number>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="评分理由" prop="reason">-->
-<!--              <el-input-->
-<!--                  type="textarea"-->
-<!--                  :autosize="{ minRows: 5, maxRows: 10 }"-->
-<!--                  v-model="ruleForm.reason"-->
-<!--                  placeholder="请输入评分理由"-->
-<!--                  maxlength="100"-->
-<!--                  show-word-limit-->
-<!--              ></el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item>-->
-<!--              <el-button type="primary" @click="publish">发布</el-button>-->
-<!--              &lt;!&ndash; <router-link to="/GroundsmanFrame/ScoringActivityList"> &ndash;&gt;-->
-<!--              <el-button @click="cancle">取消</el-button>-->
-<!--              &lt;!&ndash; </router-link> &ndash;&gt;-->
-<!--            </el-form-item>-->
-<!--          </el-form>-->
-<!--        </div>-->
-<!--        <div class="detailinfo" v-else>-->
-<!--          <p class=""><b>信用评分：</b>{{ score }}</p>-->
-<!--          <p class=""><b>评分日期：</b>{{ creditDate }}</p>-->
-<!--          <p class=""><b>评分时间：</b>{{ creditTime }}</p>-->
-<!--          <p class=""><b>评分理由：</b>{{ ruleForm.reason }}</p>-->
-<!--          <div style="float: right">-->
-<!--            <el-button type="primary" @click="cancle">返回</el-button>-->
-<!--          </div>-->
-<!--        </div>-->
+        <el-table
+            v-loading="loading"
+            :header-row-style="{ height: '20px' }"
+            :cell-style="{ padding: '5px' }"
+            ref="filterTable1"
+            :data="tableData"
+            height="465"
+            stripe
+            highlight-current-row
+            @current-change="handleCurrentChange1"
+            style="width: 100%"
+            :default-sort="{ prop: 'date', order: 'descending' }"
+        >
+          <el-table-column prop="courseName" label="课程名称"></el-table-column>
+          <el-table-column prop="courseId" sortable label="课号">
+          </el-table-column>
+          <el-table-column prop="year" sortable label="学年">
+          </el-table-column>
+          <el-table-column prop="semeter" sortable label="学期">
+          </el-table-column>
+          <el-table-column
+              prop="hasNotGrading"
+              label="是否待评分报告"
+              :filters="[{ text: '有', value: '有' }, { text: '无', value: '无' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end">
+            <template slot-scope="scope">
+              <el-tag
+                  :type="scope.row.hasNotGrading === '有' ? 'primary' : 'success'"
+                  disable-transitions>{{scope.row.hasNotGrading}}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <router-link
+                  :to="{
+                name: 'TeacherSectionInfo',
+                params: { courseId: scope.row.courseId ,sectionId: scope.row.sectionId},
+              }"
+              >
+                <el-button @click="handleClick(scope.row)" type="text"
+                >查看详情
+                </el-button
+                >
+              </router-link>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-card>
     </el-row>
   </div>
@@ -124,6 +139,7 @@ export default {
   name: "creditscoring",
   data() {
     return {
+      url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
       sectionInfo:null,
       ruleForm: {
         reason: "",

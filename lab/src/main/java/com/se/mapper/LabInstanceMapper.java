@@ -3,9 +3,12 @@ package com.se.mapper;
 import com.se.dto.LabInstenceDTO;
 import com.se.entity.LabInstance;
 import com.se.entity.LabInstanceKey;
+import com.se.entity.SectionKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
 @Repository
@@ -60,4 +63,7 @@ public interface LabInstanceMapper {
 
     @Select("SELECT * FROM LAB_INSTANCE NATURAL JOIN LAB WHERE COURSE_ID = #{courseId} and SECTION_ID = #{sectionId} AND LAB_ID = #{labId}")
     LabInstenceDTO findOne(LabInstanceKey labInstanceKey);
+
+    @Select("SELECT * FROM LAB_INSTANCE NATURAL JOIN LAB WHERE COURSE_ID = #{courseId} and SECTION_ID = #{sectionId}")
+    List<LabInstenceDTO> findLabInstanceOfSection(SectionKey sectionKey);
 }

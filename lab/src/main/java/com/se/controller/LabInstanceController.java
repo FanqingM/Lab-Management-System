@@ -1,13 +1,12 @@
 package com.se.controller;
 
 import com.se.dto.LabInstenceDTO;
-import com.se.entity.Lab;
-import com.se.entity.LabInstance;
-import com.se.entity.LabInstanceKey;
-import com.se.entity.LabKey;
+import com.se.entity.*;
 import com.se.service.LabInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -48,6 +47,11 @@ public class LabInstanceController {
     @GetMapping("findOneInfo")
     public LabInstenceDTO findOneInfo(LabInstanceKey labInstanceKey){
         return labInstanceService.findOne(labInstanceKey);
+    }
+
+    @GetMapping("findLabInstanceOfSection")
+    public List<LabInstenceDTO> findLabInstanceOfSection(SectionKey sectionKey){
+        return labInstanceService.findLabInstanceOfSection(sectionKey);
     }
 
 }

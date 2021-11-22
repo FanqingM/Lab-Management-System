@@ -3,6 +3,9 @@ package com.se.service;
 import com.se.dto.LabInstenceDTO;
 import com.se.entity.LabInstance;
 import com.se.entity.LabInstanceKey;
+import com.se.entity.SectionKey;
+
+import java.util.List;
 
 public interface LabInstanceService {
     /**
@@ -54,4 +57,7 @@ public interface LabInstanceService {
     int updateByPrimaryKey(LabInstance record);
 
     LabInstenceDTO findOne(LabInstanceKey labInstanceKey);
+
+    List<LabInstenceDTO> findLabInstanceOfSection(SectionKey sectionKey);
+
 }
