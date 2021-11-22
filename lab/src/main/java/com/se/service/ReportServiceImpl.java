@@ -93,7 +93,7 @@ public class ReportServiceImpl implements ReportService{
     public List<ReportDTO> findReportsOfLabInstance(LabInstanceKey labInstanceKey) {
         List<ReportDTO> reportDTOList = reportMapper.findReportsOfLabInstance(labInstanceKey);
         for (ReportDTO reportDTO:reportDTOList){
-            if (reportDTO.getGrades().equals(null)){
+            if (reportDTO.getGrades() == null){
                 reportDTO.setGraded(false);
             }
             else {
