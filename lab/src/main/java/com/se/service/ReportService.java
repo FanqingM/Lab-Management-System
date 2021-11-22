@@ -1,8 +1,11 @@
 package com.se.service;
 
 import com.se.dto.FinishedReportDTO;
+import com.se.dto.ReportDTO;
+import com.se.entity.LabInstanceKey;
 import com.se.entity.Report;
 import com.se.entity.ReportKey;
+import com.se.entity.SectionKey;
 
 import java.util.List;
 
@@ -57,4 +60,7 @@ public interface ReportService {
     List<Report> selectReport(String studentID);
 
     List<FinishedReportDTO> selectFinishedReports(String studentID);
+
+    List<ReportDTO> findReportsOfLabInstance(LabInstanceKey labInstanceKey);
+
 }

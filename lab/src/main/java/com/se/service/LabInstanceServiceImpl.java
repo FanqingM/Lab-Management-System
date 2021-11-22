@@ -3,9 +3,12 @@ package com.se.service;
 import com.se.dto.LabInstenceDTO;
 import com.se.entity.LabInstance;
 import com.se.entity.LabInstanceKey;
+import com.se.entity.SectionKey;
 import com.se.mapper.LabInstanceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LabInstanceServiceImpl implements LabInstanceService{
@@ -75,4 +78,10 @@ public class LabInstanceServiceImpl implements LabInstanceService{
     public LabInstenceDTO findOne(LabInstanceKey labInstanceKey) {
         return labInstanceMapper.findOne(labInstanceKey);
     }
+
+    @Override
+    public List<LabInstenceDTO> findLabInstanceOfSection(SectionKey sectionKey){
+        return labInstanceMapper.findLabInstanceOfSection(sectionKey);
+    }
+
 }
