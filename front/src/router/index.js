@@ -167,6 +167,28 @@ const routes = [
             // },
         },
         {
+            path: "modify-student",
+            name: "AdminModifyStudent",
+            component: () =>
+                import('../pages/admin/AdminModifyStudent.vue'),
+            // meta: {
+            //     title: '管理员',
+            //     requireAuth: true,
+            //     roles: ['admin']
+            // },
+        },
+        {
+            path: "modify-instructor",
+            name: "AdminModifyInstructor",
+            component: () =>
+                import('../pages/admin/AdminModifyInstructor.vue'),
+            // meta: {
+            //     title: '管理员',
+            //     requireAuth: true,
+            //     roles: ['admin']
+            // },
+        },
+        {
             path: "user-management",
             name: "AdminUserList",
             component: () =>

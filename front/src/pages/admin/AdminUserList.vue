@@ -1,23 +1,23 @@
 <template>
   <div>
     <el-card class="mycard">
- <div slot="header" class="clearfix">
+      <div slot="header" class="clearfix">
         <el-row type="flex" align="middle">
           <el-col :span="18">
-            <span><b>维护用户信息 </b></span>
+            <span><b>用户管理</b></span>
           </el-col>
           <el-col :span="2" class="buttoncol">
             <el-button size="medium" @click="addUser()" type="primary" plain
-            >添加用户</el-button
-          >
+              >添加用户</el-button
+            >
           </el-col>
           <el-col :span="4">
-             <el-input
-            clearable
-            v-model="toMatch"
-            placeholder="请输入用户ID搜索"
-            @input="search"
-          ></el-input>
+            <el-input
+              clearable
+              v-model="toMatch"
+              placeholder="输入学工号以搜索"
+              @input="search"
+            ></el-input>
           </el-col>
         </el-row>
       </div>
@@ -30,85 +30,67 @@
         :header-row-style="{ height: '20px' }"
         :cell-style="{ padding: '5px' }"
       >
-        <el-table-column label="ID" prop="accountNumber">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.accountNumber }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column label="学工号" prop="id"> </el-table-column>
+        <el-table-column label="姓名" prop="name"> </el-table-column>
+        <el-table-column label="学院" prop="schoolName"> </el-table-column>
         <el-table-column
-          label="身份"
-          prop="status"
+          label="类型"
+          prop="type"
           :filters="[
-            { text: '组织', value: '组织' },
-            { text: '学生', value: '学生' },
+            { text: '学生', value: 'student' },
+            { text: '教师', value: 'instructor' },
           ]"
           :filter-method="filterTag"
           filter-placement="bottom-end"
         >
           <template slot-scope="scope">
-                <el-tag
-                  :type="scope.row.status=='组织'?'primary':'success'"
-                  disable-transitions
-                >
-                  {{ scope.row.status }}
-                </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="用户名称" prop="name">
-          <template slot-scope="scope">
-            <span style="margin-left: ">{{ scope.row.name }}</span>
+            <el-tag
+              :type="scope.row.type == 'student' ? 'primary' : 'success'"
+              disable-transitions
+            >
+              {{ scope.row.type == "student" ? "学生" : "教师" }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <!-- <el-button size="small" @click="handleChange()">编辑信息</el-button> -->
-            <div v-if="scope.row.status == '组织'">
+            <div v-if="scope.row.type == 'student'">
               <router-link
                 :to="{
-                  ////////////name不可以 path可以？
-                  path: 'UserModify',
-                  //name:'SystemAdminUserModify',
+                  path: '/admin/modify-student',
                   query: {
-                    accountNumber: scope.row.accountNumber,
+                    id: scope.row.id,
                   },
                 }"
                 size="small"
                 type="primary"
                 tag="el-button"
-                @click.native="
-                  uhandleEdit(scope.row.accountNumber, scope.$index)
-                "
                 >编辑信息</router-link
               >
               <el-button
                 size="small"
                 type="danger"
-                @click="userdelete(scope.$index, scope.row)"
+                @click="deleteUser(scope.$index, scope.row)"
                 >删除</el-button
               >
             </div>
             <div v-else>
               <router-link
                 :to="{
-                  ////////////name不可以 path可以？
-                  path: 'StuModify',
-                  //name:'SystemAdminUserModify',
+                  path: '/admin/modify-instructor',
                   query: {
-                    accountNumber: scope.row.accountNumber,
+                    id: scope.row.id,
                   },
                 }"
                 size="small"
                 type="primary"
                 tag="el-button"
-                @click.native="
-                  uhandleEdit(scope.row.accountNumber, scope.$index)
-                "
                 >编辑信息</router-link
               >
               <el-button
                 size="small"
                 type="danger"
-                @click="userdelete(scope.$index, scope.row)"
+                @click="deleteUser(scope.$index, scope.row)"
                 >删除</el-button
               >
             </div>
@@ -126,8 +108,8 @@ body,
   height: 100%;
   border-radius: 12px;
 }
-.buttoncol{
-  float:right;
+.buttoncol {
+  float: right;
 }
 .clearfix:before,
 .clearfix:after {
@@ -155,7 +137,10 @@ body,
 
 <script>
 import {
-  PUTOrganizations,
+  GETInstructors,
+  GETStudents,
+  DELETEStudent,
+  DELETEInstructor,
 } from "../../API/http";
 
 export default {
@@ -168,53 +153,72 @@ export default {
       const property = column["property"];
       return row[property] === value;
     },
-    handleChange() {
-      this.$router.push({ path: "UserModify" });
+
+    fetchData() {
+      this.userList = [];
+      GETStudents()
+        .then((data) => {
+          console.log(data);
+          for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            item["type"] = "student";
+            this.userList.push(item);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("数据请求错误");
+        });
+      GETInstructors()
+        .then((data) => {
+          for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            item["type"] = "instructor";
+            this.userList.push(item);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("数据请求错误");
+        });
+      this.matchList = this.userList;
     },
-
-    // searchGroup: function () {
-    //   this.toMatchStatus = "通过";
-    //   console.log("aaaaaaaaaaa",this.toMatchStatus)
-    //   if (this.toMatchStatus == "") {
-    //     this.matchList = this.tableData;
-    //   } else {
-    //     console.log("searchGroup函数中的tableData", this.tableData);
-    //     this.matchList = [];
-    //     for (var i = 0; i < this.tableData.length; i++) {
-    //       console.log("aaaaa", this.tableData[i].state);
-    //       if (this.tableData[i].state == "通过") {
-    //         this.matchList.push(this.tableData[i]);
-    //       }
-    //     }
-    //   }
-    // },
-
     addUser() {
       this.$router.push({ path: "AddUserTest" });
     },
-    deleteStu(id) {
-      DELETEStudentsID(id)
+
+    deleteStudent(id, index) {
+      DELETEStudent(id)
         .then(() => {
           console.log("删除学生成功");
+          this.userList.splice(index, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功",
+          });
         })
         .catch((err) => {
           console.log(err);
-          this.$message("删除学生错误");
+          this.$message("删除失败");
         });
     },
-    deleteOrg(id) {
-      PUTOrganizations({accountNumber:id,state:"未审批"})
+    deleteInstructor(id, index) {
+      DELETEInstructor(id)
         .then(() => {
-          console.log("删除组织成功");
+          console.log("删除教师成功");
+          this.userList.splice(index, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功",
+          });
         })
         .catch((err) => {
           console.log(err);
-          this.$message("删除组织错误");
+          this.$message("删除失败");
         });
-      
     },
 
-    userdelete(index, row) {
+    deleteUser(index, row) {
       const that = this;
       console.log(index, row);
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
@@ -223,75 +227,46 @@ export default {
         type: "warning",
       })
         .then(() => {
-          for (var i = 0; i < that.tableData.length; i++) {
-            if (that.tableData[i].accountNumber == row.accountNumber) {
-              that.tableData.splice(i, 1);
-              if (row.status == "组织") {
-              that.deleteOrg(row.accountNumber);
-            } else {
-              that.deleteStu(row.accountNumber);
-            }
+          that.deleted = false;
+          for (var i = 0; i < that.userList.length; i++) {
+            if (that.userList[i].id == row.id) {
+              if (row.type == "student") {
+                that.deleteStudent(row.id, i);
+              } else {
+                that.deleteInstructor(row.id, i);
+              }
               break;
             }
           }
-          that.$message({
-            type: "success",
-            message: "删除成功!",
-          });
         })
         .catch(() => {
           that.$message({
             type: "info",
-            message: "已取消删除",
+            message: "已取消",
           });
         });
     },
 
     search: function () {
       if (this.toMatch == "") {
-        this.matchList = this.tableData;
+        this.matchList = this.userList;
       } else {
         this.matchList = [];
-        for (var i = 0; i < this.tableData.length; i++) {
-          if (this.tableData[i].accountNumber.search(this.toMatch) != -1) {
-            this.matchList.push(this.tableData[i]);
+        for (var i = 0; i < this.userList.length; i++) {
+          if (this.userList[i].id.search(this.toMatch) != -1) {
+            this.matchList.push(this.userList[i]);
           }
         }
       }
     },
-
-    uhandleEdit() {
-      console.log("handleedit");
-      console.log(this.$route);
-      this.childPage = this.$route.name == "SystemAdminGroupVerify";
-    },
   },
 
-  watch: {
-    // 如果路由有变化，会再次执行该方法
-    $route: "uhandleEdit", //getOrderInfo为自定义方法
-  },
   data() {
     return {
-      axiosdata: null,
-      //axiosdata2: null,
+      userList: [],
       toMatch: "",
       toMatchStatus: "",
       matchList: [],
-      tableData: [],
-
-      status: "",
-
-      options: [
-        {
-          value: "option1",
-          label: "组织",
-        },
-        {
-          value: "option2",
-          label: "学生",
-        },
-      ],
     };
   },
 };
