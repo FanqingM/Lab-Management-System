@@ -25,6 +25,8 @@
     <result property="grades" column="GRADES"/>
     <result property="courseName" column="COURSENAME"/>
     <result property="endTime" column="END_TIME"/>
+    <result property="courseId" column="COURSE_ID"/>
+    <result property="sectionId" column="SECTION_ID"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -45,9 +47,9 @@
   </select>
 
   <select id="selectFinishedReports" parameterType="com.se.entity.ReportKey" resultMap="FinishedReportDTOMap">
-    select distinct REPORT.LAB_ID,LAB.NAME,REPORT.GRADES,COURSE.COURSENAME,LAB_INSTANCE.END_TIME
-    from REPORT,LAB,LAB_INSTANCE,COURSE
-    where STUDENT_ID = #{studentId,jdbcType=VARCHAR} and LAB.LAB_ID = REPORT.LAB_ID and LAB.COURSE_ID = REPORT.COURSE_ID and COURSE.ID = LAB.COURSE_ID
+    select distinct REPORT.LAB_ID,LAB.NAME,REPORT.GRADES,COURSE.COURSENAME,LAB_INSTANCE.END_TIME,SECTION.COURSE_ID,SECTION.SECTION_ID
+    from REPORT,LAB,LAB_INSTANCE,COURSE,SECTION
+    where STUDENT_ID = #{studentId,jdbcType=VARCHAR} and LAB.LAB_ID = REPORT.LAB_ID and LAB.COURSE_ID = REPORT.COURSE_ID and COURSE.ID = LAB.COURSE_ID and LAB.COURSE_ID = LAB_INSTANCE.COURSE_ID and LAB.LAB_ID = LAB_INSTANCE.LAB_ID and SECTION.COURSE_ID = LAB_INSTANCE.COURSE_ID and SECTION.SECTION_ID = LAB_INSTANCE.SECTION_ID
   </select>
 
   <select id="selectReport" parameterType="com.se.entity.ReportKey" resultMap="BaseResultMap">
