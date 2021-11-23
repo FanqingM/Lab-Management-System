@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController  //数据会以json形式返回
 @RequestMapping("VerifyCode")
 public class VerifyEmailController {
