@@ -82,7 +82,7 @@
                 round
                 style="width: 70%"
                 type="primary"
-                >{{"注册为" + ((type == 0) ? "学生" : (type == 1 ? "管理员" : "教师"))}}</el-button
+                >{{"注册为" + ((type == 0) ? "学生" : "教师")}}</el-button
               >
             </el-row>
           </el-form>
@@ -100,11 +100,9 @@
 <script>
 import md5 from 'js-md5';
 import {
-  GETStuEmail,
-  POSTStudents,
-  POSTOrganizations,
-  GETOrgEmail,
-  Login,
+  SendEmail,
+  VerifyEmail,
+  POSTUnactivatedAccount
 } from "../../API/http";
 import store from "../../store/state";
 export default {
@@ -192,100 +190,63 @@ export default {
     sendEmail: function (formName) {
       this.$refs[formName].validateField("email", (ErrorMessage) => {
         if (ErrorMessage) {
-          //验证失败
+          // 邮箱无效
           this.$message(ErrorMessage);
         } else {
-          if (this.type === "1") {
-            this.timeCnt = 30;
-            this.isOK = true;
-            this.cnt();
-            GETStuEmail({ email: this.form.email })
-              .then((data) => {
+          this.timeCnt = 30;
+          this.isOK = true;
+          this.cnt();
+          SendEmail({ email: this.form.email })
+            .then((data) => {
+              if (data == true) {
                 this.$message("验证码发送成功");
-                data;
-              })
-              .catch((err) => {
-                err;
+              } else {
                 this.$message.error("验证码发送失败");
-              });
-          } else if (this.type === "3") {
-            this.timeCnt = 30;
-            this.isOK = true;
-            this.cnt();
-            GETOrgEmail({ email: this.form.email })
-              .then((data) => {
-                this.$message("验证码发送成功");
-                data;
-              })
-              .catch((err) => {
-                err;
-                this.$message.error("验证码发送失败");
-              });
-          }
+              }
+            })
+            .catch((err) => {
+              this.$message.error("验证码发送失败");
+              console.log(err);
+            });
         }
       });
     },
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.type === "1") {
-            //stu
-            POSTStudents({
-              accountNumber: this.form.accountNo,
-              secretPassword: md5(this.form.password,"hhh"),
-              eMailAddress: this.form.email,
-              name: this.form.username,
-              verificationCode: this.form.verifyEmail,
-            })
-              .then((data) => {
-                data;
-                //console.log(data);
-                this.$message("学生用户创建成功");
-                Login({
-                  accountNumber: this.form.accountNo,
-                  secretPassword: md5(this.form.password,"hhh"),
-                  role: 'student',
+          VerifyEmail({ 
+            email: this.form.email,
+            code: this.form.verifyEmail
+           })
+            .then((data) => {
+              if (data == true) {
+                console.log("验证码正确");
+                POSTUnactivatedAccount({
+                  email: this.form.email,
+                  name: this.form.username,
+                  password: this.form.password,
+                  idcard: "https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/baike/pic/item/e1fe9925bc315c6018cf3d0481b1cb1348547786.jpg",
+                  id: this.form.accountNo,
+                  isTeacher: (this.type == 0) ? false : true,
+                  isSeniorTercher: false
                 })
-                  .then((data) => {
-                    localStorage.setItem("uutype", 'student');
-                    localStorage.setItem("uuid", this.form.accountNo);
-                    localStorage.setItem("uutoken", data.accessToken);
-                    store.state.ID = this.form.accountNo;
-                    store.state.membertype = 'student';
-                    this.$router.push("/StuFrame/Main");
-                  })
-                  .catch((err) => {
-                    this.$message("登录失败");
-                    console.log(err);
-                  });
-              })
-              .catch((err) => {
-                //console.log(err);
-                err;
-                this.$message.error("学生用户创建失败");
-              });
-          } else if (this.type === "3") {
-            //
-            POSTOrganizations({
-              accountNumber: this.form.accountNo,
-              secretPassword: md5(this.form.password,"hhh"),
-              eMailAddress: this.form.email,
-              name: this.form.username,
-              verificationCode: this.form.verifyEmail,
+                .then((data) => {
+                  console.log(data);
+                  this.$message("注册成功");
+                  this.$router.push("/");
+                })
+                .catch((err) => {
+                  console.log(err);
+                  this.$message.error("注册失败");
+                })
+              } else {
+                this.$message.error("验证码错误");
+              }
             })
-              .then((data) => {
-                data;
-                this.$router.push("/");
-                this.$message("组织用户创建成功");
-              })
-              .catch(()=>{
-                this.$message("组织用户创建失败");
-              })
-          }
-        } else {
-          //alert(msg);
-          this.$message("信息填写有误，请重新填写");
-          this.$refs[formName].clearValidate();
+            .catch((err) => {
+              this.$message.error("验证码错误");
+              console.log(err);
+            });
         }
       });
     },

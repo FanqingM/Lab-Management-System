@@ -92,6 +92,7 @@ export const GETUnactivatedAccounts = () => Get('/unactivatedAccount/findAll');
 export const GETUnactivatedAccountID = ID => GetID('/unactivatedAccount/findOne?id=', ID);
 export const ActivateAccount = ID => GetID('/unactivatedAccount/activate?id=', ID);
 export const DELETEUnactivatedAccount = ID => DeleteID('/unactivatedAccount/delete/', ID);
+export const POSTUnactivatedAccount = param => Post('/unactivatedAccount/add', param);
 
 //OrgFavorites
 export const GETOrgFavorites = param => Get('/api/OrgFavorites', param); //ok
@@ -135,9 +136,9 @@ export const LoginTestOrg = param => Get('/api/Login/test/organization', param);
 export const LoginTestStuID = ID => GetID('/api/Login/test/student/', ID);
 
 //email
-export const GETStuEmail = param => Get('/api/Students/api/QQEmail', param);
-export const GETOrgEmail = param => Get('/api/Organizations/QQEmail', param)
-    //modify password
+export const SendEmail = param => Post('/VerifyCode/getCode', param);
+export const VerifyEmail = param => Post('/VerifyCode/verify', param)
+//modify password
 export const PUTStuPassword = param => Put('/api/Students', param);
 export const PUTOrgPassword = param => Put('/api/Organizations', param);
 

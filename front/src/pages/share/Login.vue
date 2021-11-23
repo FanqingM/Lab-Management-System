@@ -74,10 +74,17 @@
         >
       </el-row>
 
-      <el-row>
+      <el-row v-if="identity == 1">
+        <el-col :span="9" offset="9">
+          <router-link :to="'/forget-password'">
+            <el-link :underline="false">忘记密码</el-link>
+          </router-link>
+        </el-col>
+      </el-row>
+      <el-row v-else>
         <el-col :span="9" :offset="5">
           <router-link :to="{name: 'Register', params:{type: identity}}">
-            <el-link :underline="false">{{"注册为" + ((identity == 0) ? "学生" : (identity == 1 ? "管理员" : "教师"))}}</el-link>
+            <el-link :underline="false">{{"注册为" + ((identity == 0) ? "学生" : "教师")}}</el-link>
           </router-link>
         </el-col>
         <el-col :span="9">
