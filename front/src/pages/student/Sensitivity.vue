@@ -4,15 +4,15 @@
       <div slot="header" class="clearfix">
         <span><b>敏感性分析实验</b></span>
       </div>
-      <el-row >
-        <el-col span="6" style="background-color: #42b983">
+      <el-row>
+        <el-col :span=6>
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="步长">
               <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5"></el-input-number>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col span="14" style="background-color: #cf0c0c">
+        <el-col :span=14>
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="变化范围">
               <el-slider
@@ -24,8 +24,8 @@
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col span="4">
-          <el-button @click="compute()">确定</el-button>
+        <el-col :span=4 align='middle'>
+          <el-button @click="compute()" type="primary">确定</el-button>
         </el-col>
       </el-row>
       <div
@@ -42,7 +42,6 @@
           height="465"
           stripe
           highlight-current-row
-          @current-change="handleCurrentChange1"
           style="width: 100%"
           :default-sort="{ prop: 'date', order: 'descending' }"
       >
@@ -77,6 +76,7 @@ export default {
   },
   data() {
     return {
+      loading:'',
       form: {
         step: 0.6,
         range: [-15, 15],
@@ -126,7 +126,7 @@ export default {
     }
   },
   methods: {
-    compute(){
+    compute() {
 
     },
     myEcharts() {
@@ -136,13 +136,13 @@ export default {
 
       option = {
         title: {
-          text: 'Stacked Line'
+          text: '敏感性分析图'
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+          data: ['营业收入', '建设投资', '运维成本', '人员成本']
         },
         grid: {
           left: '3%',
@@ -165,40 +165,166 @@ export default {
         },
         series: [
           {
-            name: 'Email',
+            name: '营业收入',
             type: 'line',
             stack: 'Total',
             data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
-            name: 'Union Ads',
+            name: '建设投资',
             type: 'line',
             stack: 'Total',
             data: [220, 182, 191, 234, 290, 330, 310]
           },
           {
-            name: 'Video Ads',
+            name: '运维成本',
             type: 'line',
             stack: 'Total',
             data: [150, 232, 201, 154, 190, 330, 410]
           },
           {
-            name: 'Direct',
+            name: '人员成本',
             type: 'line',
             stack: 'Total',
             data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: 'Search Engine',
-            type: 'line',
-            stack: 'Total',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
           }
         ]
       };
 
+      // for (var item in this.tabledata)
+
       option && myChart.setOption(option);
     }
+  },
+  handleClick(tab, event) {
+    console.log(tab, event);
+  },
+  filterTag(value, row) {
+    return row.tag === value;
+  },
+  formatter(row) {
+    return row.groundname;
+  },
+  handleDelete(index, row, type) {
+    console.log(index, row);
+
+    this.$confirm("此操作将永久删除该活动信息, 是否继续?", "提示", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    })
+        .then(() => {
+          const tempList =
+              type == 1 ? this.tableData.待举办 : this.tableData.审核中;
+
+          for (var i = 0; i < tempList.length; i++) {
+            if (tempList[i].ID == row.ID) {
+              tempList.splice(i, 1);
+              this.deleteAppointment(row.ID);
+              break;
+            }
+          }
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+  },
+  handleChange(index, row, type) {
+    index;
+    type;
+    this.$router.push({
+      name: "ApplySiteWindow",
+      query: {
+        activityID: row.ID,
+      },
+    });
+  },
+  handleFeedback(row) {
+    console.log(row);
+    this.feedbackVisible = true;
+    this.feedbackRow = row;
+  },
+  handleRenew(index, row) {
+    console.log(index, row);
+  },
+  handleCurrentChange1(val) {
+    this.currentRow = val;
+    //this.$router.push('/Recorddescription')
+  },
+  handleCurrentChange2(val) {
+    this.currentRow = val;
+    this.$router.push({
+      name: "PendingWindow",
+      params: {
+        activityID: val.ID,
+      },
+    });
+  },
+  handleCurrentChange3(val) {
+    this.currentRow = val;
+    this.$router.push({
+      name: "RecordWindow",
+      params: {
+        activityID: val.ID,
+      },
+    });
+  },
+  handleCurrentChange4(val) {
+    this.currentRow = val;
+    this.$router.push({
+      name: "RejectedWindow",
+      params: {
+        activityID: val.ID,
+      },
+    });
+  },
+  dealWithActivities(data) {
+    console.log("run dealwithActivities", data);
+
+    for (var key in data) {
+      // console.log("key",key);
+      for (var i = 0; i < data[key].length; i++) {
+        // console.log(data[key][i]);
+        var temp = {
+          date: "2016-05-03",
+          name: "活动2",
+          groundname: "a楼",
+          ID: "11117",
+          participantNum: 40,
+          additionalRequest: "无",
+          description: "听数据库开会",
+          tag: "室外",
+          activityState: "审核中",
+        };
+        temp.ID = data[key][i].id;
+        temp.date = data[key][i].activityDate.split("T")[0];
+        temp.time = data[key][i].activityDate.split("T")[1];
+        temp.name = data[key][i].name;
+        temp.description = data[key][i].description;
+        temp.participantNum = data[key][i].participantNum;
+        temp.groupname = data[key][i].organizationName;
+        temp.groundname = data[key][i].groundName;
+        temp.additionalRequest = data[key][i].additionalRequest;
+        temp.activityState = data[key][i].activityState;
+        temp.tag = data[key][i].isGroundIndoor ? '室内' : '室外';
+        this.tableData[key].push(temp);
+      }
+    }
+
+    for (let j = 0; j < this.tableData["待反馈"].length; j++) {
+      this.tableData["已完成"].push(this.tableData["待反馈"][j]);
+    }
+    for (let j = 0; j < this.tableData["已反馈"].length; j++) {
+      this.tableData["已完成"].push(this.tableData["已反馈"][j]);
+    }
+    console.log(this.tableData);
   },
 };
 </script>
