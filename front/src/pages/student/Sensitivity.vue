@@ -5,48 +5,45 @@
         <span><b>敏感性分析实验</b></span>
       </div>
       <el-row>
-        <el-col :span=6>
+        <el-col :span="6">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="步长">
-              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5"></el-input-number>
+              <el-input-number
+                v-model="form.step"
+                :precision="2"
+                :step="0.2"
+                :max="5"
+              ></el-input-number>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span=14>
+        <el-col :span="14">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="变化范围">
-              <el-slider
-                  v-model="form.range"
-                  range
-                  :max="25"
-                  :min="-25">
+              <el-slider v-model="form.range" range :max="25" :min="-25">
               </el-slider>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span=4 align='middle'>
+        <el-col :span="4" align="middle">
           <el-button @click="compute()" type="primary">确定</el-button>
         </el-col>
       </el-row>
-      <div
-          id="linechart"
-          style="width: 1300px; height: 250px"
-      ></div>
+      <div id="linechart" style="width: 1300px; height: 250px"></div>
       <el-divider></el-divider>
       <el-table
-          v-loading="loading"
-          :header-row-style="{ height: '20px' }"
-          :cell-style="{ padding: '5px' }"
-          ref="filterTable1"
-          :data="tabledata"
-          height="465"
-          stripe
-          highlight-current-row
-          style="width: 100%"
-          :default-sort="{ prop: 'date', order: 'descending' }"
+        v-loading="loading"
+        :header-row-style="{ height: '20px' }"
+        :cell-style="{ padding: '5px' }"
+        ref="filterTable1"
+        :data="tabledata"
+        height="465"
+        stripe
+        highlight-current-row
+        style="width: 100%"
+        :default-sort="{ prop: 'date', order: 'descending' }"
       >
-        <el-table-column prop="changeRate" label="变化率(%)">
-        </el-table-column>
+        <el-table-column prop="changeRate" label="变化率(%)"> </el-table-column>
         <el-table-column label="不确定因素">
           <el-table-column prop="income" sortable label="营业收入">
           </el-table-column>
@@ -64,19 +61,20 @@
 
 <script>
 import store from "../../store/state";
-import { GETLabs } from "../../API/http";
-import * as echarts from 'echarts';
+import { GETComputed } from "../../API/http";
+import * as echarts from "echarts";
 
 export default {
   //  components: {
   //     FeedbackDialog,
   //  },
   mounted() {
-    // this.myEcharts();
+    var chartDom = document.getElementById("linechart");
+    var myChart = echarts.init(chartDom);
   },
   data() {
     return {
-      loading:'',
+      loading: "",
       form: {
         step: 0.6,
         range: [-15, 15],
@@ -87,24 +85,24 @@ export default {
           changeRate: -15,
           income: -29.77,
           investment: 24.98,
-          operatingCost: 24.40,
-          staffCost: 49.42
+          operatingCost: 24.4,
+          staffCost: 49.42,
         },
         {
           changeRate: 0,
           income: 19.85,
           investment: 19.85,
           operatingCost: 19.85,
-          staffCost: 19.85
+          staffCost: 19.85,
         },
         {
           changeRate: 15,
           income: 57.11,
-          investment: 15.70,
+          investment: 15.7,
           operatingCost: 15.23,
-          staffCost: -13.57
-        }],
-
+          staffCost: -13.57,
+        },
+      ],
     };
   },
 
@@ -119,96 +117,116 @@ export default {
         }
       },
       deep: true,
-  　　immediate: true,
-    }
+      immediate: true,
+    },
   },
   methods: {
     compute() {
-        var params = [];
-        for (var i = 0; i > this.form.range[0]; i -= this.form.step) {
-          params.unshift(i);
-        }
-        for (var i = this.form.step; i < this.form.range[1]; i += this.form.step) {
-          params.push(i);
-        }
-        console.log("params: ", params);
-        this.myEcharts();
+      var params = [];
+      for (var i = 0; i > this.form.range[0]; i -= this.form.step) {
+        params.unshift(i * 0.01);
+      }
+      for (
+        var i = this.form.step;
+        i < this.form.range[1];
+        i += this.form.step
+      ) {
+        params.push(i * 0.01);
+      }
+      console.log("params: ", params);
+      GETComputed(params)
+        .then((data) => {
+          console.log("data", data);
+          this.tabledata = [];
+          for (var i = 0; i < data.length; ++i) {
+            this.tabledata.push({
+              changeRate: params[i],
+              income: data[i][0],
+              investment: data[i][1],
+              operatingCost: data[i][2],
+              staffCost: data[i][3],
+            });
+          }
+          this.myEcharts();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("无法获取计算结果");
+        });
     },
     myEcharts() {
-      var chartDom = document.getElementById('linechart');
-      var myChart = echarts.init(chartDom);
       var option;
 
       option = {
         title: {
-          text: '敏感性分析图'
+          text: "敏感性分析图",
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: "axis",
         },
         legend: {
-          data: ['营业收入', '建设投资', '运维成本', '人员成本']
+          data: ["营业收入", "建设投资", "运维成本", "人员成本"],
         },
         grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true,
         },
         toolbox: {
           feature: {
-            saveAsImage: {}
-          }
+            saveAsImage: {},
+          },
         },
         xAxis: {
-          type: 'category',
+          type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
         },
         yAxis: {
-          type: 'value'
+          type: "value",
         },
         series: [
           {
-            name: '营业收入',
-            type: 'line',
-            stack: 'Total',
-            data: []
+            name: "营业收入",
+            type: "line",
+            stack: "Total",
+            data: [],
           },
           {
-            name: '建设投资',
-            type: 'line',
-            stack: 'Total',
-            data: []
+            name: "建设投资",
+            type: "line",
+            stack: "Total",
+            data: [],
           },
           {
-            name: '运维成本',
-            type: 'line',
-            stack: 'Total',
-            data: []
+            name: "运维成本",
+            type: "line",
+            stack: "Total",
+            data: [],
           },
           {
-            name: '人员成本',
-            type: 'line',
-            stack: 'Total',
-            data: []
-          }
-        ]
+            name: "人员成本",
+            type: "line",
+            stack: "Total",
+            data: [],
+          },
+        ],
       };
 
-      for (var item in this.tabledata){
+      for (var item in this.tabledata) {
         // console.log(this.tabledata[item]);
-        option.xAxis.data.push(this.tabledata[item].changeRate+'%');
+        option.xAxis.data.push(this.tabledata[item].changeRate + "%");
         option.series[0].data.push(this.tabledata[item].income);
         option.series[1].data.push(this.tabledata[item].investment);
         option.series[2].data.push(this.tabledata[item].operatingCost);
         option.series[3].data.push(this.tabledata[item].staffCost);
       }
 
-      console.log("option",option);
+      console.log("option", option);
 
       option && myChart.setOption(option);
-    }
+    },
   },
   handleClick(tab, event) {
     console.log(tab, event);
@@ -227,28 +245,28 @@ export default {
       cancelButtonText: "取消",
       type: "warning",
     })
-        .then(() => {
-          const tempList =
-              type == 1 ? this.tableData.待举办 : this.tableData.审核中;
+      .then(() => {
+        const tempList =
+          type == 1 ? this.tableData.待举办 : this.tableData.审核中;
 
-          for (var i = 0; i < tempList.length; i++) {
-            if (tempList[i].ID == row.ID) {
-              tempList.splice(i, 1);
-              this.deleteAppointment(row.ID);
-              break;
-            }
+        for (var i = 0; i < tempList.length; i++) {
+          if (tempList[i].ID == row.ID) {
+            tempList.splice(i, 1);
+            this.deleteAppointment(row.ID);
+            break;
           }
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
+        }
+        this.$message({
+          type: "success",
+          message: "删除成功!",
         });
+      })
+      .catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除",
+        });
+      });
   },
   handleChange(index, row, type) {
     index;
@@ -327,7 +345,7 @@ export default {
         temp.groundname = data[key][i].groundName;
         temp.additionalRequest = data[key][i].additionalRequest;
         temp.activityState = data[key][i].activityState;
-        temp.tag = data[key][i].isGroundIndoor ? '室内' : '室外';
+        temp.tag = data[key][i].isGroundIndoor ? "室内" : "室外";
         this.tableData[key].push(temp);
       }
     }
