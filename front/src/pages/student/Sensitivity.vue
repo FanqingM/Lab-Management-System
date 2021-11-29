@@ -64,9 +64,7 @@
 
 <script>
 import store from "../../store/state";
-import {
-  GETLabs,
-} from "../../API/http";
+import { GETLabs } from "../../API/http";
 import * as echarts from 'echarts';
 
 export default {
@@ -108,6 +106,24 @@ export default {
         }],
 
     };
+  },
+
+  watch: {
+    form: {
+      handler(newVal) {
+        // console.log("form", newVal);
+        params = []
+        for (var i = 0; i > newVal.range[0]; i -= newVal.step) {
+          params.unshift(i);
+        }
+        for (var i = newVal.step; i < newVal.range[1]; i += newVal.step) {
+          params.push(i);
+        }
+        console.log("params: ", params);
+      },
+      deep: true,
+  　　immediate: true,
+    }
   },
   methods: {
     compute() {
