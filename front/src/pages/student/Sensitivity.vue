@@ -7,8 +7,8 @@
       <el-row>
         <el-col :span=6>
           <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="步长">
-              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5"></el-input-number>
+            <el-form-item label="步长(%)">
+              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5" :min="0.1"></el-input-number>
             </el-form-item>
           </el-form>
         </el-col>
@@ -30,7 +30,7 @@
       </el-row>
       <div
           id="linechart"
-          style="width: 1300px; height: 250px"
+          style="width: 100%; height: 250px"
       ></div>
       <el-divider></el-divider>
       <el-table
@@ -39,7 +39,7 @@
           :cell-style="{ padding: '5px' }"
           ref="filterTable1"
           :data="tabledata"
-          height="465"
+          height=""
           stripe
           highlight-current-row
           style="width: 100%"
@@ -64,7 +64,7 @@
 
 <script>
 import store from "../../store/state";
-import { GETLabs } from "../../API/http";
+import {GETLabs} from "../../API/http";
 import * as echarts from 'echarts';
 
 export default {
@@ -72,13 +72,13 @@ export default {
   //     FeedbackDialog,
   //  },
   mounted() {
-    // this.myEcharts();
+    this.myEcharts();
   },
   data() {
     return {
-      loading:'',
+      loading: '',
       form: {
-        step: 0.6,
+        step: 2,
         range: [-15, 15],
       },
 
@@ -103,7 +103,8 @@ export default {
           investment: 15.70,
           operatingCost: 15.23,
           staffCost: -13.57
-        }],
+        }
+      ],
 
     };
   },
@@ -122,12 +123,12 @@ export default {
         console.log("params: ", params);
       },
       deep: true,
-  　　immediate: true,
+      immediate: true,
     }
   },
   methods: {
     compute() {
-        this.myEcharts();
+      this.myEcharts();
     },
     myEcharts() {
       var chartDom = document.getElementById('linechart');
@@ -191,16 +192,16 @@ export default {
         ]
       };
 
-      for (var item in this.tabledata){
+      for (var item in this.tabledata) {
         // console.log(this.tabledata[item]);
-        option.xAxis.data.push(this.tabledata[item].changeRate+'%');
+        option.xAxis.data.push(this.tabledata[item].changeRate + '%');
         option.series[0].data.push(this.tabledata[item].income);
         option.series[1].data.push(this.tabledata[item].investment);
         option.series[2].data.push(this.tabledata[item].operatingCost);
         option.series[3].data.push(this.tabledata[item].staffCost);
       }
 
-      console.log("option",option);
+      console.log("option", option);
 
       option && myChart.setOption(option);
     }
@@ -338,7 +339,7 @@ export default {
 };
 </script>
 
-<style>
+<style scpoed>
 .el-dialog {
   border-radius: 12px;
 }
@@ -356,10 +357,12 @@ export default {
 .clearfix {
   font-size: 18px;
 }
-</style>
-<style scoped>
+
+html,
 body {
-  margin: 0;
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
 }
 
 .page {
