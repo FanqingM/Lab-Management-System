@@ -12,7 +12,6 @@
             :cell-style="{ padding: '5px' }"
             ref="filterTable1"
             :data="unfinished"
-            height="465"
             stripe
             highlight-current-row
             @current-change="handleCurrentChange1"
@@ -30,7 +29,7 @@
                 <router-link
                   :to="{
                     name: 'StudentReport',
-                    params: { ID: scope.row.labId },
+                    params: { labId: scope.row.labId },
                   }"
                 >
                   <el-button @click="handleClick(scope.row)" type="text"
@@ -78,8 +77,13 @@
               <template slot-scope="scope">
                 <router-link
                   :to="{
-                    name: 'StudentReport',
-                    params: { ID: scope.row.experimentID },
+                    name: 'StudentFinishedReport',
+                    params: {
+                      studentId: store.state.id,
+                      courseId: scope.row.courseId,
+                      sectionId: scope.row.sectionId,
+                      labId: scope.row.labId
+                    },
                   }"
                 >
                   <el-button @click="handleClick(scope.row)" type="text"

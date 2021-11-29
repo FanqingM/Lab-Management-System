@@ -64,7 +64,7 @@
       </el-col>
     </el-row>
     <el-row class="lower-row">
-      <el-col :span="15" class="lower-row-col1">
+      <el-col :span="12" class="lower-row-col1">
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
             <span><b>待办</b></span>
@@ -93,7 +93,7 @@
               <template slot-scope="scope">
                 <router-link
                   :to="{
-                    name: 'StudentReport',
+                    name: 'StudentFinishedReport',
                     params: { ID: scope.row.labId },
                   }"
                 >
@@ -106,7 +106,7 @@
           </el-table>
         </el-card>
       </el-col>
-      <el-col :span="9" class="lower-row-col2">
+      <el-col :span="12" class="lower-row-col2">
         <el-card class="lower-card">
           <div slot="header" class="clearfix">
             <span><b>成绩</b></span>
@@ -177,6 +177,7 @@ export default {
     })
       .then((data) => {
         console.log("data", data);
+        this.unfinished = [];
         for (var i = 0; i < data.length; ++i) {
           if (data[i].grades == null) {
             this.unfinished.push({
@@ -198,6 +199,7 @@ export default {
     })
       .then((data) => {
         console.log("data", data);
+        this.grade = [];
         for (var i = 0; i < data.length; ++i) {
           if (data[i].grades != null && data[i].grades !== 0) {
             this.grade.push({

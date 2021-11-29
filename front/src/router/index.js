@@ -140,6 +140,17 @@ const routes = [
                 // }
             },
             {
+                path: "finished-report",
+                name: "StudentFinishedReport",
+                component: () =>
+                    import('../pages/student/StudentFinishedReport.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
                 path: "account",
                 name: "StudentAccount",
                 component: () =>
