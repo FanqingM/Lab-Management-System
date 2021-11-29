@@ -72,7 +72,7 @@ export default {
   //     FeedbackDialog,
   //  },
   mounted() {
-    this.myEcharts();
+    // this.myEcharts();
   },
   data() {
     return {
@@ -132,6 +132,7 @@ export default {
           params.push(i);
         }
         console.log("params: ", params);
+        this.myEcharts();
     },
     myEcharts() {
       var chartDom = document.getElementById('linechart');
@@ -162,7 +163,7 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: []
         },
         yAxis: {
           type: 'value'
@@ -172,30 +173,39 @@ export default {
             name: '营业收入',
             type: 'line',
             stack: 'Total',
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: []
           },
           {
             name: '建设投资',
             type: 'line',
             stack: 'Total',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: []
           },
           {
             name: '运维成本',
             type: 'line',
             stack: 'Total',
-            data: [150, 232, 201, 154, 190, 330, 410]
+            data: []
           },
           {
             name: '人员成本',
             type: 'line',
             stack: 'Total',
-            data: [320, 332, 301, 334, 390, 330, 320]
+            data: []
           }
         ]
       };
 
-      // for (var item in this.tabledata)
+      for (var item in this.tabledata){
+        // console.log(this.tabledata[item]);
+        option.xAxis.data.push(this.tabledata[item].changeRate+'%');
+        option.series[0].data.push(this.tabledata[item].income);
+        option.series[1].data.push(this.tabledata[item].investment);
+        option.series[2].data.push(this.tabledata[item].operatingCost);
+        option.series[3].data.push(this.tabledata[item].staffCost);
+      }
+
+      console.log("option",option);
 
       option && myChart.setOption(option);
     }

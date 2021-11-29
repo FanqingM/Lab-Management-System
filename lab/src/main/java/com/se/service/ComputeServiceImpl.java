@@ -39,7 +39,7 @@ public class ComputeServiceImpl implements ComputeService{
         ArrayList<ArrayList<Double>> res = new ArrayList<ArrayList<Double>>();
         for (int i = 0; i < list.size(); i++) {
             ArrayList<Double> res2 = new ArrayList<Double>();
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 4; j++) {
                 //收入，投资，运维，人员
                 double s = 1 + list.get(i);
                 double shouru = 480;
