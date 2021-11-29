@@ -150,6 +150,17 @@ const routes = [
                 //     roles: ['student']
                 // }
             },
+            {
+                path: "sensitivity",
+                name: "StudentSensitivity",
+                component: () =>
+                    import('../pages/student/Sensitivity.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
         ]
     },
 
