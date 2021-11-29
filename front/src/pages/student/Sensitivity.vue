@@ -7,13 +7,8 @@
       <el-row>
         <el-col :span="6">
           <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="步长">
-              <el-input-number
-                v-model="form.step"
-                :precision="2"
-                :step="0.2"
-                :max="5"
-              ></el-input-number>
+            <el-form-item label="步长(%)">
+              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5" :min="0.1"></el-input-number>
             </el-form-item>
           </el-form>
         </el-col>
@@ -29,19 +24,22 @@
           <el-button @click="compute()" type="primary">确定</el-button>
         </el-col>
       </el-row>
-      <div id="linechart" style="width: 1300px; height: 250px"></div>
+      <div
+          id="linechart"
+          style="width: 100%; height: 250px"
+      ></div>
       <el-divider></el-divider>
       <el-table
-        v-loading="loading"
-        :header-row-style="{ height: '20px' }"
-        :cell-style="{ padding: '5px' }"
-        ref="filterTable1"
-        :data="tabledata"
-        height="465"
-        stripe
-        highlight-current-row
-        style="width: 100%"
-        :default-sort="{ prop: 'date', order: 'descending' }"
+          v-loading="loading"
+          :header-row-style="{ height: '20px' }"
+          :cell-style="{ padding: '5px' }"
+          ref="filterTable1"
+          :data="tabledata"
+          height=""
+          stripe
+          highlight-current-row
+          style="width: 100%"
+          :default-sort="{ prop: 'date', order: 'descending' }"
       >
         <el-table-column prop="changeRate" label="变化率(%)"> </el-table-column>
         <el-table-column label="不确定因素">
@@ -76,7 +74,7 @@ export default {
     return {
       loading: "",
       form: {
-        step: 0.6,
+        step: 2,
         range: [-15, 15],
       },
 
@@ -118,7 +116,7 @@ export default {
       },
       deep: true,
       immediate: true,
-    },
+    }
   },
   methods: {
     compute() {
@@ -216,7 +214,7 @@ export default {
 
       for (var item in this.tabledata) {
         // console.log(this.tabledata[item]);
-        option.xAxis.data.push(this.tabledata[item].changeRate + "%");
+        option.xAxis.data.push(this.tabledata[item].changeRate + '%');
         option.series[0].data.push(this.tabledata[item].income);
         option.series[1].data.push(this.tabledata[item].investment);
         option.series[2].data.push(this.tabledata[item].operatingCost);
@@ -361,7 +359,7 @@ export default {
 };
 </script>
 
-<style>
+<style scpoed>
 .el-dialog {
   border-radius: 12px;
 }
@@ -379,10 +377,12 @@ export default {
 .clearfix {
   font-size: 18px;
 }
-</style>
-<style scoped>
+
+html,
 body {
-  margin: 0;
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
 }
 
 .page {
