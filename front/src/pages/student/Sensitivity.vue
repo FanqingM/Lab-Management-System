@@ -77,30 +77,8 @@ export default {
         step: 2,
         range: [-15, 15],
       },
-
-      tabledata: [
-        {
-          changeRate: -15,
-          income: -29.77,
-          investment: 24.98,
-          operatingCost: 24.4,
-          staffCost: 49.42,
-        },
-        {
-          changeRate: 0,
-          income: 19.85,
-          investment: 19.85,
-          operatingCost: 19.85,
-          staffCost: 19.85,
-        },
-        {
-          changeRate: 15,
-          income: 57.11,
-          investment: 15.7,
-          operatingCost: 15.23,
-          staffCost: -13.57,
-        },
-      ],
+      chartData: [],
+      tabledata: [],
     };
   },
 
@@ -135,14 +113,22 @@ export default {
       GETComputed(params)
         .then((data) => {
           console.log("data", data);
+          this.chartData = [];
           this.tabledata = [];
           for (var i = 0; i < data.length; ++i) {
-            this.tabledata.push({
+            this.chartData.push({
               changeRate: params[i],
               income: data[i][0],
               investment: data[i][1],
               operatingCost: data[i][2],
-              staffCost: data[i][3],
+              staffCost: data[i][3]
+            });
+            this.tabledata.push({
+              changeRate: Math.round(params[i] * 100000) / 1000 + '%',
+              income: Math.round(data[i][0] * 100000) / 1000 + '%',
+              investment: Math.round(data[i][1] * 100000) / 1000 + '%',
+              operatingCost: Math.round(data[i][2] * 100000) / 1000 + '%',
+              staffCost: Math.round(data[i][3] * 100000) / 1000 + '%'
             });
           }
           this.myEcharts();
@@ -154,7 +140,8 @@ export default {
     },
     myEcharts() {
       var option;
-
+      var chartDom = document.getElementById("linechart");
+      var myChart = echarts.init(chartDom);
       option = {
         title: {
           text: "敏感性分析图",
@@ -212,13 +199,13 @@ export default {
         ],
       };
 
-      for (var item in this.tabledata) {
+      for (var item in this.chartData) {
         // console.log(this.tabledata[item]);
-        option.xAxis.data.push(this.tabledata[item].changeRate + '%');
-        option.series[0].data.push(this.tabledata[item].income);
-        option.series[1].data.push(this.tabledata[item].investment);
-        option.series[2].data.push(this.tabledata[item].operatingCost);
-        option.series[3].data.push(this.tabledata[item].staffCost);
+        option.xAxis.data.push(this.chartData[item].changeRate + '%');
+        option.series[0].data.push(this.chartData[item].income);
+        option.series[1].data.push(this.chartData[item].investment);
+        option.series[2].data.push(this.chartData[item].operatingCost);
+        option.series[3].data.push(this.chartData[item].staffCost);
       }
 
       console.log("option", option);
@@ -234,37 +221,6 @@ export default {
   },
   formatter(row) {
     return row.groundname;
-  },
-  handleDelete(index, row, type) {
-    console.log(index, row);
-
-    this.$confirm("此操作将永久删除该活动信息, 是否继续?", "提示", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
-      type: "warning",
-    })
-      .then(() => {
-        const tempList =
-          type == 1 ? this.tableData.待举办 : this.tableData.审核中;
-
-        for (var i = 0; i < tempList.length; i++) {
-          if (tempList[i].ID == row.ID) {
-            tempList.splice(i, 1);
-            this.deleteAppointment(row.ID);
-            break;
-          }
-        }
-        this.$message({
-          type: "success",
-          message: "删除成功!",
-        });
-      })
-      .catch(() => {
-        this.$message({
-          type: "info",
-          message: "已取消删除",
-        });
-      });
   },
   handleChange(index, row, type) {
     index;
@@ -287,74 +243,6 @@ export default {
   handleCurrentChange1(val) {
     this.currentRow = val;
     //this.$router.push('/Recorddescription')
-  },
-  handleCurrentChange2(val) {
-    this.currentRow = val;
-    this.$router.push({
-      name: "PendingWindow",
-      params: {
-        activityID: val.ID,
-      },
-    });
-  },
-  handleCurrentChange3(val) {
-    this.currentRow = val;
-    this.$router.push({
-      name: "RecordWindow",
-      params: {
-        activityID: val.ID,
-      },
-    });
-  },
-  handleCurrentChange4(val) {
-    this.currentRow = val;
-    this.$router.push({
-      name: "RejectedWindow",
-      params: {
-        activityID: val.ID,
-      },
-    });
-  },
-  dealWithActivities(data) {
-    console.log("run dealwithActivities", data);
-
-    for (var key in data) {
-      // console.log("key",key);
-      for (var i = 0; i < data[key].length; i++) {
-        // console.log(data[key][i]);
-        var temp = {
-          date: "2016-05-03",
-          name: "活动2",
-          groundname: "a楼",
-          ID: "11117",
-          participantNum: 40,
-          additionalRequest: "无",
-          description: "听数据库开会",
-          tag: "室外",
-          activityState: "审核中",
-        };
-        temp.ID = data[key][i].id;
-        temp.date = data[key][i].activityDate.split("T")[0];
-        temp.time = data[key][i].activityDate.split("T")[1];
-        temp.name = data[key][i].name;
-        temp.description = data[key][i].description;
-        temp.participantNum = data[key][i].participantNum;
-        temp.groupname = data[key][i].organizationName;
-        temp.groundname = data[key][i].groundName;
-        temp.additionalRequest = data[key][i].additionalRequest;
-        temp.activityState = data[key][i].activityState;
-        temp.tag = data[key][i].isGroundIndoor ? "室内" : "室外";
-        this.tableData[key].push(temp);
-      }
-    }
-
-    for (let j = 0; j < this.tableData["待反馈"].length; j++) {
-      this.tableData["已完成"].push(this.tableData["待反馈"][j]);
-    }
-    for (let j = 0; j < this.tableData["已反馈"].length; j++) {
-      this.tableData["已完成"].push(this.tableData["已反馈"][j]);
-    }
-    console.log(this.tableData);
   },
 };
 </script>
@@ -413,6 +301,7 @@ body {
 .el-card {
   border-radius: 15px;
   height: 100%;
+  overflow: auto;
 }
 
 .modify {
