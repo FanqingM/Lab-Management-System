@@ -3,13 +3,18 @@
     <el-card class="mycard">
       <div slot="header" class="clearfix">
         <el-row type="flex" align="middle">
-          <el-col :span="18">
+          <el-col :span="16">
             <span><b>用户管理</b></span>
           </el-col>
           <el-col :span="2" class="buttoncol">
-            <!-- <el-button size="medium" @click="addUser()" type="primary" plain
-              >添加用户</el-button
-            > -->
+            <router-link to="/admin/add-user">
+              <el-button size="medium" type="primary" plain>添加用户</el-button>
+            </router-link>
+          </el-col>
+          <el-col :span="2" class="buttoncol">
+            <router-link to="/admin/import-users">
+              <el-button size="medium" type="primary" plain>批量导入</el-button>
+            </router-link>
           </el-col>
           <el-col :span="4">
             <el-input

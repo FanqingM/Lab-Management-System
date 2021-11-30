@@ -249,6 +249,28 @@ const routes = [
             //     requireAuth: true,
             //     roles: ['student']
             // }
+        },
+        {
+            path: "add-user",
+            name: "AdminAddUser",
+            component: () =>
+                import('../pages/admin/AdminAddUser.vue'),
+            // meta: {
+            //     title: '个人信息',
+            //     requireAuth: true,
+            //     roles: ['student']
+            // }
+        },
+        {
+            path: "import-users",
+            name: "AdminImportUsers",
+            component: () =>
+                import('../pages/admin/AdminImportUsers.vue'),
+            // meta: {
+            //     title: '个人信息',
+            //     requireAuth: true,
+            //     roles: ['student']
+            // }
         }
         ]
     },
