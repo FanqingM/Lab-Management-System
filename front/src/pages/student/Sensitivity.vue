@@ -5,23 +5,37 @@
         <span><b>敏感性分析实验</b></span>
       </div>
       <el-row>
-        <el-col :span="6">
+        <el-col :span="4">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="步长(%)">
-              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5" :min="0.1"></el-input-number>
+              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5" :min="0.1" size="small"
+                               :disabled="disable"></el-input-number>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="14">
+        <el-col :span="10">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="变化范围">
-              <el-slider v-model="form.range" range :max="25" :min="-25">
+              <el-slider v-model="form.range" range :max="25" :min="-25" :disabled="disable">
               </el-slider>
             </el-form-item>
           </el-form>
         </el-col>
+        <el-col :span="3" align="middle">
+          <el-button @click="compute()" type="primary" :disabled="disable">确定步长</el-button>
+        </el-col>
         <el-col :span="4" align="middle">
-          <el-button @click="compute()" type="primary">确定</el-button>
+          <el-select v-model="selectedItem" placeholder="请选择">
+            <el-option
+                v-for="item in select"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3" align="middle">
+          <el-button @click="display()" type="primary" :disabled="!disable">计算</el-button>
         </el-col>
       </el-row>
       <div
@@ -34,14 +48,14 @@
           :header-row-style="{ height: '20px' }"
           :cell-style="{ padding: '5px' }"
           ref="filterTable1"
-          :data="tabledata"
+          :data="showedTableData"
           height=""
           stripe
           highlight-current-row
           style="width: 100%"
           :default-sort="{ prop: 'date', order: 'descending' }"
       >
-        <el-table-column prop="changeRate" label="变化率(%)"> </el-table-column>
+        <el-table-column prop="changeRate" label="变化率(%)"></el-table-column>
         <el-table-column label="不确定因素">
           <el-table-column prop="income" sortable label="营业收入">
           </el-table-column>
@@ -59,7 +73,7 @@
 
 <script>
 import store from "../../store/state";
-import { GETComputed } from "../../API/http";
+import {GETComputed} from "../../API/http";
 import * as echarts from "echarts";
 
 export default {
@@ -78,7 +92,30 @@ export default {
         range: [-15, 15],
       },
       chartData: [],
+      showedChartData:[],
       tabledata: [],
+      showedTableData: [],
+      selectedItem: null,
+      disable: false,
+      selected: [],
+      select: [
+        {
+          value: "营业收入",
+          label: "营业收入",
+        },
+        {
+          value: "建设投资",
+          label: "建设投资",
+        },
+        {
+          value: "运维成本",
+          label: "运维成本",
+        },
+        {
+          value: "人员成本",
+          label: "人员成本",
+        }
+      ]
     };
   },
 
@@ -97,51 +134,117 @@ export default {
     }
   },
   methods: {
+    display() {
+      if (this.selected.indexOf(this.selectedItem) == -1) {
+        this.showedTableData = [];
+        this.showedChartData = [];
+        this.selected.push(this.selectedItem);
+        console.log('select',this.selectedItem);
+        for (var i = 0; i < this.tabledata.length; i++) {
+          var tmp =
+              {
+                changeRate: null,
+                income: null,
+                investment: null,
+                operatingCost: null,
+                staffCost: null
+              };
+          var tmp1 =
+              {
+                changeRate: null,
+                income: null,
+                investment: null,
+                operatingCost: null,
+                staffCost: null
+              };
+          tmp.changeRate = this.tabledata[i].changeRate;
+          tmp1.changeRate = this.chartData[i].changeRate;
+          for (var j=0;j<this.selected.length;j++){
+            switch (this.selected[j]){
+              case "营业收入":
+                tmp1.income = this.chartData[i].income;
+                tmp.income = this.tabledata[i].income;
+                break;
+              case "建设投资":
+                tmp1.investment = this.chartData[i].investment;
+                tmp.investment = this.tabledata[i].investment;
+                break;
+              case "运维成本":
+                tmp1.operatingCost = this.chartData[i].operatingCost;
+                tmp.operatingCost = this.tabledata[i].operatingCost;
+                break;
+              case "人员成本":
+                tmp1.staffCost = this.chartData[i].staffCost;
+                tmp.staffCost = this.tabledata[i].staffCost;
+                break;
+              default:
+                tmp1 = this.chartData[i];
+                tmp = this.tabledata[i];
+            }
+          }
+          this.showedChartData.push(tmp1);
+          this.showedTableData.push(tmp);
+        }
+
+      }
+      this.myEcharts();
+      console.log('selected',this.selected);
+      console.log('showedChardata',this.showedChartData);
+      console.log('showedTabledata',this.showedTableData);
+    },
+    handle(event) {
+      this.value = event
+      console.log(event, this.value)
+    },
     compute() {
-      var params = [];
-      for (var i = 0; i > this.form.range[0]; i -= this.form.step) {
+      this.disable = true;
+      let i;
+      const params = [];
+      for (i = 0; i > this.form.range[0]; i -= this.form.step) {
         params.unshift(i * 0.01);
       }
       for (
-        var i = this.form.step;
-        i < this.form.range[1];
-        i += this.form.step
+          i = this.form.step;
+          i < this.form.range[1];
+          i += this.form.step
       ) {
         params.push(i * 0.01);
       }
       console.log("params: ", params);
       GETComputed(params)
-        .then((data) => {
-          console.log("data", data);
-          this.chartData = [];
-          this.tabledata = [];
-          for (var i = 0; i < data.length; ++i) {
-            this.chartData.push({
-              changeRate: params[i],
-              income: data[i][0],
-              investment: data[i][1],
-              operatingCost: data[i][2],
-              staffCost: data[i][3]
-            });
-            this.tabledata.push({
-              changeRate: Math.round(params[i] * 100000) / 1000 + '%',
-              income: Math.round(data[i][0] * 100000) / 1000 + '%',
-              investment: Math.round(data[i][1] * 100000) / 1000 + '%',
-              operatingCost: Math.round(data[i][2] * 100000) / 1000 + '%',
-              staffCost: Math.round(data[i][3] * 100000) / 1000 + '%'
-            });
-          }
-          this.myEcharts();
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$message("无法获取计算结果");
-        });
+          .then((data) => {
+            console.log("data", data);
+            this.chartData = [];
+            this.tabledata = [];
+            for (var i = 0; i < data.length; ++i) {
+              this.chartData.push({
+                changeRate: params[i]*100,
+                income: data[i][0],
+                investment: data[i][1],
+                operatingCost: data[i][2],
+                staffCost: data[i][3]
+              });
+              this.tabledata.push({
+                changeRate: Math.round(params[i] * 100000) / 1000 + '%',
+                income: Math.round(data[i][0] * 100000) / 1000 + '%',
+                investment: Math.round(data[i][1] * 100000) / 1000 + '%',
+                operatingCost: Math.round(data[i][2] * 100000) / 1000 + '%',
+                staffCost: Math.round(data[i][3] * 100000) / 1000 + '%'
+              });
+            }
+            console.log('tabledata', this.tabledata)
+            // this.myEcharts();
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$message("无法获取计算结果");
+          });
     },
+
     myEcharts() {
-      var option;
-      var chartDom = document.getElementById("linechart");
-      var myChart = echarts.init(chartDom);
+      let option;
+      const chartDom = document.getElementById("linechart");
+      const myChart = echarts.init(chartDom);
       option = {
         title: {
           text: "敏感性分析图",
@@ -199,13 +302,13 @@ export default {
         ],
       };
 
-      for (var item in this.chartData) {
+      for (var item in this.showedChartData) {
         // console.log(this.tabledata[item]);
-        option.xAxis.data.push(this.chartData[item].changeRate + '%');
-        option.series[0].data.push(this.chartData[item].income);
-        option.series[1].data.push(this.chartData[item].investment);
-        option.series[2].data.push(this.chartData[item].operatingCost);
-        option.series[3].data.push(this.chartData[item].staffCost);
+        option.xAxis.data.push(this.showedChartData[item].changeRate + '%');
+        option.series[0].data.push(this.showedChartData[item].income);
+        option.series[1].data.push(this.showedChartData[item].investment);
+        option.series[2].data.push(this.showedChartData[item].operatingCost);
+        option.series[3].data.push(this.showedChartData[item].staffCost);
       }
 
       console.log("option", option);
