@@ -4,33 +4,43 @@
       <div slot="header" class="clearfix">
         <span><b>敏感性分析实验</b></span>
       </div>
-      <el-row >
-        <el-col span="6" style="background-color: #42b983">
+      <el-row>
+        <el-col :span="4">
           <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="步长">
-              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5"></el-input-number>
+            <el-form-item label="步长(%)">
+              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5" :min="0.1" size="small"
+                               :disabled="disable"></el-input-number>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col span="14" style="background-color: #cf0c0c">
+        <el-col :span="10">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="变化范围">
-              <el-slider
-                  v-model="form.range"
-                  range
-                  :max="25"
-                  :min="-25">
+              <el-slider v-model="form.range" range :max="25" :min="-25" :disabled="disable">
               </el-slider>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col span="4">
-          <el-button @click="compute()">确定</el-button>
+        <el-col :span="3" align="middle">
+          <el-button @click="compute()" type="primary" :disabled="disable">确定步长</el-button>
+        </el-col>
+        <el-col :span="4" align="middle">
+          <el-select v-model="selectedItem" placeholder="请选择">
+            <el-option
+                v-for="item in select"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3" align="middle">
+          <el-button @click="display()" type="primary" :disabled="!disable">计算</el-button>
         </el-col>
       </el-row>
       <div
           id="linechart"
-          style="width: 1300px; height: 250px"
+          style="width: 100%; height: 250px"
       ></div>
       <el-divider></el-divider>
       <el-table
@@ -38,16 +48,14 @@
           :header-row-style="{ height: '20px' }"
           :cell-style="{ padding: '5px' }"
           ref="filterTable1"
-          :data="tabledata"
-          height="465"
+          :data="showedTableData"
+          height=""
           stripe
           highlight-current-row
-          @current-change="handleCurrentChange1"
           style="width: 100%"
           :default-sort="{ prop: 'date', order: 'descending' }"
       >
-        <el-table-column prop="changeRate" label="变化率(%)">
-        </el-table-column>
+        <el-table-column prop="changeRate" label="变化率(%)"></el-table-column>
         <el-table-column label="不确定因素">
           <el-table-column prop="income" sortable label="营业收入">
           </el-table-column>
@@ -65,129 +73,284 @@
 
 <script>
 import store from "../../store/state";
-import {
-  GETLabs,
-} from "../../API/http";
-import * as echarts from 'echarts';
+import {GETComputed} from "../../API/http";
+import * as echarts from "echarts";
 
 export default {
   //  components: {
   //     FeedbackDialog,
   //  },
   mounted() {
-    this.myEcharts();
+    var chartDom = document.getElementById("linechart");
+    var myChart = echarts.init(chartDom);
   },
   data() {
     return {
+      loading: "",
       form: {
-        step: 0.6,
+        step: 2,
         range: [-15, 15],
       },
-
-      tabledata: [
+      chartData: [],
+      showedChartData:[],
+      tabledata: [],
+      showedTableData: [],
+      selectedItem: null,
+      disable: false,
+      selected: [],
+      select: [
         {
-          changeRate: -15,
-          income: -29.77,
-          investment: 24.98,
-          operatingCost: 24.40,
-          staffCost: 49.42
+          value: "营业收入",
+          label: "营业收入",
         },
         {
-          changeRate: 0,
-          income: 19.85,
-          investment: 19.85,
-          operatingCost: 19.85,
-          staffCost: 19.85
+          value: "建设投资",
+          label: "建设投资",
         },
         {
-          changeRate: 15,
-          income: 57.11,
-          investment: 15.70,
-          operatingCost: 15.23,
-          staffCost: -13.57
-        }],
-
+          value: "运维成本",
+          label: "运维成本",
+        },
+        {
+          value: "人员成本",
+          label: "人员成本",
+        }
+      ]
     };
   },
+
+  watch: {
+    form: {
+      handler(newVal) {
+        if (newVal.range[0] > 0) {
+          this.form.range[0] = 0;
+        }
+        if (newVal.range[1] < 0) {
+          this.form.range[1] = 0;
+        }
+      },
+      deep: true,
+      immediate: true,
+    }
+  },
   methods: {
-    compute(){
+    display() {
+      if (this.selected.indexOf(this.selectedItem) == -1) {
+        this.showedTableData = [];
+        this.showedChartData = [];
+        this.selected.push(this.selectedItem);
+        console.log('select',this.selectedItem);
+        for (var i = 0; i < this.tabledata.length; i++) {
+          var tmp =
+              {
+                changeRate: null,
+                income: null,
+                investment: null,
+                operatingCost: null,
+                staffCost: null
+              };
+          var tmp1 =
+              {
+                changeRate: null,
+                income: null,
+                investment: null,
+                operatingCost: null,
+                staffCost: null
+              };
+          tmp.changeRate = this.tabledata[i].changeRate;
+          tmp1.changeRate = this.chartData[i].changeRate;
+          for (var j=0;j<this.selected.length;j++){
+            switch (this.selected[j]){
+              case "营业收入":
+                tmp1.income = this.chartData[i].income;
+                tmp.income = this.tabledata[i].income;
+                break;
+              case "建设投资":
+                tmp1.investment = this.chartData[i].investment;
+                tmp.investment = this.tabledata[i].investment;
+                break;
+              case "运维成本":
+                tmp1.operatingCost = this.chartData[i].operatingCost;
+                tmp.operatingCost = this.tabledata[i].operatingCost;
+                break;
+              case "人员成本":
+                tmp1.staffCost = this.chartData[i].staffCost;
+                tmp.staffCost = this.tabledata[i].staffCost;
+                break;
+              default:
+                tmp1 = this.chartData[i];
+                tmp = this.tabledata[i];
+            }
+          }
+          this.showedChartData.push(tmp1);
+          this.showedTableData.push(tmp);
+        }
 
+      }
+      this.myEcharts();
+      console.log('selected',this.selected);
+      console.log('showedChardata',this.showedChartData);
+      console.log('showedTabledata',this.showedTableData);
     },
-    myEcharts() {
-      var chartDom = document.getElementById('linechart');
-      var myChart = echarts.init(chartDom);
-      var option;
+    handle(event) {
+      this.value = event
+      console.log(event, this.value)
+    },
+    compute() {
+      this.disable = true;
+      let i;
+      const params = [];
+      for (i = 0; i > this.form.range[0]; i -= this.form.step) {
+        params.unshift(i * 0.01);
+      }
+      for (
+          i = this.form.step;
+          i < this.form.range[1];
+          i += this.form.step
+      ) {
+        params.push(i * 0.01);
+      }
+      console.log("params: ", params);
+      GETComputed(params)
+          .then((data) => {
+            console.log("data", data);
+            this.chartData = [];
+            this.tabledata = [];
+            for (var i = 0; i < data.length; ++i) {
+              this.chartData.push({
+                changeRate: params[i]*100,
+                income: data[i][0],
+                investment: data[i][1],
+                operatingCost: data[i][2],
+                staffCost: data[i][3]
+              });
+              this.tabledata.push({
+                changeRate: Math.round(params[i] * 100000) / 1000 + '%',
+                income: Math.round(data[i][0] * 100000) / 1000 + '%',
+                investment: Math.round(data[i][1] * 100000) / 1000 + '%',
+                operatingCost: Math.round(data[i][2] * 100000) / 1000 + '%',
+                staffCost: Math.round(data[i][3] * 100000) / 1000 + '%'
+              });
+            }
+            console.log('tabledata', this.tabledata)
+            // this.myEcharts();
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$message("无法获取计算结果");
+          });
+    },
 
+    myEcharts() {
+      let option;
+      const chartDom = document.getElementById("linechart");
+      const myChart = echarts.init(chartDom);
       option = {
         title: {
-          text: 'Stacked Line'
+          text: "敏感性分析图",
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: "axis",
         },
         legend: {
-          data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+          data: ["营业收入", "建设投资", "运维成本", "人员成本"],
         },
         grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true,
         },
         toolbox: {
           feature: {
-            saveAsImage: {}
-          }
+            saveAsImage: {},
+          },
         },
         xAxis: {
-          type: 'category',
+          type: "category",
           boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: [],
         },
         yAxis: {
-          type: 'value'
+          type: "value",
         },
         series: [
           {
-            name: 'Email',
-            type: 'line',
-            stack: 'Total',
-            data: [120, 132, 101, 134, 90, 230, 210]
+            name: "营业收入",
+            type: "line",
+            stack: "Total",
+            data: [],
           },
           {
-            name: 'Union Ads',
-            type: 'line',
-            stack: 'Total',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            name: "建设投资",
+            type: "line",
+            stack: "Total",
+            data: [],
           },
           {
-            name: 'Video Ads',
-            type: 'line',
-            stack: 'Total',
-            data: [150, 232, 201, 154, 190, 330, 410]
+            name: "运维成本",
+            type: "line",
+            stack: "Total",
+            data: [],
           },
           {
-            name: 'Direct',
-            type: 'line',
-            stack: 'Total',
-            data: [320, 332, 301, 334, 390, 330, 320]
+            name: "人员成本",
+            type: "line",
+            stack: "Total",
+            data: [],
           },
-          {
-            name: 'Search Engine',
-            type: 'line',
-            stack: 'Total',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
-          }
-        ]
+        ],
       };
 
+      for (var item in this.showedChartData) {
+        // console.log(this.tabledata[item]);
+        option.xAxis.data.push(this.showedChartData[item].changeRate + '%');
+        option.series[0].data.push(this.showedChartData[item].income);
+        option.series[1].data.push(this.showedChartData[item].investment);
+        option.series[2].data.push(this.showedChartData[item].operatingCost);
+        option.series[3].data.push(this.showedChartData[item].staffCost);
+      }
+
+      console.log("option", option);
+
       option && myChart.setOption(option);
-    }
+    },
+  },
+  handleClick(tab, event) {
+    console.log(tab, event);
+  },
+  filterTag(value, row) {
+    return row.tag === value;
+  },
+  formatter(row) {
+    return row.groundname;
+  },
+  handleChange(index, row, type) {
+    index;
+    type;
+    this.$router.push({
+      name: "ApplySiteWindow",
+      query: {
+        activityID: row.ID,
+      },
+    });
+  },
+  handleFeedback(row) {
+    console.log(row);
+    this.feedbackVisible = true;
+    this.feedbackRow = row;
+  },
+  handleRenew(index, row) {
+    console.log(index, row);
+  },
+  handleCurrentChange1(val) {
+    this.currentRow = val;
+    //this.$router.push('/Recorddescription')
   },
 };
 </script>
 
-<style>
+<style scpoed>
 .el-dialog {
   border-radius: 12px;
 }
@@ -205,10 +368,12 @@ export default {
 .clearfix {
   font-size: 18px;
 }
-</style>
-<style scoped>
+
+html,
 body {
-  margin: 0;
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
 }
 
 .page {
@@ -239,6 +404,7 @@ body {
 .el-card {
   border-radius: 15px;
   height: 100%;
+  overflow: auto;
 }
 
 .modify {

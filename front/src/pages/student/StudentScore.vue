@@ -9,7 +9,6 @@
         v-loading="loading"
         :header-row-style="{ height: '20px' }"
         :cell-style="{ padding: '5px' }"
-        ref="filterTable1"
         :data="tableData"
         height="465"
         stripe
@@ -27,13 +26,15 @@
           <template slot-scope="scope">
             <router-link
               :to="{
-                name: 'StudentFinishedReport',
-                params: { ID: scope.row.labId },
+                path: '/student/finished-report',
+                query: {
+                  courseId: scope.row.courseId,
+                  sectionId: scope.row.sectionId,
+                  labId: scope.row.labId
+                },
               }"
             >
-              <el-button @click="handleClick(scope.row)" type="text"
-                >查看详情</el-button
-              >
+              <el-button @click="handleClick(scope.row)" type="text">查看详情</el-button>
             </router-link>
           </template>
         </el-table-column>
@@ -62,12 +63,7 @@ export default {
         console.log("data", data);
         for (var i = 0; i < data.length; ++i) {
           if (data[i].grades != null && data[i].grades !== 0) {
-            this.tableData.push({
-              labId: data[i].labId,
-              labName: data[i].labName,
-              grades: data[i].grades,
-              date: "2021/11/1",
-            });
+            this.tableData.push(data[i]);
           }
         }
       })

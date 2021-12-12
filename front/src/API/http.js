@@ -1,11 +1,13 @@
 /**   
  * api接口统一管理
  */
-import { Get, Post, DeleteID, PutID, GetID, Delete, Put } from './config'
+import { Get, Post, DeleteID, PutID, GetID, GetList, Delete, Put } from './config'
 
 
 //只有id可以直接传入 例如"1000007"  其他必须作为对象传入 例如{"accountNumber:1000001"}
 
+/*Compute*/
+export const GETComputed = param => GetList('/compute/compute', param);
 
 /*Labs*/
 export const GETLab = param => Get('/lab/findOne', param); //ok

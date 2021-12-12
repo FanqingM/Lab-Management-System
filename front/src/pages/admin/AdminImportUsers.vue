@@ -2,52 +2,18 @@
   <div style="height: 100%">
     <el-card style="height: 100%">
       <div slot="header" class="clearfix">
-        <span><b>添加用户</b></span>
+        <span><b>导入用户列表</b></span>
       </div>
-      <el-form
-        ref="ruleForm"
-        :rules="rules"
-        :model="ruleForm"
-        label-width="100px"
-        style="width: 500px"
-        :hide-required-asterisk="true"
-      >
-        <el-form-item label="类型：">
-          <el-select v-model="ruleForm.type" placeholder="选择要创建的账户类型">
-            <el-option label="学生" value="student"></el-option>
-            <el-option label="教师" value="instructor"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="账号：" prop="id">
-          <el-input v-model="ruleForm.id"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名：" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="学院：" prop="schoolName">
-          <el-select v-model="ruleForm.schoolName" placeholder="请选择学院">
-            <el-option label="软件学院" value="软件学院"></el-option>
-            <el-option label="土木工程学院" value="土木工程学院"></el-option>
-            <el-option
-              label="经济与管理学院"
-              value="经济与管理学院"
-            ></el-option>
-            <el-option label="数学科学学院" value="数学科学学院"></el-option>
-            <el-option label="汽车学院" value="汽车学院"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="邮箱：" prop="email">
-          <el-input v-model="ruleForm.email"></el-input>
-        </el-form-item>
-        <el-form-item
-          v-if="ruleForm.type == 'student'"
-          label="班级："
-          prop="classnum"
-        >
-          <el-input v-model="ruleForm.classnum"></el-input>
-        </el-form-item>
-      </el-form>
-      <el-row style="width: 500px">
+      <el-upload
+       style="width: 600px; margin: 50px"
+        drag
+        action="https://jsonplaceholder.typicode.com/posts/"
+        multiple>
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip">只能上传xlsx文件，且不超过500kb</div>
+      </el-upload>
+      <el-row style="width: 600px; margin: 50px">
         <el-col :span="3" :offset="8">
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         </el-col>
@@ -119,25 +85,6 @@ export default {
         name: "",
         classnum: "",
         schoolName: "",
-      },
-
-      rules: {
-        id: [
-          { required: true, message: "请输入账号", trigger: "blur" },
-          {
-            type: "number",
-            message: "账号必须为7位数字",
-            trigger: "blur",
-            min: 1000000,
-            max: 9999999,
-          },],
-        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        classnum: [{ required: true, message: "请输入班级", trigger: "blur" }],
-        email: [
-          { required: true, message: "请输入邮箱", trigger: "change" },
-          { type: "email", message: "请输入正确的邮箱", trigger: "change" },
-        ],
-        schoolName: [{ required: true, message: "请选择学院", trigger: "change" },]
       },
       colleges: [
         {

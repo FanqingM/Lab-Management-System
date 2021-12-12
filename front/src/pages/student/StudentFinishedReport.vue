@@ -3,23 +3,24 @@
     <div slot="header" class="clearfix">
       <span><b>实验报告</b></span>
     </div>
-    <p><b>实验目的:</b>{{ reportForm.purpose }}</p>
-    <p><b>实验原理:</b>{{ reportForm.principal }}</p>
-    <p><b>实验步骤:</b>{{ reportForm.progress }}</p>
-    <p><b>得分</b>{{ reportForm.grades }}</p>
+    <p><b>实验目的：</b>{{ reportForm.purpose }}</p>
+    <p><b>实验原理：</b>{{ reportForm.principle }}</p>
+    <p><b>实验步骤：</b>{{ reportForm.progress }}</p>
+    <p><b>得分：</b>{{ reportForm.grades }}</p>
     <el-button size="medium" type="primary" @click="back">返回</el-button>
   </el-card>
 </template>
 
 <script scoped>
 import store from "../../store/state";
-import {GETLab, GETOneReport, PUTReport} from "../../API/http";
+import {GETOneReport} from "../../API/http";
 
 export default {
   created() {
-    console.log(this.$route.params);
-    GETOneReport(this.$router.params).then((data) => {
-      console.log(data);
+    var params = this.$route.query;
+    params['studentId'] = store.state.id;
+    GETOneReport(params).then((data) => {
+      console.log("data**", data);
       this.reportForm = data;
       console.log("report", this.reportForm);
     }).catch((err) => {
@@ -36,9 +37,9 @@ export default {
         labId: "string",
         url: "string",
         grades: 0,
-        purpose: "string",
-        progress: "string",
-        principle: "string"
+        purpose: "",
+        progress: "",
+        principle: ""
       },
       labId: this.$route.params.ID,
       lab: {

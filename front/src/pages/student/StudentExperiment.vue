@@ -32,9 +32,7 @@
                     params: { labId: scope.row.labId },
                   }"
                 >
-                  <el-button @click="handleClick(scope.row)" type="text"
-                    >完成报告</el-button
-                  >
+                  <el-button @click="handleClick(scope.row)" type="text">完成报告</el-button>
                 </router-link>
               </template>
             </el-table-column>
@@ -42,53 +40,46 @@
         </el-tab-pane>
         <el-tab-pane label="已完成" name="second">
           <el-table
+            v-loading="loading"
             :header-row-style="{ height: '20px' }"
             :cell-style="{ padding: '5px' }"
-            v-loading="loading"
-            ref="filterTable2"
             :data="finished"
             height="465"
             stripe
             highlight-current-row
-            @current-change="handleCurrentChange2"
+            @current-change="handleCurrentChange1"
             style="width: 100%"
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
-            <el-table-column prop="labName" label="实验名称">
-            </el-table-column>
+            <el-table-column prop="labName" label="实验名称"> </el-table-column>
             <el-table-column prop="date" sortable label="实验时间">
-            </el-table-column>
-            <el-table-column prop="due" sortable label="截止时间">
             </el-table-column>
             <el-table-column
               prop="status"
               label="状态"
             >
-              <!-- <template slot-scope="scope1">
+              <template slot-scope="scope">
                 <el-tag
-                  :type="tagType[scope1.row.activityState]"
+                  :type="scope.row.grades != 0 ? 'success' : 'primary'"
                   disable-transitions
                 >
-                  未批改
+                  {{ scope.row.grades != 0 ? '已批改' : '未批改' }}
                 </el-tag>
-              </template> -->
+              </template>
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <router-link
                   :to="{
-                    name: 'StudentFinishedReport',
-                    params: {
-                      studentId: store.state.id,
+                    path: '/student/finished-report',
+                    query: {
                       courseId: scope.row.courseId,
                       sectionId: scope.row.sectionId,
                       labId: scope.row.labId
                     },
                   }"
                 >
-                  <el-button @click="handleClick(scope.row)" type="text"
-                    >查看</el-button
-                  >
+                  <el-button type="text">查看详情</el-button>
                 </router-link>
               </template>
             </el-table-column>
@@ -116,14 +107,7 @@ export default {
         console.log("data", data);
         for (var i = 0; i < data.length; ++i) {
           if (data[i].grades != null) {
-            this.finished.push({
-              labId: data[i].labId,
-              labName: data[i].labName,
-              grades: data[i].grades,
-              date: "2021/11/1",
-              due: "2021/11/8",
-              status: (data[i].grades === 0) ? "未评分" : "已评分"
-            });
+            this.finished.push(data[i]);
           }
           else {
             this.unfinished.push({
@@ -173,9 +157,6 @@ export default {
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
     filterTag(value, row) {
       return row.tag === value;
     },
@@ -261,47 +242,6 @@ export default {
           activityID: val.ID,
         },
       });
-    },
-    dealWithActivities(data) {
-      console.log("run dealwithActivities", data);
-
-      for (var key in data) {
-        // console.log("key",key);
-        for (var i = 0; i < data[key].length; i++) {
-          // console.log(data[key][i]);
-          var temp = {
-            date: "2016-05-03",
-            name: "活动2",
-            groundname: "a楼",
-            ID: "11117",
-            participantNum: 40,
-            additionalRequest: "无",
-            description: "听数据库开会",
-            tag: "室外",
-            activityState: "审核中",
-          };
-          temp.ID = data[key][i].id;
-          temp.date = data[key][i].activityDate.split("T")[0];
-          temp.time = data[key][i].activityDate.split("T")[1];
-          temp.name = data[key][i].name;
-          temp.description = data[key][i].description;
-          temp.participantNum = data[key][i].participantNum;
-          temp.groupname = data[key][i].organizationName;
-          temp.groundname = data[key][i].groundName;
-          temp.additionalRequest = data[key][i].additionalRequest;
-          temp.activityState = data[key][i].activityState;
-          temp.tag = data[key][i].isGroundIndoor ? '室内' : '室外';
-          this.tableData[key].push(temp);
-        }
-      }
-
-      for (let j = 0; j < this.tableData["待反馈"].length; j++) {
-        this.tableData["已完成"].push(this.tableData["待反馈"][j]);
-      }
-      for (let j = 0; j < this.tableData["已反馈"].length; j++) {
-        this.tableData["已完成"].push(this.tableData["已反馈"][j]);
-      }
-      console.log(this.tableData);
     },
   },
   computed: {

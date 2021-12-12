@@ -2,7 +2,7 @@ import axios from "axios";
 //import store from "../state/state"
 import router from "../router/index"
 import { Message } from 'element-ui';
-//import QS from 'qs'
+import qs from 'qs'
 
 // 环境切换//https://7c49c50e-d356-412d-aace-8a782ce092f3.mock.pstmn.io
 if (process.env.NODE_ENV == 'development') {
@@ -102,6 +102,27 @@ export function Get(url, params) {
         axios.get(url, {
             params: params
         }).then(res => {
+            resolve(res.data);
+        }).catch(err => {
+            reject(err)
+        })
+    });
+}
+
+/**
+ * get方法，对应get请求
+ * @param {String} url [请求的url地址]
+ * @param {Array} params [请求时携带的参数]
+ * @returns {Promise}
+ */
+
+ export function GetList(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.get(url, {
+            params: {list: params},
+            paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' })
+        }).then(res => {
+            console.log(res.data);
             resolve(res.data);
         }).catch(err => {
             reject(err)
