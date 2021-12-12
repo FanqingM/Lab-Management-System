@@ -40,7 +40,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
             unactivatedAccountMapper.deleteByPrimaryKey(Id);
             TeacherAccount teacherAccount = new TeacherAccount(unactivatedAccount.getId(),unactivatedAccount.getEmail(),unactivatedAccount.getPassword());
             teacherAccountMapper.insert(teacherAccount);
-            Teacher teacher = new Teacher(unactivatedAccount.getId(),unactivatedAccount.getName(),null,false);
+            Teacher teacher = new Teacher(unactivatedAccount.getId(),unactivatedAccount.getName(),null);
             teacherMapper.insert(teacher);
         }
         if(unactivatedAccount.getIsTeacher() == true && unactivatedAccount.getIsSeniorTercher() == true)
@@ -48,7 +48,7 @@ public class UnactivatedAccountServiceImpl implements UnactivatedAccountService{
             unactivatedAccountMapper.deleteByPrimaryKey(Id);
             TeacherAccount teacherAccount = new TeacherAccount(unactivatedAccount.getId(),unactivatedAccount.getEmail(),unactivatedAccount.getPassword());
             teacherAccountMapper.insert(teacherAccount);
-            Teacher teacher = new Teacher(unactivatedAccount.getId(),unactivatedAccount.getName(),null,true);
+            Teacher teacher = new Teacher(unactivatedAccount.getId(),unactivatedAccount.getName(),null);
             teacherMapper.insert(teacher);
         }
         return 1;

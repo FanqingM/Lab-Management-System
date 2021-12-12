@@ -20,6 +20,14 @@
     <result property="Name" column="NAME"/>
     <result property="schoolName" column="SCHOOL_NAME"/>
   </resultMap>
+
+  <resultMap id="CourseDTOMap" type="com.se.dto.CourseDTO">
+    <result property="courseId" column="COURSE_ID"/>
+    <result property="sectionId" column="SECTION_ID"/>
+    <result property="semeter" column="SEMETER"/>
+    <result property="year" column="YEAR"/>
+    <result property="courseName" column="COURSENAME"/>
+  </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -33,6 +41,11 @@
   <select id="selectAllStudents" resultMap="StudentDTOMap">
     select distinct STUDENT.ID,STUDENT.NAME,STUDENT.SCHOOL_NAME
     from STUDENT
+  </select>
+
+  <select id="selectAllCourses" resultMap="StudentDTOMap">
+    select distinct SECTION.COURSE_ID,SECTION.SECTION_ID,SECTION.SEMETER,SECTION.YEAR,COURSE.COURSENAME
+    from
   </select>
 
 
