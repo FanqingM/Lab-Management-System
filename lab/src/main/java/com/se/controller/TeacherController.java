@@ -1,9 +1,6 @@
 package com.se.controller;
 
-import com.se.dto.CourseDTO;
-import com.se.dto.CourseINOTeacher;
-import com.se.dto.StudentDTO;
-import com.se.dto.TeacherDTO;
+import com.se.dto.*;
 import com.se.entity.AdministratorAccount;
 import com.se.entity.Teacher;
 import com.se.entity.TeacherAccount;
@@ -39,11 +36,11 @@ public class TeacherController {
     }
 
     @PostMapping("/add")
-    public String add(@RequestBody Teacher teacher){
+    public String add(@RequestBody TeacherINO teacherINO){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
 //        System.out.println(employee.getEmail());
-        int res = teacherService.insert(teacher);
+        int res = teacherService.insert(teacherINO);
         //回到员工列表页面，可以使用redirect或者forward
         return Integer.toString(res);
     }
