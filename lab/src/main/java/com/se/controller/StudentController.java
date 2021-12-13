@@ -1,5 +1,7 @@
 package com.se.controller;
 
+import com.se.dto.CourseDTO;
+import com.se.dto.CourseINO;
 import com.se.dto.StudentDTO;
 import com.se.entity.AdministratorAccount;
 import com.se.entity.Student;
@@ -20,6 +22,11 @@ public class StudentController {
     @GetMapping("findAll")
     public List<StudentDTO> selectAllStudents() {
         List<StudentDTO> res = studentService.selectAllStudents();
+        return res;
+    }
+    @GetMapping("findAllCourses")
+    public List<CourseDTO> selectAllCourses(CourseINO courseINO) {
+        List<CourseDTO> res = studentService.selectAllCourses(courseINO);
         return res;
     }
     @GetMapping("findOne")

@@ -1,5 +1,7 @@
 package com.se.mapper;
 
+import com.se.dto.CourseDTO;
+import com.se.dto.CourseINOTeacher;
 import com.se.dto.StudentDTO;
 import com.se.dto.TeacherDTO;
 import com.se.entity.Teacher;
@@ -18,6 +20,7 @@ public interface TeacherMapper {
      *
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
+    List<CourseDTO> selectAllCourses(CourseINOTeacher courseINOTeacher);
     int deleteByPrimaryKey(String id);
 
     /**

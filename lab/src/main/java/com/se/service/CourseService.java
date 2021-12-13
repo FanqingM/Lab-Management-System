@@ -1,5 +1,6 @@
 package com.se.service;
 
+import com.se.dto.CoursePutINO;
 import com.se.entity.Course;
 
 public interface CourseService {
@@ -50,4 +51,6 @@ public interface CourseService {
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     int updateByPrimaryKey(Course record);
+
+    int updateTeacher(CoursePutINO coursePutINO);
 }

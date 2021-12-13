@@ -1,5 +1,6 @@
 package com.se.controller;
 
+import com.se.dto.CoursePutINO;
 import com.se.entity.AdministratorAccount;
 import com.se.entity.Course;
 import com.se.service.CourseService;
@@ -35,6 +36,13 @@ public class CourseController {
         return course;
     }
 
+    @PutMapping("/updateTeacher")
+    public CoursePutINO updateTeacher(@RequestBody CoursePutINO coursePutINO){
+        courseService.updateTeacher(coursePutINO);
+        //回到员工列表页面
+        return coursePutINO;
+    }
+//    public int updateTeacher(CoursePutINO coursePutINO)
     @DeleteMapping("/delete/{id}")
     public String deleteCourse(@PathVariable("id")String id){
         //根据id删除员工

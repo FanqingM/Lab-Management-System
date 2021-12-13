@@ -1,5 +1,6 @@
 package com.se.service;
 
+import com.se.dto.CoursePutINO;
 import com.se.entity.Course;
 import com.se.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,16 @@ import org.springframework.stereotype.Service;
 public class CourseServiceImpl implements CourseService{
     @Autowired
     private CourseMapper courseMapper;
+    @Override
+    public int updateTeacher(CoursePutINO coursePutINO) {
+        Course course = new Course();
+        course.setTeacherId(coursePutINO.getTeacherId());
+        course.setId(coursePutINO.getCourseId());
+        Course course2 = courseMapper.selectByPrimaryKey(coursePutINO.getCourseId());
+        course.setName(course2.getName());
+        course.setCredits(course2.getCredits());
+        return courseMapper.updateByPrimaryKey(course);
+    }
     @Override
     public int deleteByPrimaryKey(String id) {
         return courseMapper.deleteByPrimaryKey(id);
