@@ -44,7 +44,8 @@ export const GETFeedbackRecordsID = ID => GetID('/api/FeedbackRecords/', ID) //o
     // export const PUTFeedbackRecordsID = (ID, param) => PutID('/api/FeedbackRecords/', ID, param); 
 export const DELETEFeedbackRecordsID = ID => DeleteID('/api/FeedbackRecords/', ID); //ok
 
-
+// Courses
+export const GETCoursesByStudentID = params => Get('/student/findAllCourses', params);
 
 // IndoorGrounds
 export const GETIndoorGrounds = param => Get('/api/IndoorGrounds', param) //ok
