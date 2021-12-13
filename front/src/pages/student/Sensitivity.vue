@@ -58,6 +58,14 @@
         <el-table-column prop="changeRate" label="变化率(%)"></el-table-column>
         <el-table-column label="不确定因素">
           <el-table-column prop="income" sortable label="营业收入">
+<!--            <template slot-scope="scope">-->
+<!--              <el-tag-->
+<!--                  :type="scope.row.grades != 0 ? 'success' : 'primary'"-->
+<!--                  disable-transitions-->
+<!--              >-->
+<!--                {{ scope.row.grades != 0 ? '已批改' : '未批改' }}-->
+<!--              </el-tag>-->
+<!--            </template>-->
           </el-table-column>
           <el-table-column prop="investment" sortable label="建设投资">
           </el-table-column>
