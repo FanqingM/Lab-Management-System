@@ -4,6 +4,8 @@ import com.se.dto.CourseDTO;
 import com.se.dto.CourseINO;
 import com.se.dto.StudentDTO;
 import com.se.entity.Student;
+import com.se.entity.StudentAccount;
+import com.se.mapper.StudentAccountMapper;
 import com.se.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService{
     @Autowired
     private StudentMapper studentMapper;
+    @Autowired
+    private StudentAccountMapper studentAccountMapper;
     @Override
     public int deleteByPrimaryKey(String id) {
         return studentMapper.deleteByPrimaryKey(id);
@@ -33,6 +37,11 @@ public class StudentServiceImpl implements StudentService{
      */
     @Override
     public int insert(Student record) {
+        StudentAccount studentAccount = new StudentAccount();
+        studentAccount.setEmail(record.getEmail());
+        studentAccount.setId(record.getId());
+        studentAccount.setPassword(record.getId());
+        studentAccountMapper.insert(studentAccount);
         return studentMapper.insert(record);
     }
 

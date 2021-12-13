@@ -3,7 +3,10 @@ package com.se.service;
 import com.se.dto.CourseDTO;
 import com.se.dto.CourseINOTeacher;
 import com.se.dto.TeacherDTO;
+import com.se.dto.TeacherINO;
 import com.se.entity.Teacher;
+import com.se.entity.TeacherAccount;
+import com.se.mapper.TeacherAccountMapper;
 import com.se.mapper.TeacherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,8 @@ import java.util.List;
 public class TeacherServiceImpl implements TeacherService{
     @Autowired
     private TeacherMapper teacherMapper;
+    @Autowired
+    private TeacherAccountMapper teacherAccountMapper;
     @Override
     public int deleteByPrimaryKey(String id) {
         return teacherMapper.deleteByPrimaryKey(id);
@@ -34,8 +39,18 @@ public class TeacherServiceImpl implements TeacherService{
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
     @Override
-    public int insert(Teacher record) {
-        return teacherMapper.insert(record);
+    public int insert(TeacherINO teacherINO) {
+
+        Teacher teacher = new Teacher();
+        teacher.setId(teacherINO.getId());
+        teacher.setName(teacherINO.getName());
+        teacher.setSchoolName(teacherINO.getSchoolName());
+        TeacherAccount teacherAccount = new TeacherAccount();
+        teacherAccount.setEmail(teacherINO.getEmail());
+        teacherAccount.setPassword(teacherINO.getId());
+        teacherAccount.setId(teacherINO.getId());
+        teacherAccountMapper.insert(teacherAccount);
+        return teacherMapper.insert(teacher);
     }
 
     /**
