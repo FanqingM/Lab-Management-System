@@ -1,5 +1,7 @@
 package com.se.controller;
 
+import com.se.dto.CourseDTO;
+import com.se.dto.CourseINOTeacher;
 import com.se.dto.StudentDTO;
 import com.se.dto.TeacherDTO;
 import com.se.entity.AdministratorAccount;
@@ -24,6 +26,12 @@ public class TeacherController {
         List<TeacherDTO> res = teacherService.selectAllTeachers();
         return res;
     }
+    @GetMapping("findAllCourses")
+    public List<CourseDTO> selectAllCourses(CourseINOTeacher courseINOTeacher) {
+        List<CourseDTO> res = teacherService.selectAllCourses(courseINOTeacher);
+        return res;
+    }
+
     @GetMapping("findOne")
     public Teacher findOne(String id) {
         Teacher teacher = teacherService.selectByPrimaryKey(id);

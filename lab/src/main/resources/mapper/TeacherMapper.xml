@@ -18,6 +18,15 @@
     <result property="Name" column="NAME"/>
     <result property="schoolName" column="SCHOOL_NAME"/>
   </resultMap>
+
+  <resultMap id="CourseDTOMap" type="com.se.dto.CourseDTO">
+    <result property="courseId" column="COURSE_ID"/>
+    <result property="sectionId" column="SECTION_ID"/>
+    <result property="semeter" column="SEMETER"/>
+    <result property="year" column="YEAR"/>
+    <result property="courseName" column="COURSENAME"/>
+  </resultMap>
+
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
@@ -30,6 +39,13 @@
   <select id="selectAllTeachers" resultMap="TeacherDTOMap">
     select distinct TEACHER.ID,TEACHER.NAME,TEACHER.SCHOOL_NAME
     from TEACHER
+  </select>
+
+  <select id="selectAllCourses" parameterType="com.se.dto.CourseINOTeacher" resultMap="CourseDTOMap">
+    select SECTION.COURSE_ID,SECTION.SECTION_ID,SECTION.SEMETER,SECTION.YEAR,COURSE.COURSENAME
+    from SECTION,COURSE
+    where SECTION.TERCHER_ID = #{teacherId,jdbcType=VARCHAR} and SECTION.SEMETER = #{semeter,jdbcType=BIT} and SECTION.YEAR = #{year,jdbcType=VARCHAR}
+    and SECTION.COURSE_ID = COURSE.ID
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
