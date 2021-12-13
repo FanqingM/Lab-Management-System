@@ -57,13 +57,53 @@
       >
         <el-table-column prop="changeRate" label="变化率(%)"></el-table-column>
         <el-table-column label="不确定因素">
-          <el-table-column prop="income" sortable label="营业收入">
+          <el-table-column label="营业收入">
+            <template slot-scope="scope">
+              <div v-if="scope.row.income<0">
+                <el-link type="danger">
+                  {{ scope.row.income }}%
+                </el-link>
+              </div>
+              <div v-else>
+                {{ scope.row.income == null ? "" : scope.row.income + '%' }}
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="investment" sortable label="建设投资">
+          <el-table-column label="建设投资">
+                        <template slot-scope="scope">
+              <div v-if="scope.row.investment<0">
+                <el-link type="danger">
+                  {{ scope.row.investment }}%
+                </el-link>
+              </div>
+              <div v-else>
+                {{ scope.row.investment == null ? "" : scope.row.investment + '%' }}
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="operatingCost" sortable label="运维成本">
+          <el-table-column label="运维成本">
+                        <template slot-scope="scope">
+              <div v-if="scope.row.operatingCost<0">
+                <el-link type="danger">
+                  {{ scope.row.operatingCost }}%
+                </el-link>
+              </div>
+              <div v-else>
+                {{ scope.row.operatingCost == null ? "" : scope.row.operatingCost + '%' }}
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="staffCost" sortable label="人员成本">
+          <el-table-column label="人员成本">
+                        <template slot-scope="scope">
+              <div v-if="scope.row.staffCost<0">
+                <el-link type="danger">
+                  {{ scope.row.staffCost }}%
+                </el-link>
+              </div>
+              <div v-else>
+                {{ scope.row.staffCost == null ? "" : scope.row.staffCost + '%' }}
+              </div>
+            </template>
           </el-table-column>
         </el-table-column>
       </el-table>
@@ -225,11 +265,11 @@ export default {
                 staffCost: data[i][3]
               });
               this.tabledata.push({
-                changeRate: Math.round(params[i] * 100000) / 1000 + '%',
-                income: Math.round(data[i][0] * 100000) / 1000 + '%',
-                investment: Math.round(data[i][1] * 100000) / 1000 + '%',
-                operatingCost: Math.round(data[i][2] * 100000) / 1000 + '%',
-                staffCost: Math.round(data[i][3] * 100000) / 1000 + '%'
+                changeRate: Math.round(params[i] * 100000) / 1000,
+                income: Math.round(data[i][0] * 100000) / 1000,
+                investment: Math.round(data[i][1] * 100000) / 1000,
+                operatingCost: Math.round(data[i][2] * 100000) / 1000,
+                staffCost: Math.round(data[i][3] * 100000) / 1000
               });
             }
             console.log('tabledata', this.tabledata)

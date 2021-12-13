@@ -114,7 +114,7 @@ export default {
     return {
       ruleForm: {
         type: "student",
-        id: "",
+        id: null,
         email: "",
         name: "",
         classnum: "",
