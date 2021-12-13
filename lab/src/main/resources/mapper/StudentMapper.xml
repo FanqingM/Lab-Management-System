@@ -43,9 +43,12 @@
     from STUDENT
   </select>
 
-  <select id="selectAllCourses" resultMap="StudentDTOMap">
-    select distinct SECTION.COURSE_ID,SECTION.SECTION_ID,SECTION.SEMETER,SECTION.YEAR,COURSE.COURSENAME
-    from
+  <select id="selectAllCourses" parameterType="com.se.dto.CourseINO" resultMap="CourseDTOMap">
+    select SECTION.COURSE_ID,SECTION.SECTION_ID,SECTION.SEMETER,SECTION.YEAR,COURSE.COURSENAME
+    from TAKES,SECTION,COURSE
+    where STUDENT_ID = #{studentId,jdbcType=VARCHAR} and SECTION.SEMETER = #{semeter,jdbcType=BIT} and SECTION.YEAR = #{year,jdbcType=VARCHAR}
+    and TAKES.COURSE_ID = SECTION.COURSE_ID and TAKES.SECTION_ID = SECTION.SECTION_ID
+    and SECTION.COURSE_ID = COURSE.ID
   </select>
 
 

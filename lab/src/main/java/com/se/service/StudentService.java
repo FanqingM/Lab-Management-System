@@ -1,5 +1,7 @@
 package com.se.service;
 
+import com.se.dto.CourseDTO;
+import com.se.dto.CourseINO;
 import com.se.dto.StudentDTO;
 import com.se.entity.Student;
 
@@ -13,6 +15,7 @@ public interface StudentService {
      *
      * @mbg.generated Wed Oct 27 09:24:02 CST 2021
      */
+    List<CourseDTO> selectAllCourses(CourseINO courseINO);
     int deleteByPrimaryKey(String id);
 
     /**
