@@ -114,7 +114,7 @@ export default {
     return {
       ruleForm: {
         type: "student",
-        id: null,
+        id: "",
         email: "",
         name: "",
         classnum: "",
@@ -123,14 +123,7 @@ export default {
 
       rules: {
         id: [
-          { required: true, message: "请输入账号", trigger: "blur" },
-          {
-            type: "number",
-            message: "账号必须为7位数字",
-            trigger: "blur",
-            min: 1000000,
-            max: 9999999,
-          },],
+          { required: true, message: "请输入账号", trigger: "blur" },],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         classnum: [{ required: true, message: "请输入班级", trigger: "blur" }],
         email: [
@@ -183,36 +176,19 @@ export default {
       this.tableData[3].content = this.ruleForm.schoolName;
       this.tableData[4].content = this.ruleForm.classnum;
     },
-    setToDB() {
-      PUTStudent(this.ruleForm)
-        .then(() => {
-          this.$message("学生信息修改成功");
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$message("学生信息修改失败");
-        });
-    },
+
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.setToDB();
-          this.isForm = false;
-          setTimeout(() => {
-            this.isTable = true;
-            this.updateData();
-          }, 400);
-          this.$alert("编辑成功！", {
-            confirmButtonText: "确定",
-            callback: (action) => {
-              if (action === "confirm") {
-                this.$message({
-                  type: "success",
-                  message: "编辑成功",
-                });
-              }
-            },
-          });
+          PUTStudent(this.ruleForm)
+        .then(() => {
+          this.$message("添加成功");
+          this.$router.go(-1);
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("添加失败");
+        });
         }
       });
     },

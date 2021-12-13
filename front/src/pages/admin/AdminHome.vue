@@ -92,7 +92,7 @@
           <el-table
             :data="userList"
             stripe
-            style="width: 100%"
+            style="width: 100%; overflow: auto"
             :header-row-style="{ height: '20px' }"
             :cell-style="{ padding: '5px' }"
           >

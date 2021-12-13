@@ -60,7 +60,7 @@
           <el-table-column label="营业收入">
             <template slot-scope="scope">
               <div v-if="scope.row.income<0">
-                <el-link type="danger">
+                <el-link underline="false" type="danger">
                   {{ scope.row.income }}%
                 </el-link>
               </div>
@@ -72,7 +72,7 @@
           <el-table-column label="建设投资">
                         <template slot-scope="scope">
               <div v-if="scope.row.investment<0">
-                <el-link type="danger">
+                <el-link underline="false" type="danger">
                   {{ scope.row.investment }}%
                 </el-link>
               </div>
@@ -84,7 +84,7 @@
           <el-table-column label="运维成本">
                         <template slot-scope="scope">
               <div v-if="scope.row.operatingCost<0">
-                <el-link type="danger">
+                <el-link underline="false" type="danger">
                   {{ scope.row.operatingCost }}%
                 </el-link>
               </div>
@@ -96,7 +96,7 @@
           <el-table-column label="人员成本">
                         <template slot-scope="scope">
               <div v-if="scope.row.staffCost<0">
-                <el-link type="danger">
+                <el-link underline="false" type="danger">
                   {{ scope.row.staffCost }}%
                 </el-link>
               </div>

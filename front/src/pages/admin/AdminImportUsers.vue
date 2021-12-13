@@ -1,28 +1,56 @@
 <template>
   <div style="height: 100%">
     <el-card style="height: 100%">
-      <div slot="header" class="clearfix">
+      <div slot="header" style="font-size: 18px; height: 30px">
         <span><b>导入用户列表</b></span>
       </div>
-      <el-upload
-       style="width: 600px; margin: 50px"
-        drag
-        action="https://jsonplaceholder.typicode.com/posts/"
-        multiple>
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">只能上传xlsx文件，且不超过500kb</div>
-      </el-upload>
-      <el-row style="width: 600px; margin: 50px">
-        <el-col :span="3" :offset="8">
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+      <el-row  style="height: calc(100% - 150px); padding: 10px">
+        <el-col :span="10">
+          <el-upload
+            style="width: 100%; height: 100%; margin: 50px"
+            drag
+            action="https://jsonplaceholder.typicode.com/posts/"
+            accept=".xlsx"
+            :on-change="upload"
+            :limit="1"
+            :on-exceed="handleExceed"
+          >
+            <!-- action="https://jsonplaceholder.typicode.com/posts/" -->
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__tip" slot="tip">
+              只能上传xlsx文件，且不超过500kb
+            </div>
+          </el-upload>
+          <el-row style="width: 100%; height: 100px">
+            <el-col :span="3" :offset="8">
+              <el-button type="primary" @click="submitForm('ruleForm')"
+                >提交</el-button
+              >
+            </el-col>
+            <el-col :span="3" :offset="2">
+              <router-link to="/admin/user-management">
+                <el-button>取消</el-button>
+              </router-link>
+            </el-col>
+          </el-row>
         </el-col>
-        <el-col :span="3" :offset="2">
-          <router-link to="/admin/user-management">
-            <el-button>取消</el-button>
-          </router-link>
+        <el-col :span="10">
+          <el-table
+            v-if="userlist.length > 0"
+            style="width: 100%; height: 100%; margin: 50px; overflow: auto"
+            :data="userlist"
+            stripe
+            :header-row-style="{ height: '20px' }"
+            :cell-style="{ padding: '5px' }"
+          >
+            <el-table-column label="学工号" prop="id"> </el-table-column>
+            <el-table-column label="姓名" prop="name"> </el-table-column>
+            <el-table-column label="学院" prop="school"> </el-table-column>
+          </el-table>
         </el-col>
       </el-row>
+      
     </el-card>
   </div>
 </template>
@@ -33,17 +61,6 @@
 }
 .info {
   text-align: left;
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-.clearfix {
-  font-size: 18px;
 }
 p {
   color: rgb(0, 0, 0);
@@ -73,95 +90,58 @@ p {
 </style>
 
 <script>
+import XLSX from 'xlsx'
 import { PUTInstructor, PUTStudent } from "../../API/http";
 
 export default {
   data() {
     return {
-      ruleForm: {
-        type: "student",
-        id: "",
-        email: "",
-        name: "",
-        classnum: "",
-        schoolName: "",
-      },
-      colleges: [
-        {
-          value: "软件学院",
-          label: "软件学院",
-        },
-        {
-          value: "土木工程学院",
-          label: "土木工程学院",
-        },
-        {
-          value: "经济与管理学院",
-          label: "经济与管理学院",
-        },
-        {
-          value: "数学科学学院",
-          label: "数学科学学院",
-        },
-        {
-          value: "汽车学院",
-          label: "汽车学院",
-        },
-      ],
+      userlist: [],
     };
   },
 
   methods: {
-    columnStyle({ row, column, rowIndex, columnIndex }) {
-      row;
-      column;
-      //console.log(row, column, rowIndex, columnIndex, "row");
-      if (columnIndex == 0 && rowIndex < 3) {
-        return "background:#FBFBEF; font-weight: 700;";
-      } else if (columnIndex == 0) {
-        return "background:#EFFBEF; font-weight: 700;";
-      }
-    },
-
-    updateData() {
-      this.tableData[0].content = this.ruleForm.id;
-      this.tableData[1].content = this.ruleForm.name;
-      this.tableData[2].content = this.ruleForm.email;
-      this.tableData[3].content = this.ruleForm.schoolName;
-      this.tableData[4].content = this.ruleForm.classnum;
-    },
-    setToDB() {
-      PUTStudent(this.ruleForm)
-        .then(() => {
-          this.$message("学生信息修改成功");
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$message("学生信息修改失败");
-        });
-    },
-    submitForm: function (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.setToDB();
-          this.isForm = false;
-          setTimeout(() => {
-            this.isTable = true;
-            this.updateData();
-          }, 400);
-          this.$alert("编辑成功！", {
-            confirmButtonText: "确定",
-            callback: (action) => {
-              if (action === "confirm") {
-                this.$message({
-                  type: "success",
-                  message: "编辑成功",
-                });
-              }
-            },
-          });
-        }
+    handleExceed() {
+      this.$message({
+        type: "warning",
+        message: "超出最大上传文件数量的限制！",
       });
+      return;
+    },
+    upload(file, fileList) {
+      console.log("file", file);
+      console.log("fileList", fileList);
+      let files = { 0: file.raw };
+      this.readExcel1(files);
+    },
+    readExcel1(files) {
+      console.log(files);
+      if (files.length <= 0) {
+        //如果没有文件名
+        return false;
+      } else if (!/\.(xls|xlsx)$/.test(files[0].name.toLowerCase())) {
+        this.$Message.error("上传格式不正确，请上传xls或者xlsx格式");
+        return false;
+      }
+
+      const fileReader = new FileReader();
+      fileReader.onload = (ev) => {
+        try {
+          const data = ev.target.result;
+          const workbook = XLSX.read(data, {
+            type: "binary",
+          });
+          const wsname = workbook.SheetNames[0]; //取第一张表
+          const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
+          console.log("ws", ws);
+          this.userlist = ws;
+          
+          this.$refs.upload.value = "";
+        } catch (e) {
+          return false;
+        }
+      };
+      fileReader.readAsBinaryString(files[0]);
     },
   },
 };
