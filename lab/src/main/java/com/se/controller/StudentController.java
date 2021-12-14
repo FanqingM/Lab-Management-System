@@ -45,6 +45,12 @@ public class StudentController {
         return Integer.toString(res);
     }
 
+    @PostMapping("/addMany")
+    public int insertManyStudents(List<Student> students) {
+        int res = studentService.insertManyStudents(students);
+        return res;
+    }
+
     @PutMapping("/update")
     public Student updateStudent(@RequestBody Student student){
         studentService.updateByPrimaryKey(student);

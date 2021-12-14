@@ -45,6 +45,16 @@ public class TeacherController {
         return Integer.toString(res);
     }
 
+    @PostMapping("/addMany")
+    public String addManyTeachers(@RequestBody List<TeacherINO> teacherINOs){
+        //保存员工信息
+//        System.out.println(employee.getEmployeeName());
+//        System.out.println(employee.getEmail());
+        int res = teacherService.insertManyTeachers(teacherINOs);
+        //回到员工列表页面，可以使用redirect或者forward
+        return Integer.toString(res);
+    }
+
     @PutMapping("/update")
     public Teacher updateTeacher(@RequestBody Teacher teacher){
         teacherService.updateByPrimaryKey(teacher);
