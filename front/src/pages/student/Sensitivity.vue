@@ -179,10 +179,11 @@ export default {
   //  },
   mounted() {
     var chartDom = document.getElementById("linechart");
-    var myChart = echarts.init(chartDom);
+    this.myChart = echarts.init(chartDom);
   },
   data() {
     return {
+      myChart:null,
       text:"计算",
       ruleform: {
         purpose: "",
@@ -394,8 +395,9 @@ export default {
 
     myEcharts() {
       let option;
-      const chartDom = document.getElementById("linechart");
-      const myChart = echarts.init(chartDom);
+      // const chartDom = document.getElementById("linechart");
+      // const myChart = echarts.init(chartDom);
+
       option = {
         title: {
           text: "敏感性分析图",
@@ -429,25 +431,25 @@ export default {
           {
             name: "营业收入",
             type: "line",
-            stack: "Total",
+            // stack: "Total",
             data: [],
           },
           {
             name: "建设投资",
             type: "line",
-            stack: "Total",
+            // stack: "Total",
             data: [],
           },
           {
             name: "运维成本",
             type: "line",
-            stack: "Total",
+            // stack: "Total",
             data: [],
           },
           {
             name: "人员成本",
             type: "line",
-            stack: "Total",
+            // stack: "Total",
             data: [],
           },
         ],
@@ -464,7 +466,7 @@ export default {
 
       console.log("option", option);
 
-      option && myChart.setOption(option);
+      option && this.myChart.setOption(option);
     },
   },
   handleClick(tab, event) {
