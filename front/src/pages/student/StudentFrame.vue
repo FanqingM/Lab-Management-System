@@ -53,6 +53,10 @@
             <i class="el-icon-s-home"></i>
             <span slot="title">主页</span>
           </el-menu-item>
+                    <el-menu-item index="/student/course">
+            <i class="el-icon-s-management"></i>
+            <span slot="title">课程</span>
+          </el-menu-item>
           <el-menu-item index="/student/experiment">
             <i class="el-icon-postcard"></i>
             <span slot="title">实验</span>

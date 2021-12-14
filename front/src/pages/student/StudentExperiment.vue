@@ -18,8 +18,7 @@
             style="width: 100%"
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
-            <el-table-column prop="labName" label="实验名称">
-            </el-table-column>
+            <el-table-column prop="labName" label="实验名称"> </el-table-column>
             <el-table-column prop="date" sortable label="实验时间">
             </el-table-column>
             <el-table-column prop="due" sortable label="截止时间">
@@ -32,7 +31,9 @@
                     params: { labId: scope.row.labId },
                   }"
                 >
-                  <el-button @click="handleClick(scope.row)" type="text">完成报告</el-button>
+                  <el-button @click="handleClick(scope.row)" type="text"
+                    >完成报告</el-button
+                  >
                 </router-link>
               </template>
             </el-table-column>
@@ -54,16 +55,13 @@
             <el-table-column prop="labName" label="实验名称"> </el-table-column>
             <el-table-column prop="date" sortable label="实验时间">
             </el-table-column>
-            <el-table-column
-              prop="status"
-              label="状态"
-            >
+            <el-table-column prop="status" label="状态">
               <template slot-scope="scope">
                 <el-tag
                   :type="scope.row.grades != 0 ? 'success' : 'primary'"
                   disable-transitions
                 >
-                  {{ scope.row.grades != 0 ? '已批改' : '未批改' }}
+                  {{ scope.row.grades != 0 ? "已批改" : "未批改" }}
                 </el-tag>
               </template>
             </el-table-column>
@@ -75,7 +73,7 @@
                     query: {
                       courseId: scope.row.courseId,
                       sectionId: scope.row.sectionId,
-                      labId: scope.row.labId
+                      labId: scope.row.labId,
                     },
                   }"
                 >
@@ -92,24 +90,21 @@
 
 <script>
 import store from "../../store/state";
-import {
-  GETLabs,
-} from "../../API/http";
+import { GETLabs } from "../../API/http";
 export default {
   //  components: {
   //     FeedbackDialog,
   //  },
   created() {
     GETLabs({
-      studentId: store.state.id
-      })
+      studentId: store.state.id,
+    })
       .then((data) => {
         console.log("data", data);
         for (var i = 0; i < data.length; ++i) {
           if (data[i].grades != null) {
             this.finished.push(data[i]);
-          }
-          else {
+          } else {
             this.unfinished.push({
               labId: data[i].labId,
               labName: data[i].labName,
@@ -134,7 +129,7 @@ export default {
         score: null,
         textarea: "",
       },
-      loading:true,
+      loading: true,
       feedbackRow: {
         ID: "",
         additionalRequest: "",
