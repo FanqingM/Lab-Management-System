@@ -35,13 +35,70 @@
           </el-select>
         </el-col>
         <el-col :span="3" align="middle">
-          <el-button @click="display()" type="primary" :disabled="!disable">计算</el-button>
+          <el-button @click="display()" type="primary" :disabled="!disable">{{text}}</el-button>
         </el-col>
       </el-row>
       <div
           id="linechart"
           style="width: 100%; height: 250px"
+          v-if = "!showReport"
       ></div>
+      <el-form
+          ref="reportform"
+          :rules="rules"
+          :model="ruleform"
+          label-width="100px"
+          v-else
+      >
+        <el-form-item label="分析内容" prop="purpose">
+          <el-input
+              clearable
+              class="input"
+              type="textarea"
+              :rows="2"
+              placeholder="请输入内容"
+              v-model="ruleform.purpose"
+              maxlength="400"
+              show-word-limit
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="思考讨论" prop="principle">
+          <el-input
+              clearable
+              class="input"
+              type="textarea"
+              :rows="2"
+              placeholder="请输入内容"
+              v-model="ruleform.principle"
+              maxlength="400"
+              show-word-limit
+          >
+          </el-input>
+        </el-form-item>
+<!--        <el-form-item label="实验步骤" prop="progress">-->
+<!--          <el-input-->
+<!--              clearable-->
+<!--              class="input"-->
+<!--              type="textarea"-->
+<!--              :rows="2"-->
+<!--              placeholder="请输入内容"-->
+<!--              v-model="ruleform.progress"-->
+<!--              maxlength="400"-->
+<!--              show-word-limit-->
+<!--          >-->
+<!--          </el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item align="center">-->
+<!--          <el-button-->
+<!--              size="medium"-->
+<!--              type="primary"-->
+<!--              @click="submitForm('reportform')"-->
+<!--          >提交</el-button-->
+<!--          >-->
+<!--          <el-button size="medium" @click="back">取消</el-button>-->
+<!--        </el-form-item>-->
+      </el-form>
       <el-divider></el-divider>
       <el-table
           v-loading="loading"
@@ -113,7 +170,7 @@
 
 <script>
 import store from "../../store/state";
-import {GETComputed} from "../../API/http";
+import {GETComputed, PUTReport} from "../../API/http";
 import * as echarts from "echarts";
 
 export default {
@@ -126,6 +183,14 @@ export default {
   },
   data() {
     return {
+      text:"计算",
+      ruleform: {
+        purpose: "",
+        principle: "",
+        progress: ""
+      },
+      showReport:false,
+      finishCompute:false,
       loading: "",
       form: {
         step: 2,
@@ -135,7 +200,7 @@ export default {
       showedChartData:[],
       tabledata: [],
       showedTableData: [],
-      selectedItem: null,
+      selectedItem: "营业收入",
       disable: false,
       selected: [],
       select: [
@@ -174,7 +239,50 @@ export default {
     }
   },
   methods: {
+    setToDB() {
+      PUTReport({
+        studentId: store.state.id,
+        courseId: "420244",
+        sectionId: "01",
+        labId: String(this.labId),
+        url: "www.google.com",
+        grades: 0,
+        purpose: this.ruleform.purpose,
+        progress: this.ruleform.progress,
+        principle: this.ruleform.principle,
+      })
+          .then(() => {
+            this.$alert("提交成功");
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$message("提交失败");
+          });
+    },
+    submitForm(formName) {
+      console.log("submitform");
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.setToDB();
+        } else {
+          console.log("ID", this.$route.query.activityID);
+          console.log("name", this.$route.query.activityName);
+          console.log("ground", this.$route.query.groundId);
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
     display() {
+      if (this.selected.length == 4){
+        if (!this.showReport){
+          this.showReport = true;
+          this.text = "提交报告";
+        }else{
+          this.submitForm('reportform');
+        }
+        return;
+      }
       if (this.selected.indexOf(this.selectedItem) == -1) {
         this.showedTableData = [];
         this.showedChartData = [];
@@ -231,6 +339,9 @@ export default {
       console.log('selected',this.selected);
       console.log('showedChardata',this.showedChartData);
       console.log('showedTabledata',this.showedTableData);
+      if (this.selected.length == 4){
+        this.text = "填写报告";
+      }
     },
     handle(event) {
       this.value = event
