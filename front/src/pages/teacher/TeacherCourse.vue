@@ -36,7 +36,7 @@
 
 <script>
 import store from "../../store/state";
-import { GETCoursesByStudentID } from "../../API/http";
+import { GETCoursesByTeacherID } from "../../API/http";
 export default {
   data() {
     return {
@@ -55,8 +55,8 @@ export default {
     //     year: "2021-2022",
     //   });
     // }
-    GETCoursesByStudentID({
-      studentId: store.state.id,
+    GETCoursesByTeacherID({
+      teacherId: store.state.id,
       semeter: this.semester,
       year: this.year,
     })
