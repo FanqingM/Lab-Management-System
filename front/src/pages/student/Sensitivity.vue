@@ -265,11 +265,11 @@ export default {
                 staffCost: data[i][3]
               });
               this.tabledata.push({
-                changeRate: Math.round(params[i] * 1000) / 100,
-                income: Math.round(data[i][0] * 1000) / 100,
-                investment: Math.round(data[i][1] * 1000) / 100,
-                operatingCost: Math.round(data[i][2] * 1000) / 100,
-                staffCost: Math.round(data[i][3] * 1000) / 100
+                changeRate: Math.round(params[i] * 1000) / 10,
+                income: Math.round(data[i][0] * 1000) / 10,
+                investment: Math.round(data[i][1] * 1000) / 10,
+                operatingCost: Math.round(data[i][2] * 1000) / 10,
+                staffCost: Math.round(data[i][3] * 1000) / 10
               });
             }
             console.log('tabledata', this.tabledata)
