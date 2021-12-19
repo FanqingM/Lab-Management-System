@@ -4,7 +4,7 @@
       <div slot="header" style="font-size: 18px; height: 30px">
         <span><b>导入用户列表</b></span>
       </div>
-      <el-row  style="height: calc(100% - 150px); padding: 10px">
+      <el-row style="height: calc(100% - 150px); padding: 10px">
         <el-col :span="10">
           <el-upload
             style="width: 100%; height: 100%; margin: 50px"
@@ -17,16 +17,16 @@
           >
             <!-- action="https://jsonplaceholder.typicode.com/posts/" -->
             <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__text">
+              将文件拖到此处，或<em>点击上传</em>
+            </div>
             <div class="el-upload__tip" slot="tip">
               只能上传xlsx文件，且不超过500kb
             </div>
           </el-upload>
           <el-row style="width: 100%; height: 100px">
             <el-col :span="3" :offset="8">
-              <el-button type="primary" @click="submitForm('ruleForm')"
-                >提交</el-button
-              >
+              <el-button type="primary" @click="submit">提交</el-button>
             </el-col>
             <el-col :span="3" :offset="2">
               <router-link to="/admin/user-management">
@@ -44,13 +44,14 @@
             :header-row-style="{ height: '20px' }"
             :cell-style="{ padding: '5px' }"
           >
-            <el-table-column label="学工号" prop="id"> </el-table-column>
+            <el-table-column label="学号" prop="id"> </el-table-column>
             <el-table-column label="姓名" prop="name"> </el-table-column>
-            <el-table-column label="学院" prop="school"> </el-table-column>
+            <el-table-column label="学院" prop="schoolName"> </el-table-column>
+            <el-table-column label="班级" prop="classnum"> </el-table-column>
+            <el-table-column label="邮箱" prop="email"> </el-table-column>
           </el-table>
         </el-col>
       </el-row>
-      
     </el-card>
   </div>
 </template>
@@ -90,8 +91,8 @@ p {
 </style>
 
 <script>
-import XLSX from 'xlsx'
-import { PUTInstructor, PUTStudent } from "../../API/http";
+import XLSX from "xlsx";
+import { POSTStudentList } from "../../API/http";
 
 export default {
   data() {
@@ -134,14 +135,35 @@ export default {
           const wsname = workbook.SheetNames[0]; //取第一张表
           const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
           console.log("ws", ws);
-          this.userlist = ws;
-          
+          this.userlist = [];
+          for (let i = 0; i < ws.length; ++i) {
+            this.userlist.push({
+                id: String(ws[i].id),
+                email: ws[i].email,
+                name: ws[i].name,
+                classnum: String(ws[i].class),
+                schoolName: ws[i].school
+            })
+          }
+          console.log('user',this.userlist);
+
           this.$refs.upload.value = "";
         } catch (e) {
           return false;
         }
       };
       fileReader.readAsBinaryString(files[0]);
+    },
+    submit() {
+      POSTStudentList(this.userlist)
+        .then(() => {
+          this.$message("上传成功");
+          this.$router.go(-1);
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("上传失败");
+        });
     },
   },
 };

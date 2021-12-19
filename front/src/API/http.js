@@ -20,6 +20,22 @@ export const GETActivitiesID = ID => GetID('/api/Activities/', ID); //ok
 /*Reports*/
 export const PUTReport = param => Put('/report/update', param);
 
+//Students
+export const GETStudents = () => Get('/student/findAll'); //ok
+export const GETStudentsID = id => GetID('/student/findOne?id=', id); //ok
+export const DELETEStudent = id => DeleteID('/student/delete/', id);
+export const PUTStudent = param => Put('/student/update', param);
+export const POSTStudent = param => Post('/student/add', param); //ok
+export const POSTStudentList = param => Post('/student/addMany', param); //ok
+
+//Instructors
+export const GETInstructorID = id => GetID('/teacher/findOne?id=', id); //ok
+export const GETInstructors = () => Get('/teacher/findAll');
+export const DELETEInstructor = id => DeleteID('/teacher/delete/', id);
+export const PUTInstructor = param => Put('/teacher/update', param);
+export const POSTInstructor = param => Post('/teacher/add', param); //ok
+export const POSTInstructorList = param => Post('/teacher/addMany', param); //ok
+
 /*CreditRecords*/
 export const GETCreditRecords = param => Get('/api/creditrecords', param) //ok
 export const POSTCreditRecords = param => Post('/api/creditrecords', param) //ok
@@ -102,18 +118,6 @@ export const POSTUnactivatedAccount = param => Post('/unactivatedAccount/add', p
 export const GETOrgFavorites = param => Get('/api/OrgFavorites', param); //ok
 export const POSTOrgFavorites = param => Post('/api/OrgFavorites', param); //ok
 export const DELETEOrgFavorites = param => Delete('/api/OrgFavorites', param); //ok
-
-//Students
-export const GETStudents = () => Get('/student/findAll'); //ok
-export const GETStudentsID = id => GetID('/student/findOne?id=', id); //ok
-export const DELETEStudent = id => DeleteID('/student/delete/', id);
-export const PUTStudent = param => Put('/student/update', param);
-
-//Instructors
-export const GETInstructorID = id => GetID('/teacher/findOne?id=', id); //ok
-export const GETInstructors = () => Get('/teacher/findAll');
-export const DELETEInstructor = id => DeleteID('/teacher/delete/', id);
-export const PUTInstructor = param => Put('/teacher/update', param);
 
 // StuFavorites
 export const GETStuFavoritesID = ID => GetID('/api/StuFavorites/', ID); //ok

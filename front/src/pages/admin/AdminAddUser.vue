@@ -107,7 +107,7 @@ p {
 </style>
 
 <script>
-import { PUTInstructor, PUTStudent } from "../../API/http";
+import { POSTInstructor, POSTStudent } from "../../API/http";
 
 export default {
   data() {
@@ -169,26 +169,42 @@ export default {
       }
     },
 
-    updateData() {
-      this.tableData[0].content = this.ruleForm.id;
-      this.tableData[1].content = this.ruleForm.name;
-      this.tableData[2].content = this.ruleForm.email;
-      this.tableData[3].content = this.ruleForm.schoolName;
-      this.tableData[4].content = this.ruleForm.classnum;
-    },
-
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          PUTStudent(this.ruleForm)
-        .then(() => {
-          this.$message("添加成功");
-          this.$router.go(-1);
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$message("添加失败");
-        });
+          if (this.ruleForm.type === "student") {
+            POSTStudent({
+              id: this.ruleForm.id,
+              email: this.ruleForm.email,
+              name: this.ruleForm.name,
+              classnum: this.ruleForm.classnum,
+              schoolName: this.ruleForm.schoolName
+            })
+              .then(() => {
+                this.$message("添加成功");
+                this.$router.go(-1);
+              })
+              .catch((err) => {
+                console.log(err);
+                this.$message("添加失败");
+              });
+          } else {
+             POSTInstructor({
+              id: this.ruleForm.id,
+              name: this.ruleForm.name,
+              schoolName: this.ruleForm.schoolName,
+              email: this.ruleForm.email
+            })
+              .then(() => {
+                this.$message("添加成功");
+                this.$router.go(-1);
+              })
+              .catch((err) => {
+                console.log(err);
+                this.$message("添加失败");
+              });
+          }
+          
         }
       });
     },
