@@ -7,8 +7,13 @@ import com.se.entity.TeacherAccount;
 import com.se.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -53,6 +58,30 @@ public class TeacherController {
         int res = teacherService.insertManyTeachers(teacherINOs);
         //回到员工列表页面，可以使用redirect或者forward
         return Integer.toString(res);
+    }
+
+    @PostMapping("/addFile")
+    public String addFile(@RequestParam("file") MultipartFile file)
+            throws IllegalStateException, IOException {
+        String path = "/Users/fanqing_m/desktop/se";
+        //保存员工信息
+//        System.out.println(employee.getEmployeeName());
+//        System.out.println(employee.getEmail());
+//        int res = teacherService.insertManyTeachers(teacherINOs);
+//        //回到员工列表页面，可以使用redirect或者forward
+        // 获取原始文件名
+        String filename = file.getOriginalFilename();
+//        String filename = file.getName();
+        System.out.println(filename);
+        System.out.println("dqwd");
+        // 构建保存目标
+        File target = new File(path + "//" + filename);
+        // 将文件转移到指定目录
+        file.transferTo(target);
+        // 构建响应
+        Map<String, Object> response = new HashMap<>();
+        response.put("target", target.getAbsolutePath());
+        return "good";
     }
 
     @PutMapping("/update")
