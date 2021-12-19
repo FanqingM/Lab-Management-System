@@ -83,8 +83,10 @@
       </el-row>
       <el-row v-else>
         <el-col :span="9" :offset="5">
-          <router-link :to="{name: 'Register', params:{type: identity}}">
-            <el-link :underline="false">{{"注册为" + ((identity == 0) ? "学生" : "教师")}}</el-link>
+          <router-link :to="{ name: 'Register', params: { type: identity } }">
+            <el-link :underline="false">{{
+              "注册为" + (identity == 0 ? "学生" : "教师")
+            }}</el-link>
           </router-link>
         </el-col>
         <el-col :span="9">
@@ -144,12 +146,12 @@ export default {
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-            Login({   
-              id: this.form.accountNumber,
-              password: this.form.password,
-              authority: this.identity,
-              //secretPassword: md5(this.form.password, "hhh"),
-            })
+          Login({
+            id: this.form.accountNumber,
+            password: this.form.password,
+            authority: this.identity,
+            //secretPassword: md5(this.form.password, "hhh"),
+          })
             .then((data) => {
               console.log(data);
               if (data.status === 200) {
@@ -165,7 +167,7 @@ export default {
                 } else {
                   this.$router.push("/admin/home");
                 }
-              }             
+              }
               this.$message(data.message);
             })
             .catch((err) => {
