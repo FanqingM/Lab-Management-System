@@ -5,6 +5,8 @@ import com.se.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,8 +28,10 @@ public class FileController {
     }
 
     @PostMapping("addFile")
-    public int AddFile(Files files)
+    public int AddFile(@RequestBody Files files)
     {
+        Date date = new Date();
+        files.setTime(date);
         return fileService.insert(files);
     }
 }
