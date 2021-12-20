@@ -46,7 +46,7 @@ public class StudentController {
     }
 
     @PostMapping("/addMany")
-    public int insertManyStudents(List<Student> students) {
+    public int insertManyStudents(@RequestBody List<Student> students) {
         int res = studentService.insertManyStudents(students);
         return res;
     }
