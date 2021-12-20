@@ -43,7 +43,7 @@ public class StudentController {
     @GetMapping("downloadFile")
     public ResponseEntity<InputStreamSource> download(String filename) {
         // 构建下载路径
-        String path = "/Users/fanqing_m/desktop/se";
+        String path = "/root/lab/se";
         File target = new File(path + "//" + filename);
         // 构建响应体
         if (target.exists()) {
