@@ -63,7 +63,7 @@ public class TeacherController {
     @PostMapping("/addFile")
     public String addFile(@RequestParam("file") MultipartFile file)
             throws IllegalStateException, IOException {
-        String path = "/Users/fanqing_m/desktop/se";
+        String path = "/root/lab/se";
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
 //        System.out.println(employee.getEmail());
