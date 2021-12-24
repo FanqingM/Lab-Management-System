@@ -1,15 +1,24 @@
 <template>
-<el-button @click="createWebSocket()">建立连接</el-button>
+  <el-card>
+  <el-button @click="createWebSocket()">建立连接</el-button>
+  <el-button @click="send(1)">send1</el-button>
+  <el-button @click="send(2)">send2</el-button>
+  <el-button @click="send(3)">send3</el-button>
+  <el-button @click="send(4)">send4</el-button>
+  </el-card>
 </template>
 
 <script>
 import state from "../../store/state";
+
 export default {
   name: "testpage",
 
   data() {
     return {
-
+      a: '',
+      websocket:WebSocket,
+      questions: []
     };
   },
   created() {
@@ -17,38 +26,49 @@ export default {
     // sessionStorage.setItem("WEBSOCKET_USERNAME",state.state.id);
     // console.log(sessionStorage.getItem("WEBSOCKET_USERNAME"));
   },
-  methods:{
+  methods: {
+    send(n){
+      this.websocket.send(n);
+
+    },
     // 与websocket服务器创建连接
     createWebSocket() {
       // 注意这里的端口号是后端服务的端口号，后面的是后端正常请求的路径，ziyuan是我的项目名，最后面的是我放在cookie中的当前登陆用户
       // let websocket = new WebSocket('ws://127.0.0.1:9094/ziyuan/webSocket/' + this.$cookie.get('nameOrEmail'))
-      let websocket = new WebSocket('ws://localhost:9094/webSocket/' +'123456')
+      this.websocket = new WebSocket('ws://localhost:9094/webSocket/' + state.state.id + this.a)
+      this.a = this.a + '1'
 
       // 连接成功时
-      websocket.onopen = () => {
-        websocket.send('hello')
+      this.websocket.onopen = () => {
+        // websocket.send('hello')
         console.log("建立连接")
       }
-      websocket.onmessage = event => {
+      this.websocket.onmessage = event => {
         // 后端发送的消息在event.data中
         console.log(event.data)
+        if (event.data[0] == "a"){
+          // console.log(event.data.slice(1))
+          // var qlist = event.data.slice(1).split(',')
+          // for (var q in qlist)
+          console.log(JSON.parse(event.data.slice(1)))
+        }
       }
-      websocket.onclose = function () {
+      this.websocket.onclose = function () {
         console.log('关闭了')
       }
-      websocket.onerror = function (){
+      this.websocket.onerror = function () {
         console.log('连接错误')
       }
       // 路由跳转时结束websocket链接
       this.$router.afterEach(function () {
-        websocket.close()
+        this.websocket.close()
       })
       // 监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常
       window.onbeforeunload = function () {
-        websocket.close()
+        this.websocket.close()
       }
     },
-    connect(){
+    connect() {
       var websocket;
       if ('WebSocket' in window) {
         console.log("WebSocket-->");
