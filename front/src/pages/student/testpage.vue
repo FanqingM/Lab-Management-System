@@ -1,10 +1,10 @@
 <template>
   <el-card>
-  <el-button @click="createWebSocket()">建立连接</el-button>
-  <el-button @click="send(1)">send1</el-button>
-  <el-button @click="send(2)">send2</el-button>
-  <el-button @click="send(3)">send3</el-button>
-  <el-button @click="send(4)">send4</el-button>
+    <el-button @click="createWebSocket()">建立连接</el-button>
+    <el-button @click="sendAnswer(1)">send1</el-button>
+    <el-button @click="sendAnswer(2)">send2</el-button>
+    <el-button @click="sendAnswer(3)">send3</el-button>
+    <el-button @click="sendAnswer(4)">send4</el-button>
   </el-card>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       a: '',
-      websocket:WebSocket,
+      websocket: WebSocket,
       questions: []
     };
   },
@@ -27,15 +27,21 @@ export default {
     // console.log(sessionStorage.getItem("WEBSOCKET_USERNAME"));
   },
   methods: {
-    send(n){
-      this.websocket.send(n);
 
+    /**
+     * 向后端发答案
+     * @param n 答案，int型 1 2 3 4
+     */
+    sendAnswer(n) {
+      this.websocket.send(n);
     },
-    // 与websocket服务器创建连接
+
+    /**
+     * 用户点 参加对抗 后创建socket连接
+     * 不是匹配好才创建连接，开始匹配就创建连接
+     */
     createWebSocket() {
-      // 注意这里的端口号是后端服务的端口号，后面的是后端正常请求的路径，ziyuan是我的项目名，最后面的是我放在cookie中的当前登陆用户
-      // let websocket = new WebSocket('ws://127.0.0.1:9094/ziyuan/webSocket/' + this.$cookie.get('nameOrEmail'))
-      this.websocket = new WebSocket('ws://localhost:9094/webSocket/' + state.state.id + this.a)
+      this.websocket = new WebSocket('ws://localhost:9094/webSocket/' + state.state.id + this.a) //a是测试用的，为了一个浏览器模拟多个用户
       this.a = this.a + '1'
 
       // 连接成功时
@@ -46,12 +52,36 @@ export default {
       this.websocket.onmessage = event => {
         // 后端发送的消息在event.data中
         console.log(event.data)
-        if (event.data[0] == "a"){
-          // console.log(event.data.slice(1))
-          // var qlist = event.data.slice(1).split(',')
-          // for (var q in qlist)
-          console.log(JSON.parse(event.data.slice(1)))
+        var messageType = event.data[0];
+        var message = event.data.slice(1);
+        switch (messageType) {
+          case 'a':
+          case 'i':
+            // 传来问题
+            console.log(JSON.parse(message))
+            break
+
+          case '+':
+            // 同一个房间中某个用户回答正确（可能是自己也可能不是自己）
+            // message中的内容时用户id（回答正确的人的id）
+            break
+
+          case '-':
+            // 当前用户回答错误
+            break
+
+          case 'e':
+            // 有一个用户答对了五道题，比赛结束
+            // message是每个人的分数（答对的题目数）就按答对的题目数量给分吧，对几题给几分
+
+            console.log(JSON.parse(message))
+            break
+
         }
+        // if (event.data[0] == "a") {
+        //
+        //   console.log(JSON.parse(event.data.slice(1)))
+        // }
       }
       this.websocket.onclose = function () {
         console.log('关闭了')
@@ -68,46 +98,7 @@ export default {
         this.websocket.close()
       }
     },
-    connect() {
-      var websocket;
-      if ('WebSocket' in window) {
-        console.log("WebSocket-->");
-        //new WebSocket()在IDEA打开的任何项目中都可以 直接调用
-        websocket = new WebSocket("ws://localhost:9094/my_SXD_Socket");
-      } else if ('MozWebSocket' in window) {
-        console.log("MozWebSocket-->");
-        websocket = new MozWebSocket("ws://my_SXD_Socket");
-      } else {
-        console.log("SockJS-->");
-        websocket = new SockJS("http://127.0.0.1:9094/sockjs/my_SXD_Socket");
-      }
-
-      websocket.onopen = function (evnt) {
-        console.log("链接服务器成功!", evnt.data);
-      };
-      websocket.onmessage = function (evnt) {
-        console.log('收到消息:', evnt.data);
-        var json = JSON.parse(evnt.data);
-        if (json.hasOwnProperty('users')) {
-          var users = json.users;
-          for (var i = 0; i < users.length; i++) {
-            $("#inputGroupSelect01").append('<option value="' + users[i] + '">' + users[i] + '</option>');
-          }
-        } else {
-          //打印消息
-          toast(json.msg, 'info')
-        }
-      };
-      websocket.onerror = function (evnt) {
-        console.log("onerror");
-      };
-      websocket.onclose = function (evnt) {
-        console.log("与服务器断开了链接!")
-      }
-
-    }
   }
-
 }
 </script>
 

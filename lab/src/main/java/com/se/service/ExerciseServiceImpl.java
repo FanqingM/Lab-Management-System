@@ -145,7 +145,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     public void end(Group group, String winner) {
         for (String userId : group.getMembers()) {
-            sendEnd(userId, winner);
+            sendEnd(group, userId);
 
             // 数据库加分
 
@@ -167,8 +167,8 @@ public class ExerciseServiceImpl implements ExerciseService {
         clients.get(userId).sendWrong();
     }
 
-    public void sendEnd(String to, String winner) {
-        clients.get(to).sendEnd(winner);
+    public void sendEnd(Group group, String to) {
+        clients.get(to).sendEnd(group.getGrades());
     }
 
 }

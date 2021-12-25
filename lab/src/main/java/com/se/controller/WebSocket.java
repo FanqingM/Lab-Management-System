@@ -120,11 +120,11 @@ public class WebSocket {
     }
 
     public void sendWrong(){
-        sendMessage("-");
+        sendMessage("- ");
     }
 
-    public void sendEnd(String winner){
-        sendMessage("e"+winner);
+    public void sendEnd(Map<String, Integer> grades){
+        sendMessage("e"+JSON.toJSONString(grades));
     }
 }
 
