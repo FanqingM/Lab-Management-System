@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("report")
+@RequestMapping("Report")
 public class ReportController {
     @Autowired
     private ReportService reportService;
-    @GetMapping("findOne")
+    @GetMapping("findOneReport")
     public Report findOne(ReportKey key) {
         Report report = reportService.selectByPrimaryKey(key);
         return report;
@@ -31,7 +31,7 @@ public class ReportController {
         List<FinishedReportDTO> reports = reportService.selectFinishedReports(studentId);
         return reports;
     }
-    @PostMapping("/add")
+    @PostMapping("/addReport")
     public String add(@RequestBody Report report){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -41,14 +41,14 @@ public class ReportController {
         return Integer.toString(res);
     }
     @CrossOrigin
-    @PutMapping("/update")
+    @PutMapping("/updateReport")
     public Report updateReport(@RequestBody Report report){
         reportService.updateByPrimaryKey(report);
         //回到员工列表页面
         return report;
     }
 
-    @DeleteMapping("/delete/{key}")
+    @DeleteMapping("/deleteReport/{key}")
     public String deleteReport(@PathVariable("key")ReportKey key){
         //根据id删除员工
         reportService.deleteByPrimaryKey(key);

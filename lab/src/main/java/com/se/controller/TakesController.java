@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("takes")
+@RequestMapping("Takes")
 public class TakesController {
     @Autowired
     private TakesService takesService;
 
-    @GetMapping("findOne")
+    @GetMapping("findOneTakes")
     public Takes findOne(TakesKey key) {
         Takes takes = takesService.selectByPrimaryKey(key);
         return takes;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addTakes")
     public String add(@RequestBody Takes takes){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -30,14 +30,14 @@ public class TakesController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateTakes")
     public Takes updateTakes(@RequestBody Takes takes){
         takesService.updateByPrimaryKey(takes);
         //回到员工列表页面
         return takes;
     }
 
-    @DeleteMapping("/delete/{key}")
+    @DeleteMapping("/deleteTakes/{key}")
     public String deleteTakes(@PathVariable("key")TakesKey key){
         //根据id删除员工
         takesService.deleteByPrimaryKey(key);

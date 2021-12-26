@@ -19,12 +19,12 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("student")
+@RequestMapping("Student")
 public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("findAll")
+    @GetMapping("findAllStudent")
     public List<StudentDTO> selectAllStudents() {
         List<StudentDTO> res = studentService.selectAllStudents();
         return res;
@@ -34,7 +34,7 @@ public class StudentController {
         List<CourseDTO> res = studentService.selectAllCourses(courseINO);
         return res;
     }
-    @GetMapping("findOne")
+    @GetMapping("findOneStudent")
     public Student findOne(String id) {
         Student student = studentService.selectByPrimaryKey(id);
         return student;
@@ -58,7 +58,7 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addStudent")
     public String add(@RequestBody Student student){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -68,20 +68,20 @@ public class StudentController {
         return Integer.toString(res);
     }
 
-    @PostMapping("/addMany")
+    @PostMapping("/addManyStudent")
     public int insertManyStudents(@RequestBody List<Student> students) {
         int res = studentService.insertManyStudents(students);
         return res;
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateStudent")
     public Student updateStudent(@RequestBody Student student){
         studentService.updateByPrimaryKey(student);
         //回到员工列表页面
         return student;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteStudent/{id}")
     public String deleteStudent(@PathVariable("id")String id){
         //根据id删除员工
         studentService.deleteByPrimaryKey(id);

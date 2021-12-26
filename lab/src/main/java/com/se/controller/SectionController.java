@@ -13,18 +13,18 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("section")
+@RequestMapping("Section")
 public class SectionController {
     @Autowired
     private SectionService sectionService;
 
-    @GetMapping("findOne")
+    @GetMapping("findOneSection")
     public Section findOne(SectionKey key) {
         Section section = sectionService.selectByPrimaryKey(key);
         return section;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addSection")
     public String add(@RequestBody Section section) {
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -34,21 +34,21 @@ public class SectionController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateSection")
     public Section updateSection(@RequestBody Section section) {
         sectionService.updateByPrimaryKey(section);
         //回到员工列表页面
         return section;
     }
 
-    @DeleteMapping("/delete/{key}")
+    @DeleteMapping("/deleteSection/{key}")
     public String deleteSection(@PathVariable("key") SectionKey key) {
         //根据id删除员工
         sectionService.deleteByPrimaryKey(key);
         return key.toString();
     }
 
-    @GetMapping("teacherSection")
+    @GetMapping("findSectionsOfTeacher")
     public List<SectionDTO> findSectionsOfTeacher(String teacherId) {
         return sectionService.findSectionsOfTeacher(teacherId);
     }

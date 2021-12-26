@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RequestMapping("administratorAccount")
+@RequestMapping("AdministratorAccount")
 public class AdministratorAccountController {
     @Autowired
     private AdministratorAccountService administratorAccountService;
 
-    @GetMapping("findOne")
+    @GetMapping("findOneAdministratorAccount")
     public AdministratorAccount findOne(String id) {
         AdministratorAccount administratorAccount = administratorAccountService.selectByPrimaryKey(id);
         return administratorAccount;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addAdministratorAccount")
     public String add(@RequestBody AdministratorAccount administratorAccount){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -32,14 +32,14 @@ public class AdministratorAccountController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateAdministratorAccount")
     public AdministratorAccount updateAdministratorAccount(@RequestBody AdministratorAccount administratorAccount){
         administratorAccountService.updateByPrimaryKey(administratorAccount);
         //回到员工列表页面
         return administratorAccount;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteAdministratorAccount/{id}")
     public String deleteAdministratorAccount(@PathVariable("id")String id){
         //根据id删除员工
         administratorAccountService.deleteByPrimaryKey(id);

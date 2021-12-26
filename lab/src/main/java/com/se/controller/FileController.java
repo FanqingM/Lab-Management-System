@@ -11,17 +11,17 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("file")
+@RequestMapping("File")
 public class FileController {
     @Autowired
     private FileService fileService;
-    @GetMapping("findAll")
+    @GetMapping("findAllFile")
     public List<Files> FindAll()
     {
         return fileService.selectAllFile();
     }
 
-    @GetMapping("findAllByCourseId")
+    @GetMapping("findAllFileByCourseId")
     public List<Files> FindAllByCourseId(String courseId)
     {
         return fileService.selectByCourseId(courseId);

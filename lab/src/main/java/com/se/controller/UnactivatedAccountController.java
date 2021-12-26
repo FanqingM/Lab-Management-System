@@ -12,29 +12,29 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("unactivatedAccount")
+@RequestMapping("UnactivatedAccount")
 public class UnactivatedAccountController {
     @Autowired
     private UnactivatedAccountService unactivatedAccountService;
 
-    @GetMapping("findAll")
+    @GetMapping("findAllUnactivatedAccount")
     public List<UnactivatedAccountDTO> selectAllUnactivatedAccounts() {
         List<UnactivatedAccountDTO> res = unactivatedAccountService.selectAllUnactivatedAccounts();
         return res;
     }
 
-    @GetMapping("activate")
+    @GetMapping("activateUnactivatedAccount")
     public int activateAccount(String id) {
         int res = unactivatedAccountService.activateAccount(id);
         return res;
     }
-    @GetMapping("findOne")
+    @GetMapping("findOneUnactivatedAccount")
     public UnactivatedAccount findOne(String id) {
         UnactivatedAccount unactivatedAccount = unactivatedAccountService.selectByPrimaryKey(id);
         return unactivatedAccount;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addUnactivatedAccount")
     public String add(@RequestBody UnactivatedAccount unactivatedAccount){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -44,14 +44,14 @@ public class UnactivatedAccountController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateUnactivatedAccount")
     public UnactivatedAccount updateUnactivatedAccount(@RequestBody UnactivatedAccount unactivatedAccount){
         unactivatedAccountService.updateByPrimaryKey(unactivatedAccount);
         //回到员工列表页面
         return unactivatedAccount;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteUnactivatedAccount/{id}")
     public String deleteUnactivatedAccount(@PathVariable("id")String id){
         //根据id删除员工
         unactivatedAccountService.deleteByPrimaryKey(id);

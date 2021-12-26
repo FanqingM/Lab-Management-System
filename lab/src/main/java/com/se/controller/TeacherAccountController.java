@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("teacherAccount")
+@RequestMapping("TeacherAccount")
 public class TeacherAccountController {
     @Autowired
     private TeacherAccountService teacherAccountService;
 
-    @GetMapping("findOne")
+    @GetMapping("findOneTeacherAccount")
     public TeacherAccount findOne(String id) {
         TeacherAccount teacherAccount = teacherAccountService.selectByPrimaryKey(id);
         return teacherAccount;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addTeacherAccount")
     public String add(@RequestBody TeacherAccount teacherAccount){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -29,14 +29,14 @@ public class TeacherAccountController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateTeacherAccount")
     public TeacherAccount updateTeacherAccount(@RequestBody TeacherAccount teacherAccount){
         teacherAccountService.updateByPrimaryKey(teacherAccount);
         //回到员工列表页面
         return teacherAccount;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteTeacherAccount/{id}")
     public String deleteTeacherAccount(@PathVariable("id")String id){
         //根据id删除员工
         teacherAccountService.deleteByPrimaryKey(id);

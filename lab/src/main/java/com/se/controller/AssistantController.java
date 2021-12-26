@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("assistant")
+@RequestMapping("Assistant")
 public class AssistantController {
     @Autowired
     private AssistantService assistantService;
-    @PostMapping("/add")
+    @PostMapping("/addAssistant")
     public String add(@RequestBody AssistantKey assistantKey){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -21,7 +21,7 @@ public class AssistantController {
         //回到员工列表页面，可以使用redirect或者forward
         return Integer.toString(res);
     }
-    @DeleteMapping("/delete/{key}")
+    @DeleteMapping("/deleteAssistant/{key}")
     public String deleteAssistant(@PathVariable("key")AssistantKey key){
         //根据id删除员工
         assistantService.deleteByPrimaryKey(key);

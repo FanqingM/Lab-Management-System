@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping("administrator")
+@RequestMapping("Administrator")
 public class AdministratorController {
     @Autowired
     private AdministratorService administratorService;
@@ -24,13 +24,13 @@ public class AdministratorController {
 //        return administrators;
 //    }
 
-    @GetMapping("findOne")
+    @GetMapping("findOneAdministrator")
     public Administrator findOne(String id) {
         Administrator administrator = administratorService.selectByPrimaryKey(id);
         return administrator;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addAdministrator")
     public String add(@RequestBody Administrator administrator){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -40,14 +40,14 @@ public class AdministratorController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateAdministrator")
     public Administrator updateAdministrator(@RequestBody Administrator administrator){
         administratorService.updateByPrimaryKey(administrator);
         //回到员工列表页面
         return administrator;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteAdministrator/{id}")
     public String deleteAdministrator(@PathVariable("id")String id){
         //根据id删除员工
         administratorService.deleteByPrimaryKey(id);

@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping("teacher")
+@RequestMapping("Teacher")
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;
@@ -29,7 +29,7 @@ public class TeacherController {
     private FileService fileService;
 
 
-    @GetMapping("findAll")
+    @GetMapping("findAllTeacher")
     public List<TeacherDTO> selectAllTeachers() {
         List<TeacherDTO> res = teacherService.selectAllTeachers();
         return res;
@@ -40,13 +40,13 @@ public class TeacherController {
         return res;
     }
 
-    @GetMapping("findOne")
+    @GetMapping("findOneTeacher")
     public Teacher findOne(String id) {
         Teacher teacher = teacherService.selectByPrimaryKey(id);
         return teacher;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addTeacher")
     public String add(@RequestBody TeacherINO teacherINO){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -56,7 +56,7 @@ public class TeacherController {
         return Integer.toString(res);
     }
 
-    @PostMapping("/addMany")
+    @PostMapping("/addManyTeacher")
     public String addManyTeachers(@RequestBody List<TeacherINO> teacherINOs){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -97,14 +97,14 @@ public class TeacherController {
         return "good";
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateTeacher")
     public Teacher updateTeacher(@RequestBody Teacher teacher){
         teacherService.updateByPrimaryKey(teacher);
         //回到员工列表页面
         return teacher;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteTeacher/{id}")
     public String deleteTeacher(@PathVariable("id")String id){
         //根据id删除员工
         teacherService.deleteByPrimaryKey(id);

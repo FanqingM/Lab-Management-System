@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("course")
+@RequestMapping("Course")
 public class CourseController {
     @Autowired
     private CourseService courseService;
-    @GetMapping("findOne")
+    @GetMapping("findOneCourse")
     public Course findOne(String id) {
         Course course = courseService.selectByPrimaryKey(id);
         return course;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addCourse")
     public String add(@RequestBody Course course){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -29,7 +29,7 @@ public class CourseController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateCourse")
     public Course updateCourse(@RequestBody Course course){
         courseService.updateByPrimaryKey(course);
         //回到员工列表页面
@@ -43,7 +43,7 @@ public class CourseController {
         return coursePutINO;
     }
 //    public int updateTeacher(CoursePutINO coursePutINO)
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteCourse/{id}")
     public String deleteCourse(@PathVariable("id")String id){
         //根据id删除员工
         courseService.deleteByPrimaryKey(id);

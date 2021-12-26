@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("school")
+@RequestMapping("School")
 public class SchoolController {
     @Autowired
     private SchoolService schoolService;
 
-    @PostMapping("/add")
+    @PostMapping("/addSchool")
     public String add(@RequestBody School school){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -23,7 +23,7 @@ public class SchoolController {
         return Integer.toString(res);
     }
 
-    @DeleteMapping("/delete/{name}")
+    @DeleteMapping("/deleteSchool/{name}")
     public String deleteSchool(@PathVariable("name")String name){
         //根据id删除员工
         schoolService.deleteByPrimaryKey(name);

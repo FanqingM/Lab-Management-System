@@ -10,17 +10,17 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("labInstance")
+@RequestMapping("LabInstance")
 public class LabInstanceController {
     @Autowired
     private LabInstanceService labInstanceService;
-    @GetMapping("findOne")
+    @GetMapping("findOneLabInstance")
     public LabInstance findOne(LabInstanceKey key) {
         LabInstance labInstance = labInstanceService.selectByPrimaryKey(key);
         return labInstance;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addLabInstance")
     public String add(@RequestBody LabInstance labInstance){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -30,21 +30,21 @@ public class LabInstanceController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateLabInstance")
     public LabInstance updateLabInstance(@RequestBody LabInstance labInstance){
         labInstanceService.updateByPrimaryKey(labInstance);
         //回到员工列表页面
         return labInstance;
     }
 
-    @DeleteMapping("/delete/{key}")
+    @DeleteMapping("/deleteLabInstance/{key}")
     public String deleteLabInstance(@PathVariable("key")LabInstanceKey key){
         //根据id删除员工
         labInstanceService.deleteByPrimaryKey(key);
         return key.toString();
     }
 
-    @GetMapping("findOneInfo")
+    @GetMapping("findOneLabInstanceInfo")
     public LabInstenceDTO findOneInfo(LabInstanceKey labInstanceKey){
         return labInstanceService.findOne(labInstanceKey);
     }

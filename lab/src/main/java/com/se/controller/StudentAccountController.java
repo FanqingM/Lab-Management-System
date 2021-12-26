@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("studentAccount")
+@RequestMapping("StudentAccount")
 public class StudentAccountController {
     @Autowired
     private StudentAccountService studentAccountService;
 
     @JwtToken(authority = "2")
     @SecurityRequirement(name = "token")
-    @GetMapping("findOne")
+    @GetMapping("findOneStudentAccount")
     public StudentAccount findOne(String id) {
         StudentAccount studentAccount = studentAccountService.selectByPrimaryKey(id);
         return studentAccount;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addStudentAccount")
     public String add(@RequestBody StudentAccount studentAccount){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -33,14 +33,14 @@ public class StudentAccountController {
         return Integer.toString(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateStudentAccount")
     public StudentAccount updateStudentAccount(@RequestBody StudentAccount studentAccount){
         studentAccountService.updateByPrimaryKey(studentAccount);
         //回到员工列表页面
         return studentAccount;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteStudentAccount/{id}")
     public String deleteStudentAccount(@PathVariable("id")String id){
         //根据id删除员工
         studentAccountService.deleteByPrimaryKey(id);
