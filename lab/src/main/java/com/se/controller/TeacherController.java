@@ -8,6 +8,7 @@ import com.se.entity.TeacherAccount;
 import com.se.mapper.FileMapper;
 import com.se.service.FileService;
 import com.se.service.TeacherService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,23 +31,27 @@ public class TeacherController {
 
 
     @GetMapping("findAllTeacher")
+    @Operation(summary = "找到所有教师")
     public List<TeacherDTO> selectAllTeachers() {
         List<TeacherDTO> res = teacherService.selectAllTeachers();
         return res;
     }
     @GetMapping("findAllCourses")
+    @Operation(summary = "找到一个教师授课的所有课程")
     public List<CourseDTO> selectAllCourses(CourseINOTeacher courseINOTeacher) {
         List<CourseDTO> res = teacherService.selectAllCourses(courseINOTeacher);
         return res;
     }
 
     @GetMapping("findOneTeacher")
+    @Operation(summary = "找到一个教师")
     public Teacher findOne(String id) {
         Teacher teacher = teacherService.selectByPrimaryKey(id);
         return teacher;
     }
 
     @PostMapping("/addTeacher")
+    @Operation(summary = "增加一个教师")
     public String add(@RequestBody TeacherINO teacherINO){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -57,6 +62,7 @@ public class TeacherController {
     }
 
     @PostMapping("/addManyTeacher")
+    @Operation(summary = "增加多个教师")
     public String addManyTeachers(@RequestBody List<TeacherINO> teacherINOs){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -67,6 +73,7 @@ public class TeacherController {
     }
 
     @PostMapping("/addFile")
+    @Operation(summary = "增加文件")
     public String addFile(@RequestParam("file") MultipartFile file, String courseId)
             throws IllegalStateException, IOException {
 
@@ -98,6 +105,7 @@ public class TeacherController {
     }
 
     @PutMapping("/updateTeacher")
+    @Operation(summary = "更新一个教师信息")
     public Teacher updateTeacher(@RequestBody Teacher teacher){
         teacherService.updateByPrimaryKey(teacher);
         //回到员工列表页面
@@ -105,6 +113,7 @@ public class TeacherController {
     }
 
     @DeleteMapping("/deleteTeacher/{id}")
+    @Operation(summary = "删除一个教师")
     public String deleteTeacher(@PathVariable("id")String id){
         //根据id删除员工
         teacherService.deleteByPrimaryKey(id);

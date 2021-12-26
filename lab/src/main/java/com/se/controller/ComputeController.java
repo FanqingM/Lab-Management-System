@@ -3,6 +3,7 @@ package com.se.controller;
 import com.se.entity.Course;
 import com.se.service.ComputeService;
 import com.se.service.CourseService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class ComputeController {
     private ComputeService computeService;
 
 
+    @Operation(summary = "计算IRR")
     @CrossOrigin
     @GetMapping("compute")
     public ArrayList<ArrayList<Double>> ComputeRes ( @RequestParam("list") ArrayList<Double> list) {

@@ -5,6 +5,7 @@ import com.se.dto.UnactivatedAccountDTO;
 import com.se.entity.AdministratorAccount;
 import com.se.entity.UnactivatedAccount;
 import com.se.service.UnactivatedAccountService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,23 +19,27 @@ public class UnactivatedAccountController {
     private UnactivatedAccountService unactivatedAccountService;
 
     @GetMapping("findAllUnactivatedAccount")
+    @Operation(summary = "找到所有未激活账户")
     public List<UnactivatedAccountDTO> selectAllUnactivatedAccounts() {
         List<UnactivatedAccountDTO> res = unactivatedAccountService.selectAllUnactivatedAccounts();
         return res;
     }
 
     @GetMapping("activateUnactivatedAccount")
+    @Operation(summary = "激活一个未激活账户")
     public int activateAccount(String id) {
         int res = unactivatedAccountService.activateAccount(id);
         return res;
     }
     @GetMapping("findOneUnactivatedAccount")
+    @Operation(summary = "找到一个未激活账户")
     public UnactivatedAccount findOne(String id) {
         UnactivatedAccount unactivatedAccount = unactivatedAccountService.selectByPrimaryKey(id);
         return unactivatedAccount;
     }
 
     @PostMapping("/addUnactivatedAccount")
+    @Operation(summary = "增加一个未激活账户")
     public String add(@RequestBody UnactivatedAccount unactivatedAccount){
         //保存员工信息
 //        System.out.println(employee.getEmployeeName());
@@ -45,6 +50,7 @@ public class UnactivatedAccountController {
     }
 
     @PutMapping("/updateUnactivatedAccount")
+    @Operation(summary = "更新一个未激活账户")
     public UnactivatedAccount updateUnactivatedAccount(@RequestBody UnactivatedAccount unactivatedAccount){
         unactivatedAccountService.updateByPrimaryKey(unactivatedAccount);
         //回到员工列表页面
@@ -52,6 +58,7 @@ public class UnactivatedAccountController {
     }
 
     @DeleteMapping("/deleteUnactivatedAccount/{id}")
+    @Operation(summary = "注销一个未激活账户")
     public String deleteUnactivatedAccount(@PathVariable("id")String id){
         //根据id删除员工
         unactivatedAccountService.deleteByPrimaryKey(id);

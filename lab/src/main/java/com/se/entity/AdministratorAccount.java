@@ -1,5 +1,7 @@
 package com.se.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class AdministratorAccount {
     /**
      *
@@ -8,6 +10,7 @@ public class AdministratorAccount {
      *
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
+    @Schema(name = "id", description = "管理员账号")
     private String id;
 
     /**
@@ -17,6 +20,7 @@ public class AdministratorAccount {
      *
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
+    @Schema(name = "email", description = "管理员邮箱")
     private String email;
 
     /**
@@ -26,6 +30,7 @@ public class AdministratorAccount {
      *
      * @mbg.generated Wed Oct 27 22:15:26 CST 2021
      */
+    @Schema(name = "password", description = "管理员密码")
     private String password;
 
     /**

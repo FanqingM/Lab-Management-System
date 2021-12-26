@@ -22,8 +22,9 @@ public class LoginController {
     LoginService loginService;
 
 //    @ApiOperation(value="登录（返回TOKEN）")
-    @Operation
+//    @Operation
     @PostMapping
+    @Operation(summary = "通过token进行登陆")
     public Msg loginWithToken(@RequestBody UserDTO userDTO){ //传过来的json包装成实体
 //        System.out.println(userDTO);
         return loginService.Login(userDTO);
