@@ -65,6 +65,10 @@
             <i class="el-icon-s-claim"></i>
             <span slot="title">成绩</span>
           </el-menu-item>
+          <el-menu-item index="/student/test-list">
+            <i class="el-icon-files"></i>
+            <span slot="title">对抗练习</span>
+          </el-menu-item>
           <el-menu-item index="/student/sensitivity">
             <i class="el-icon-s-management"></i>
             <span slot="title">敏感性分析</span>

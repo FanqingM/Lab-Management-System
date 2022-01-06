@@ -16,9 +16,7 @@
         <el-col :span="3" class="header-row-col3">
           <el-row class="headarrow" type="flex" justify="end" align="middle">
             <el-button type="text" @click="handleClick">
-              <el-avatar
-                  src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-              ></el-avatar>
+              <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
             </el-button>
             <el-dropdown trigger="click" @command="handleCommand">
               <span class="el-dropdown-link" trigger="click">

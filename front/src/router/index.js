@@ -196,6 +196,17 @@ const routes = [
                 // }
             },
             {
+                path: "test-list",
+                name: "TestList",
+                component: () =>
+                    import('../pages/student/StudentTestList.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
                 path: "test",
                 name: "test",
                 component: () =>
