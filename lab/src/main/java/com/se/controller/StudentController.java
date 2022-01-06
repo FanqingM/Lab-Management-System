@@ -8,8 +8,13 @@ import com.se.entity.Student;
 import com.se.service.SectionService;
 import com.se.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamSource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -35,6 +40,24 @@ public class StudentController {
         return student;
     }
 
+    @GetMapping("downloadFile")
+    public ResponseEntity<InputStreamSource> download(String filename) {
+        // 构建下载路径
+        String path = "/root/lab/se";
+        File target = new File(path + "//" + filename);
+        // 构建响应体
+        if (target.exists()) {
+            FileSystemResource resource = new FileSystemResource(target);
+            return ResponseEntity.ok()
+                    // 指定文件的contentType
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(resource);
+        } else {
+            // 如果文件不存在，返回404响应
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/add")
     public String add(@RequestBody Student student){
         //保存员工信息
@@ -46,7 +69,7 @@ public class StudentController {
     }
 
     @PostMapping("/addMany")
-    public int insertManyStudents(List<Student> students) {
+    public int insertManyStudents(@RequestBody List<Student> students) {
         int res = studentService.insertManyStudents(students);
         return res;
     }

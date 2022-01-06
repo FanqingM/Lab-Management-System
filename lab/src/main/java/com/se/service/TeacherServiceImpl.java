@@ -42,6 +42,7 @@ public class TeacherServiceImpl implements TeacherService{
     public int insert(TeacherINO teacherINO) {
 
         Teacher teacher = new Teacher();
+        System.out.println(teacherINO.getId());
         teacher.setId(teacherINO.getId());
         teacher.setName(teacherINO.getName());
         teacher.setSchoolName(teacherINO.getSchoolName());

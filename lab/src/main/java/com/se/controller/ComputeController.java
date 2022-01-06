@@ -17,9 +17,11 @@ public class ComputeController {
     @Autowired
     private ComputeService computeService;
 
+
     @CrossOrigin
     @GetMapping("compute")
     public ArrayList<ArrayList<Double>> ComputeRes ( @RequestParam("list") ArrayList<Double> list) {
+
         return computeService.Compute(list);
     }
 }
