@@ -10,13 +10,13 @@
           :collapse="isCollapse"
           style="height: 100%"
         >
-          <el-menu-item index="/student/course/">
+          <el-menu-item index="lab">
             <span slot="title">实验</span>
           </el-menu-item>
-          <el-menu-item index="/student/course/">
+          <el-menu-item index="course">
             <span slot="title">成绩</span>
           </el-menu-item>
-          <el-menu-item index="/student/course/">
+          <el-menu-item index="file">
             <span slot="title">文件</span>
           </el-menu-item>
         </el-menu>

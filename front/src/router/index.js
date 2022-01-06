@@ -151,7 +151,7 @@ const routes = [
                 // }
             },
             {
-                path: "course",
+                path: "all-courses",
                 name: "StudentCourseList",
                 component: () =>
                     import('../pages/student/StudentCourseList.vue'),

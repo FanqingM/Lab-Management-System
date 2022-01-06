@@ -85,9 +85,8 @@
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
             <el-table-column prop="labName" label="实验名称"> </el-table-column>
-            <el-table-column prop="date" sortable label="实验时间">
-            </el-table-column>
-            <el-table-column prop="due" sortable label="截止时间">
+            <el-table-column prop="courseName" label="课程"> </el-table-column>
+            <el-table-column prop="endTime" sortable label="截止时间">
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -129,8 +128,7 @@
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
             <el-table-column prop="labName" label="实验名称"> </el-table-column>
-            <el-table-column prop="date" sortable label="实验时间">
-            </el-table-column>
+            <el-table-column prop="courseName" label="课程"> </el-table-column>
             <el-table-column prop="grades" sortable label="评分">
             </el-table-column>
             <el-table-column label="操作">
@@ -180,13 +178,7 @@ export default {
         this.unfinished = [];
         for (var i = 0; i < data.length; ++i) {
           if (data[i].grades == null) {
-            this.unfinished.push({
-              labId: data[i].labId,
-              labName: data[i].labName,
-              grades: data[i].grades,
-              date: "2021/11/1",
-              due: "2021/11/10",
-            });
+            this.unfinished.push(data[i]);
           }
         }
       })
@@ -202,12 +194,7 @@ export default {
         this.grade = [];
         for (var i = 0; i < data.length; ++i) {
           if (data[i].grades != null && data[i].grades !== 0) {
-            this.grade.push({
-              labId: data[i].labId,
-              labName: data[i].labName,
-              grades: data[i].grades,
-              date: "2021/11/1",
-            });
+            this.grade.push(data[i]);
           }
         }
       })
@@ -242,7 +229,7 @@ export default {
         fromYear: "2021",
         toYear: "2022",
         semester: "2",
-        week: "20",
+        week: "18",
       },
       //第二块卡片信息
       OrgID: store.state.ID,
@@ -299,9 +286,9 @@ export default {
         legend: {
           data: [
             "计算机网络实验",
-            "生物实验",
+            "软件工程经济学",
             "物理实验",
-            "化学实验",
+            "编译原理实验",
             "计算机组成原理实验",
           ],
           left: "center",
@@ -316,9 +303,9 @@ export default {
             center: ["50%", "50%"],
             data: [
               { value: 335, name: "计算机网络实验" },
-              { value: 310, name: "生物实验" },
+              { value: 310, name: "软件工程经济学" },
               { value: 234, name: "物理实验" },
-              { value: 135, name: "化学实验" },
+              { value: 135, name: "编译原理实验" },
               { value: 1548, name: "计算机组成原理实验" },
             ],
             animationEasing: "cubicInOut",

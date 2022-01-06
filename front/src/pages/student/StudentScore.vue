@@ -18,8 +18,7 @@
         :default-sort="{ prop: 'date', order: 'descending' }"
       >
         <el-table-column prop="labName" label="实验名称"> </el-table-column>
-        <el-table-column prop="date" sortable label="实验时间">
-        </el-table-column>
+        <el-table-column prop="courseName" label="课程"> </el-table-column>
         <el-table-column prop="grades" sortable label="评分">
         </el-table-column>
         <el-table-column label="操作">

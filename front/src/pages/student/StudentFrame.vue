@@ -53,7 +53,7 @@
             <i class="el-icon-s-home"></i>
             <span slot="title">主页</span>
           </el-menu-item>
-                    <el-menu-item index="/student/course">
+                    <el-menu-item index="/student/all-courses">
             <i class="el-icon-s-management"></i>
             <span slot="title">课程</span>
           </el-menu-item>

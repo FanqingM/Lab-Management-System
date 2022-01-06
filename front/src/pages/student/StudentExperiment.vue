@@ -19,9 +19,9 @@
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
             <el-table-column prop="labName" label="实验名称"> </el-table-column>
-            <el-table-column prop="date" sortable label="实验时间">
+            <el-table-column prop="courseName" label="课程">
             </el-table-column>
-            <el-table-column prop="due" sortable label="截止时间">
+            <el-table-column prop="endTime" sortable label="截止时间">
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -53,7 +53,7 @@
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
             <el-table-column prop="labName" label="实验名称"> </el-table-column>
-            <el-table-column prop="date" sortable label="实验时间">
+            <el-table-column prop="courseName" label="课程">
             </el-table-column>
             <el-table-column prop="status" label="状态">
               <template slot-scope="scope">
@@ -105,13 +105,7 @@ export default {
           if (data[i].grades != null) {
             this.finished.push(data[i]);
           } else {
-            this.unfinished.push({
-              labId: data[i].labId,
-              labName: data[i].labName,
-              grades: data[i].grades,
-              date: "2021/11/1",
-              due: "2021/11/10",
-            });
+            this.unfinished.push(data[i]);
           }
         }
       })
