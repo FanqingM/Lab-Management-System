@@ -2,23 +2,54 @@
   <el-card>
     <div v-if="waiting == true">
       <el-row>
-      <div style="display: flex; align-items: center; justify-content: center">
-        <img src="https://img.zcool.cn/community/010a865cf9cf98a801213ec2a01fca.gif"/>
-      </div>  
+        <div
+          style="display: flex; align-items: center; justify-content: center"
+        >
+          <img
+            src="https://img.zcool.cn/community/010a865cf9cf98a801213ec2a01fca.gif"
+          />
+        </div>
         <el-col :span="24">
           <h1 style="font-size: 30px; text-align: center">正在匹配队友</h1>
         </el-col>
       </el-row>
       <div style="display: flex; align-items: center; justify-content: center">
         <el-avatar
-        :size="100" style="margin: 10px"
+          v-if="num_member >= 1"
+          :size="100"
+          style="margin: 10px"
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         ></el-avatar>
-        <el-avatar :size="100" style="margin: 10px"
+        <el-avatar v-else :size="100" style="margin: 10px">
+          等待加入
+        </el-avatar>
+        <el-avatar
+          v-if="num_member >= 2"
+          :size="100"
+          style="margin: 10px"
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         ></el-avatar>
-        <el-avatar :size="100" style="margin: 10px"> 等待加入 </el-avatar>
-        <el-avatar :size="100" style="margin: 10px"> 等待加入 </el-avatar>
+        <el-avatar v-else :size="100" style="margin: 10px">
+          等待加入
+        </el-avatar>
+        <el-avatar
+          v-if="num_member >= 3"
+          :size="100"
+          style="margin: 10px"
+          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        ></el-avatar>
+        <el-avatar v-else :size="100" style="margin: 10px">
+          等待加入
+        </el-avatar>
+        <el-avatar
+          v-if="num_member >= 4"
+          :size="100"
+          style="margin: 10px"
+          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        ></el-avatar>
+        <el-avatar v-else :size="100" style="margin: 10px">
+          等待加入
+        </el-avatar>
       </div>
     </div>
     <div v-else>
@@ -110,6 +141,7 @@ export default {
     return {
       a: "",
       waiting: true,
+      num_member: 2,
       websocket: WebSocket,
       questions: [],
     };
