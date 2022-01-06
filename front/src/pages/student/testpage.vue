@@ -15,14 +15,10 @@
       </el-row>
       <div style="display: flex; align-items: center; justify-content: center">
         <el-avatar
-          v-if="num_member >= 1"
           :size="100"
           style="margin: 10px"
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         ></el-avatar>
-        <el-avatar v-else :size="100" style="margin: 10px">
-          等待加入
-        </el-avatar>
         <el-avatar
           v-if="num_member >= 2"
           :size="100"
@@ -140,8 +136,8 @@ export default {
   data() {
     return {
       a: "",
-      waiting: true,
-      num_member: 2,
+      waiting: false,
+      num_member: 3,
       websocket: WebSocket,
       questions: [],
     };
