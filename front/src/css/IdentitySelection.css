@@ -29,8 +29,8 @@
     z-index: -1;
 }
 
-h1,
-h4 {
+.mainh {
+    color: #4d5ce8;
+    font-size: 30px;
     text-align: center;
-    color: white;
 }

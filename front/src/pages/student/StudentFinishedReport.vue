@@ -3,9 +3,30 @@
     <div slot="header" class="clearfix">
       <span><b>实验报告</b></span>
     </div>
-    <p><b>实验目的：</b>{{ reportForm.purpose }}</p>
-    <p><b>实验原理：</b>{{ reportForm.principle }}</p>
-    <p><b>实验步骤：</b>{{ reportForm.progress }}</p>
+    <p>1. 实验目的</p>
+      <quill-editor
+        class="editor"
+        ref="purposeEditor"
+        v-model="reportForm.purpose"
+        :options="editorOption"
+      >
+      </quill-editor>
+      <p>2. 实验原理</p>
+      <quill-editor
+        class="editor"
+        ref="principleEditor"
+        v-model="reportForm.principle"
+        :options="editorOption"
+      >
+      </quill-editor>
+      <p>3. 实验总结</p>
+      <quill-editor
+        class="editor"
+        ref="conslusionEditor"
+        v-model="reportForm.progress"
+        :options="editorOption"
+      >
+      </quill-editor>
     <p><b>得分：</b>{{ reportForm.grades }}</p>
     <el-button size="medium" type="primary" @click="back">返回</el-button>
   </el-card>

@@ -8,7 +8,7 @@
     <el-card class="IdentitySelectionContainer" style="border-radius: 12px">
       <div slot="header" class="clearfix">
         <el-row>
-          <h1>实验教学管理系统</h1>
+          <div class="mainh">实验教学管理系统</div>
         </el-row>
       </div>
       <el-row>
@@ -256,9 +256,6 @@ export default {
 
 <style scoped>
 @import "../../css/IdentitySelection.css";
-h1 {
-  color: rgb(0, 81, 255);
-}
 .IdentitySelectionChooseButton {
   width: auto;
   height: 10%;

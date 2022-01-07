@@ -11,7 +11,7 @@
       style="border-radius: 12px"
     >
       <el-row>
-        <h1>实验教学管理系统</h1>
+        <div class="mainh">实验教学管理系统</div>
       </el-row>
 
       <el-row style="margin: 20px 0 10px 0px">
@@ -194,14 +194,6 @@ export default {
 @import "../../css/Login.css";
 .el-card {
   border-radius: 15px;
-}
-
-h1 {
-  color: rgb(0, 81, 255);
-}
-
-h4 {
-  color: white;
 }
 
 .blur {

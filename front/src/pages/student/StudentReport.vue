@@ -3,81 +3,36 @@
     <div slot="header" class="clearfix">
       <span><b>实验报告</b></span>
     </div>
-    <el-row class="mainrow" type="flex">
-      <el-col class="col1" :span="12">
-        <el-form
-          ref="reportform"
-          :rules="rules"
-          :model="ruleform"
-          label-width="100px"
-        >
-          <el-form-item label="实验目的" prop="purpose">
-            <el-input
-              clearable
-              class="input"
-              type="textarea"
-              :rows="2"
-              placeholder="请输入内容"
-              v-model="ruleform.purpose"
-              maxlength="400"
-              show-word-limit
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item label="实验原理" prop="principle">
-            <el-input
-              clearable
-              class="input"
-              type="textarea"
-              :rows="2"
-              placeholder="请输入内容"
-              v-model="ruleform.principle"
-              maxlength="400"
-              show-word-limit
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item label="实验步骤" prop="progress">
-            <el-input
-              clearable
-              class="input"
-              type="textarea"
-              :rows="2"
-              placeholder="请输入内容"
-              v-model="ruleform.progress"
-              maxlength="400"
-              show-word-limit
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item align="center">
-            <el-button
-              size="medium"
-              type="primary"
-              @click="submitForm('reportform')"
-              >提交</el-button
-            >
-            <el-button size="medium" @click="back">取消</el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-
-      <el-col class="col2" :span="12">
-        <!-- <el-card> -->
-        <transition name="fade-transform" mode="in-out">
-          <!-- <div v-if="this.groundId != null" style="padding-left:5%;height:500px"> -->
-          <div v-if="this.groundId != null">
-            <Mycalendar
-              class="calendar-card"
-              :groundId="groundId"
-              @handleSelect="myfun($event)"
-            />
-          </div>
-          <!-- </div> -->
-        </transition>
-        <!-- </el-card> -->
-      </el-col>
-    </el-row>
+    <div style="margin: 40px">
+      <p>1. 实验目的</p>
+      <quill-editor
+        class="editor"
+        ref="purposeEditor"
+        v-model="purpose"
+        :options="editorOption"
+      >
+      </quill-editor>
+      <p>2. 实验原理</p>
+      <quill-editor
+        class="editor"
+        ref="principleEditor"
+        v-model="principle"
+        :options="editorOption"
+      >
+      </quill-editor>
+      <p>3. 实验总结</p>
+      <quill-editor
+        class="editor"
+        ref="conslusionEditor"
+        v-model="conclusion"
+        :options="editorOption"
+      >
+      </quill-editor>
+      <div align="center" style="padding: 20px">
+        <el-button size="medium" type="primary" @click="submitForm">提交</el-button>
+        <el-button size="medium" @click="back">取消</el-button>
+      </div>
+    </div>
   </el-card>
 </template>
 
@@ -119,42 +74,37 @@ export default {
   },
   data() {
     return {
+      editorOption: {
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"], // 加粗 斜体 下划线 删除线
+            ["blockquote", "code-block"], // 引用  代码块
+            [{ header: [1, 2, 3, 4, 5, 6, false] }], // 标题
+            [{ list: "ordered" }, { list: "bullet" }], // 有序、无序列表
+            [{ script: "sub" }, { script: "super" }], // 上标/下标
+            [{ indent: "-1" }, { indent: "+1" }], // 缩进
+            // [{'direction': 'rtl'}],                         // 文本方向
+            [{ size: ["small", false, "large", "huge"] }], // 字体大小
+            [{ color: [] }, { background: [] }], // 字体颜色、字体背景颜色
+            [{ font: [] }], // 字体种类
+            [{ align: [] }], // 对齐方式
+            ["clean"], // 清除文本格式
+            ["image"], // 链接、图片、视频
+          ], //工具菜单栏配置
+        },
+        placeholder: "请在这里填写内容", //提示
+        readyOnly: false, //是否只读
+        theme: "snow", //主题 snow/bubble
+        syntax: true, //语法检测
+      },
       labId: this.$route.params.ID,
       lab: {
         title: "",
       },
-      rules: {
-        purpose: [
-          { required: true, message: "请输入实验目的", trigger: "blur" },
-          {
-            max: 400,
-            message: "长度必须小于400个字符",
-            trigger: "blur",
-          },
-        ],
-        progress: [
-          { required: true, message: "请输入实验步骤", trigger: "blur" },
-          {
-            max: 400,
-            message: "长度必须小于400个字符",
-            trigger: "blur",
-          },
-        ],
-        principle: [
-          { required: true, message: "请输入实验原理", trigger: "blur" },
-          {
-            max: 400,
-            message: "长度必须小于400个字符",
-            trigger: "blur",
-          },
-        ],
-      },
       options: [],
-      ruleform: {
-        purpose: "",
-        principle: "",
-        progress: ""
-      },
+      purpose: null,
+      principle: null,
+      conclusion: null,
       OrgID: store.state.ID,
       groundId: null,
     };
@@ -167,19 +117,18 @@ export default {
     handleChange(value) {
       console.log(value);
     },
-
-    setToDB() {
-        PUTReport({
-          studentId: store.state.id,
-          courseId: "420244",
-          sectionId: "01",
-          labId: String(this.labId),
-          url: "www.google.com",
-          grades: 0,
-          purpose: this.ruleform.purpose,
-          progress: this.ruleform.progress,
-          principle: this.ruleform.principle,
-        })
+    submitForm() {
+      PUTReport({
+        studentId: store.state.id,
+        courseId: "420244",
+        sectionId: "01",
+        labId: String(this.labId),
+        url: "www.google.com",
+        grades: 0,
+        purpose: this.purpose,
+        progress: this.progress,
+        principle: this.conclusion,
+      })
         .then(() => {
           this.$alert("提交成功");
         })
@@ -187,19 +136,6 @@ export default {
           console.log(err);
           this.$message("提交失败");
         });
-    },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.setToDB();
-        } else {
-          console.log("ID", this.$route.query.activityID);
-          console.log("name", this.$route.query.activityName);
-          console.log("ground", this.$route.query.groundId);
-          console.log("error submit!!");
-          return false;
-        }
-      });
     },
   },
 };
@@ -254,5 +190,53 @@ export default {
 }
 .el-card {
   border-radius: 15px;
+}
+</style>
+
+<style>
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  content: '常规';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value=small]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
+  content: '小';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value=large]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
+  content: '中';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value=huge]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value=huge]::before {
+  content: '大';
+}
+
+.ql-snow .ql-picker.ql-header .ql-picker-label::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item::before {
+  content: '文本';
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
+  content: "标题1";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
+  content: "标题2";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
+  content: "标题3";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
+  content: "标题4";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
+  content: "标题5";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
+  content: "标题6";
 }
 </style>

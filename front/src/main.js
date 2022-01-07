@@ -5,11 +5,16 @@ import store from './store/state'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import XLSX from 'xlsx'
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-Vue.use(Element)
-Vue.use(XLSX)
+Vue.use(Element);
+Vue.use(XLSX);
+Vue.use(VueQuillEditor);
 
 new Vue({
   router,

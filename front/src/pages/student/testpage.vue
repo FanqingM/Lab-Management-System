@@ -1,23 +1,23 @@
 <template>
   <el-card>
     <audio
-        src="http://data.huiyi8.com/2020//12-14/2f221550.mp3"
-        controls="controls"
-        hidden
-        ref="correctaudio"
-      ></audio>
-      <audio
-        src="http://downsc.chinaz.net/Files/DownLoad/sound1/201512/6731.mp3"
-        controls="controls"
-        hidden
-        ref="unbelievable"
-      ></audio>
-      <audio
-        src="http://data.huiyi8.com/2021//05-05/8348557f.mp3"
-        controls="controls"
-        hidden
-        ref="wrongaudio"
-      ></audio>
+      src="http://data.huiyi8.com/2020//12-14/2f221550.mp3"
+      controls="controls"
+      hidden
+      ref="correctaudio"
+    ></audio>
+    <audio
+      src="http://downsc.chinaz.net/Files/DownLoad/sound1/201512/6731.mp3"
+      controls="controls"
+      hidden
+      ref="unbelievable"
+    ></audio>
+    <audio
+      src="http://data.huiyi8.com/2021//05-05/8348557f.mp3"
+      controls="controls"
+      hidden
+      ref="wrongaudio"
+    ></audio>
     <div v-if="waiting == true">
       <el-row>
         <div
@@ -28,7 +28,9 @@
           />
         </div>
         <el-col :span="24">
-          <h1 style="font-size: 30px; text-align: center; color: black">正在匹配队友</h1>
+          <h1 style="font-size: 30px; text-align: center; color: black">
+            正在匹配队友
+          </h1>
         </el-col>
       </el-row>
       <div style="display: flex; align-items: center; justify-content: center">
@@ -69,9 +71,7 @@
     <div v-else>
       <el-row style="height: 100%">
         <el-col :span="16">
-          <el-row style="padding: 20px"
-            >{{ question.question }}</el-row
-          >
+          <el-row style="padding: 20px">{{ question.question }}</el-row>
           <el-row style="padding: 20px"
             ><el-button @click="sendAnswer(1)" style="margin-right: 20px"
               >A</el-button
@@ -117,9 +117,7 @@
           > -->
         </el-col>
         <el-col :span="8">
-          <el-card
-            Style="height: 100%; background: #4D5CE8; color: white; border-radius: 12px;"
-          >
+          <el-card class="scorecard">
             <h2 style="margin-left: 20px">当前得分</h2>
             <p style="margin-left: 20px">先达到100分者获胜</p>
             <el-row style="padding: 20px">
@@ -191,10 +189,10 @@ export default {
         a: "",
         b: "",
         c: "",
-        d: ""
+        d: "",
       },
       ids: [store.state.id, "", "", ""],
-      scores: [0, 0, 0, 0]
+      scores: [0, 0, 0, 0],
     };
   },
   created() {
@@ -295,20 +293,20 @@ export default {
             rank++;
           }
         }
-        this.$alert('对抗练习结束，你的小组排名为' + rank, '练习结束', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$router.push({path: "/student/test-list"});
-          }
+        this.$alert("对抗练习结束，你的小组排名为" + rank, "练习结束", {
+          confirmButtonText: "确定",
+          callback: (action) => {
+            this.$router.push({ path: "/student/test-list" });
+          },
         });
         console.log("连接关闭");
       };
       this.websocket.onerror = () => {
-        this.$alert('抱歉，当前无法连接。', '连接错误', {
-          confirmButtonText: '确定',
-          callback: action => {
+        this.$alert("抱歉，当前无法连接。", "连接错误", {
+          confirmButtonText: "确定",
+          callback: (action) => {
             this.$router.go(-1);
-          }
+          },
         });
         console.log("连接错误");
       };
@@ -326,4 +324,10 @@ export default {
 </script>
 
 <style scoped>
+.scorecard {
+  height: 100%;
+  background: #4d5ce8;
+  color: white;
+  border-radius: 12px;
+}
 </style>
