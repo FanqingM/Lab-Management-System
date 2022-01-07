@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <span><b>我的实验</b></span>
       </div>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName">
         <el-tab-pane label="未完成" name="first">
           <el-table
             v-loading="loading"
@@ -28,10 +28,10 @@
                 <router-link
                   :to="{
                     name: 'StudentReport',
-                    params: { labId: scope.row.labId },
+                    params: { labId: scope.row.labId, labName: scope.row.labName },
                   }"
                 >
-                  <el-button @click="handleClick(scope.row)" type="text"
+                  <el-button type="text"
                     >完成报告</el-button
                   >
                 </router-link>

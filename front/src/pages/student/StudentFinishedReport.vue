@@ -8,6 +8,7 @@
         class="editor"
         ref="purposeEditor"
         v-model="reportForm.purpose"
+        @focus="onEditorFocus($event)"
         :options="editorOption"
       >
       </quill-editor>
@@ -16,6 +17,7 @@
         class="editor"
         ref="principleEditor"
         v-model="reportForm.principle"
+        @focus="onEditorFocus($event)"
         :options="editorOption"
       >
       </quill-editor>
@@ -24,6 +26,7 @@
         class="editor"
         ref="conslusionEditor"
         v-model="reportForm.progress"
+        @focus="onEditorFocus($event)"
         :options="editorOption"
       >
       </quill-editor>
@@ -51,6 +54,15 @@ export default {
   },
   data() {
     return {
+            editorOption: {
+        modules: {
+          toolbar: [],
+        },
+        placeholder: "",
+        readonly: true,
+        theme: "snow",
+        syntax: true,
+      },
       reportForm:{  
         studentId: "string",
         courseId: "string",
@@ -77,6 +89,9 @@ export default {
     }
     ,
 
+onEditorFocus(event) { 
+        event.enable(false);
+    },
     handleChange(value) {
       console.log(value);
     }

@@ -1,7 +1,7 @@
 <template>
   <el-card class="maincard">
     <div slot="header" class="clearfix">
-      <span><b>实验报告</b></span>
+      <span><b>{{ labName }} - 实验报告</b></span>
     </div>
     <div style="margin: 40px">
       <p>1. 实验目的</p>
@@ -38,39 +38,9 @@
 
 <script scoped>
 import store from "../../store/state";
-import { GETLab, PUTReport } from "../../API/http";
+import { PUTReport } from "../../API/http";
 export default {
   created() {
-    GETLab({
-      studentId: store.state.id,
-    })
-      .then((data) => {
-        console.log("data", data);
-        for (var i = 0; i < data.length; ++i) {
-          if (data[i].grades != null) {
-            this.finished.push({
-              labId: data[i].labId,
-              labName: data[i].labName,
-              grades: data[i].grades,
-              date: "2021/11/1",
-              due: "2021/11/8",
-              status: data[i].grades === 0 ? "未评分" : "已评分",
-            });
-          } else {
-            this.unfinished.push({
-              labId: data[i].labId,
-              labName: data[i].labName,
-              grades: data[i].grades,
-              date: "2021/11/1",
-              due: "2021/11/10",
-            });
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$message("学生信息获取错误");
-      });
   },
   data() {
     return {
@@ -92,12 +62,12 @@ export default {
             ["image"], // 链接、图片、视频
           ], //工具菜单栏配置
         },
-        placeholder: "请在这里填写内容", //提示
-        readyOnly: false, //是否只读
-        theme: "snow", //主题 snow/bubble
-        syntax: true, //语法检测
+        placeholder: "请在这里填写内容",
+        theme: "snow",
+        syntax: true,
       },
-      labId: this.$route.params.ID,
+      labId: this.$route.params.labId,
+      labName: this.$route.params.labName,
       lab: {
         title: "",
       },
@@ -126,11 +96,12 @@ export default {
         url: "www.google.com",
         grades: 0,
         purpose: this.purpose,
-        progress: this.progress,
-        principle: this.conclusion,
+        progress: this.conclusion,
+        principle: this.principle,
       })
         .then(() => {
           this.$alert("提交成功");
+          this.$router.push({ path: "/student/experiment" });
         })
         .catch((err) => {
           console.log(err);
