@@ -163,7 +163,7 @@ export default {
                 if (this.identity === 0) {
                   this.$router.push("/student/home");
                 } else if (this.identity === 2) {
-                  this.$router.push("/teacher/home");
+                  this.$router.push("/teacher/section");
                 } else {
                   this.$router.push("/admin/home");
                 }

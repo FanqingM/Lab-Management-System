@@ -1,88 +1,37 @@
 <template>
   <el-card class="maincard">
-    <div slot="header" class="clearfix">
+        <div slot="header" class="clearfix">
       <span><b>实验报告</b></span>
     </div>
-    <el-row class="mainrow" type="flex">
-      <el-col class="col1" :span="12">
-        <el-form
-            ref="reportform"
-            :rules="rules"
-            :model="ruleform"
-            label-width="100px"
-        >
-          <el-form-item label="实验目的" prop="purpose">
-            <el-input
-                clearable
-                class="input"
-                type="textarea"
-                :rows="2"
-                placeholder="请输入内容"
-                v-model="ruleform.purpose"
-                maxlength="400"
-                show-word-limit
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item label="实验原理" prop="principle">
-            <el-input
-                clearable
-                class="input"
-                type="textarea"
-                :rows="2"
-                placeholder="请输入内容"
-                v-model="ruleform.principle"
-                maxlength="400"
-                show-word-limit
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item label="实验步骤" prop="progress">
-            <el-input
-                clearable
-                class="input"
-                type="textarea"
-                :rows="2"
-                placeholder="请输入内容"
-                v-model="ruleform.progress"
-                maxlength="400"
-                show-word-limit
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item label="分数" prop="grades">
-            <el-input v-model.number="ruleform.grades"></el-input>
-          </el-form-item>
-          <el-form-item align="center">
-            <el-button
-                size="medium"
-                type="primary"
-                @click="submitForm('reportform')"
-            >提交
-            </el-button
-            >
-            <el-button size="medium" @click="back">取消</el-button>
-          </el-form-item>
-
-        </el-form>
-      </el-col>
-
-      <el-col class="col2" :span="12">
-        <!--        &lt;!&ndash; <el-card> &ndash;&gt;-->
-        <!--        <transition name="fade-transform" mode="in-out">-->
-        <!--          &lt;!&ndash; <div v-if="this.groundId != null" style="padding-left:5%;height:500px"> &ndash;&gt;-->
-        <!--          <div v-if="this.groundId != null">-->
-        <!--            <Mycalendar-->
-        <!--              class="calendar-card"-->
-        <!--              :groundId="groundId"-->
-        <!--              @handleSelect="myfun($event)"-->
-        <!--            />-->
-        <!--          </div>-->
-        <!--          &lt;!&ndash; </div> &ndash;&gt;-->
-        <!--        </transition>-->
-        <!--        &lt;!&ndash; </el-card> &ndash;&gt;-->
-      </el-col>
-    </el-row>
+    <p>1. 实验目的</p>
+    <quill-editor
+      class="editor"
+      ref="purposeEditor"
+      v-model="reportForm.purpose"
+      @focus="onEditorFocus($event)"
+      :options="editorOption"
+    >
+    </quill-editor>
+    <p>2. 实验原理</p>
+    <quill-editor
+      class="editor"
+      ref="principleEditor"
+      v-model="reportForm.principle"
+      @focus="onEditorFocus($event)"
+      :options="editorOption"
+    >
+    </quill-editor>
+    <p>3. 实验总结</p>
+    <quill-editor
+      class="editor"
+      ref="conslusionEditor"
+      v-model="reportForm.progress"
+      @focus="onEditorFocus($event)"
+      :options="editorOption"
+    >
+    </quill-editor>
+    <p v-if="reportForm.grades != 0"><b>得分：</b>{{ reportForm.grades }}</p>
+    <el-button size="medium" type="primary" @click="back" style="margin: 20px">返回</el-button>
   </el-card>
 </template>
 
@@ -100,12 +49,8 @@ export default {
       "labId": this.$route.params.labId
     }).then((data) => {
       console.log(data);
-      this.reportform = data;
-      this.ruleform.progress = this.reportform.progress;
-      this.ruleform.principle = this.reportform.principle;
-      this.ruleform.purpose = this.reportform.purpose;
-      this.ruleform.grades = this.reportform.grades;
-      console.log("report", this.reportform);
+      this.reportForm = data;
+      console.log("report", this.reportForm);
     }).catch((err) => {
       console.log(err);
       this.$message("报告信息获取错误");
@@ -113,36 +58,23 @@ export default {
   },
   data() {
     return {
-      reportform:null,
+      editorOption: {
+        modules: {
+          toolbar: [],
+        },
+        placeholder: "",
+        readonly: true,
+        theme: "snow",
+        syntax: true,
+      },
+      reportForm: {
+        purpose: "",
+        principle: "",
+        progress: ""
+      },
       labId: this.$route.params.ID,
       lab: {
         title: "",
-      },
-      rules: {
-        purpose: [
-          {required: true, message: "请输入实验目的", trigger: "blur"},
-          {
-            max: 400,
-            message: "长度必须小于400个字符",
-            trigger: "blur",
-          },
-        ],
-        progress: [
-          {required: true, message: "请输入实验步骤", trigger: "blur"},
-          {
-            max: 400,
-            message: "长度必须小于400个字符",
-            trigger: "blur",
-          },
-        ],
-        principle: [
-          {required: true, message: "请输入实验原理", trigger: "blur"},
-          {
-            max: 400,
-            message: "长度必须小于400个字符",
-            trigger: "blur",
-          },
-        ],
       },
       options: [],
       ruleform: {
@@ -158,7 +90,7 @@ export default {
   ,
   methods: {
     back() {
-      this.$router.push("/student/experiment");
+      this.$router.go(-1);
     }
     ,
 

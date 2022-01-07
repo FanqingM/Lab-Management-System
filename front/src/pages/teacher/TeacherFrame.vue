@@ -4,19 +4,22 @@
       <el-row class="header-row">
         <el-col :span="1" class="header-row-col1">
           <el-row class="headarrow" type="flex" justify="left" align="middle">
-            <el-button class="fold-button" @click="test" type="text">
-              <i v-if="isCollapse" class="el-icon-s-unfold"></i
-              ><i v-else class="el-icon-s-fold"></i
-            ></el-button>
+              <router-link
+                  :to="{path: '/teacher/section',}"
+                >
+              <i class="el-icon-s-home"></i
+            ></router-link>
           </el-row>
         </el-col>
         <el-col :span="20" class="header-row-col1">
-          <div style="font-size:30px">实验教学管理系统</div>
+          <div style="font-size: 30px">实验教学管理系统</div>
         </el-col>
         <el-col :span="3" class="header-row-col3">
           <el-row class="headarrow" type="flex" justify="end" align="middle">
             <el-button type="text" @click="handleClick">
-              <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+              <el-avatar
+                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+              ></el-avatar>
             </el-button>
             <el-dropdown trigger="click" @command="handleCommand">
               <span class="el-dropdown-link" trigger="click">
@@ -24,13 +27,11 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="accountInfo"
-                >账号信息
-                </el-dropdown-item
-                >
+                  >账号信息
+                </el-dropdown-item>
                 <el-dropdown-item command="modifyPassword"
-                >修改密码
-                </el-dropdown-item
-                >
+                  >修改密码
+                </el-dropdown-item>
                 <el-dropdown-item command="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -39,29 +40,9 @@
       </el-row>
     </el-header>
 
-    <el-container style="height: 100%">
-      <el-aside style="width: auto">
-        <el-menu
-            class="el-menu-vertical-demo"
-            default-active="/teacher/home"
-            router
-            active-text-color="#409EFF"
-            :collapse="isCollapse"
-            style="height: 100%"
-        >
-          <el-menu-item index="/teacher/home">
-            <i class="el-icon-s-home"></i>
-            <span slot="title">主页</span>
-          </el-menu-item>
-          <el-menu-item index="/teacher/section">
-            <i class="el-icon-postcard"></i>
-            <span slot="title">我的课程</span>
-          </el-menu-item>
-        </el-menu>
-      </el-aside>
-
+    <el-container>
       <el-main
-          style="height: 100%; overflow: auto; background: rgb(237, 241, 245)"
+        style="height: 100%; overflow: auto; background: rgb(237, 241, 245)"
       >
         <keep-alive>
           <transition name="fade-transform" mode="out-in">
@@ -74,12 +55,12 @@
 </template>
 
 <script>
-import {GETOrganizationsID} from "../../API/http";
+import { GETOrganizationsID } from "../../API/http";
 import store from "../../store/state";
 //import router from "../../router/index"
 export default {
   created() {
-    this.id = "123456"
+    this.id = "123456";
     this.name = "测试账号";
     // GETOrganizationsID(this.id)
     //   .then((data) => {
@@ -137,7 +118,7 @@ export default {
         // const routeHistory = history.length - 1;
         // router.go(-routeHistory);
         // router.replace("/");
-        this.$router.push({path: "/"});
+        this.$router.push({ path: "/" });
       });
     },
     clickAccountInfo() {

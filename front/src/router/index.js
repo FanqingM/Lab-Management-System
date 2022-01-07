@@ -29,17 +29,7 @@ const routes = [
         //     requireAuth: true,
         //     roles: ['student']
         // },
-        children: [{
-            path: "home",
-            name: "TeacherHome",
-            component: () =>
-                import('../pages/teacher/TeacherHome.vue'),
-            // meta: {
-            //     title: '个人信息',
-            //     requireAuth: true,
-            //     roles: ['student']
-            // }
-        },
+        children: [
             {
                 path: "section",
                 name: "TeacherSection",

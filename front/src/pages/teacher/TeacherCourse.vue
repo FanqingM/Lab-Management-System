@@ -1,36 +1,39 @@
 
 <template>
   <div>
-    <el-card>
-      <div slot="header" class="clearfix">
-        <span><b>我的课程</b></span>
-      </div>
-      <el-main>
-        <div class="card_container">
-          <el-row :gutter="25">
-            <el-col
-              :span="6"
-              v-for="item in courses"
-              :key="item.courseId"
-              class="ecol"
+    <div slot="header" class="clearfix">
+      <span><b>我的课程</b></span>
+    </div>
+    <el-main>
+      <div class="card_container">
+        <el-row :gutter="25">
+          <el-col
+            :span="6"
+            v-for="item in courses"
+            :key="item.courseId"
+            class="ecol"
+          >
+            <el-card
+              :body-style="{ padding: '2px' }"
+              shadow="hover"
+              class="ecard"
             >
-              <el-card
-                :body-style="{ padding: '2px' }"
-                shadow="hover"
-                class="ecard"
-              >
-                <!-- @click="todoctor(item.id, item.dname)" -->
-                <div class="card_text">
-                  <img src="https://edu-image.nosdn.127.net/6AE1A85C007E8E946EEC979BC9AB04A1.jpg?imageView&thumbnail=510y288&quality=100" width="100%"/>
-                  <p class="font-size:5"><b> {{ item.courseName }} </b></p>
-                  <p class="font-size:4"> {{ item.courseId }}</p>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-        </div>
-      </el-main>
-    </el-card>
+              <!-- @click="todoctor(item.id, item.dname)" -->
+              <div class="card_text">
+                <img
+                  src="https://edu-image.nosdn.127.net/6AE1A85C007E8E946EEC979BC9AB04A1.jpg?imageView&thumbnail=510y288&quality=100"
+                  width="100%"
+                />
+                <p class="font-size:5">
+                  <b> {{ item.courseName }} </b>
+                </p>
+                <p class="font-size:4">{{ item.courseId }}</p>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+    </el-main>
   </div>
 </template>
 

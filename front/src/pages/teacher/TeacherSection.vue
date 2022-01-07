@@ -1,59 +1,62 @@
 ﻿<template>
   <div>
-    <el-card>
-      <div slot="header" class="clearfix">
-        <span><b>我的课程</b></span>
-      </div>
+    <div slot="header" class="clearfix">
+      <span><b>我的课程</b></span>
+    </div>
 
-      <el-table
-          v-loading="loading"
-          :header-row-style="{ height: '20px' }"
-          :cell-style="{ padding: '5px' }"
-          ref="filterTable1"
-          :data="tableData"
-          height="465"
-          stripe
-          highlight-current-row
-          @current-change="handleCurrentChange1"
-          style="width: 100%"
-          :default-sort="{ prop: 'date', order: 'descending' }"
+    <el-table
+      v-loading="loading"
+      :header-row-style="{ height: '20px' }"
+      :cell-style="{ padding: '5px' }"
+      ref="filterTable1"
+      :data="tableData"
+      height="465"
+      stripe
+      highlight-current-row
+      @current-change="handleCurrentChange1"
+      style="width: 100%"
+      :default-sort="{ prop: 'date', order: 'descending' }"
+    >
+      <el-table-column prop="courseName" label="课程名称"></el-table-column>
+      <el-table-column prop="courseId" sortable label="课号"> </el-table-column>
+      <el-table-column prop="year" sortable label="学年"> </el-table-column>
+      <el-table-column prop="semeter" sortable label="学期"> </el-table-column>
+      <el-table-column
+        prop="hasNotGrading"
+        label="是否待评分报告"
+        :filters="[
+          { text: '有', value: '有' },
+          { text: '无', value: '无' },
+        ]"
+        :filter-method="filterTag"
+        filter-placement="bottom-end"
       >
-        <el-table-column prop="courseName" label="课程名称"></el-table-column>
-        <el-table-column prop="courseId" sortable label="课号">
-        </el-table-column>
-        <el-table-column prop="year" sortable label="学年">
-        </el-table-column>
-        <el-table-column prop="semeter" sortable label="学期">
-        </el-table-column>
-        <el-table-column
-            prop="hasNotGrading"
-            label="是否待评分报告"
-            :filters="[{ text: '有', value: '有' }, { text: '无', value: '无' }]"
-            :filter-method="filterTag"
-            filter-placement="bottom-end">
-          <template slot-scope="scope">
-            <el-tag
-                :type="scope.row.hasNotGrading === '有' ? 'primary' : 'success'"
-                disable-transitions>{{scope.row.hasNotGrading}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <router-link
-                :to="{
-                name: 'TeacherSectionInfo',
-                params: { courseId: scope.row.courseId ,sectionId: scope.row.sectionId},
-              }"
-            >
-              <el-button @click="handleClick(scope.row)" type="text"
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.hasNotGrading === '有' ? 'primary' : 'success'"
+            disable-transitions
+            >{{ scope.row.hasNotGrading }}</el-tag
+          >
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <router-link
+            :to="{
+              name: 'TeacherSectionInfo',
+              params: {
+                courseId: scope.row.courseId,
+                sectionId: scope.row.sectionId,
+              },
+            }"
+          >
+            <el-button @click="handleClick(scope.row)" type="text"
               >查看详情
-              </el-button
-              >
-            </router-link>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
+            </el-button>
+          </router-link>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -63,7 +66,8 @@ import {
   GETLabs,
   GETActivities,
   DELETEActivitiesID,
-  POSTFeedbackRecords, GETSectionOfTeacher,
+  POSTFeedbackRecords,
+  GETSectionOfTeacher,
 } from "../../API/http";
 // import FeedbackDialog from '../../components/FeedbackDialog.vue';
 export default {
@@ -71,18 +75,20 @@ export default {
   //     FeedbackDialog,
   //  },
   created() {
-    GETSectionOfTeacher(store.state.id).then((data) => {
-      console.log("data",data);
-      for (var i = 0; i < data.length; ++i) {
-        data[i].semeter = data[i].semeter == true ? "下学期":"上学期";
-        data[i].hasNotGrading = data[i].hasNotGrading==true?'有':'无';
-        this.tableData.push(data[i]);
-      }
-      console.log(this.tableData);
-    }).catch((err) => {
-      console.log(err);
-      this.$message("课程信息获取错误");
-    });
+    GETSectionOfTeacher(store.state.id)
+      .then((data) => {
+        console.log("data", data);
+        for (var i = 0; i < data.length; ++i) {
+          data[i].semeter = data[i].semeter == true ? "下学期" : "上学期";
+          data[i].hasNotGrading = data[i].hasNotGrading == true ? "有" : "无";
+          this.tableData.push(data[i]);
+        }
+        console.log(this.tableData);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("课程信息获取错误");
+      });
   },
 
   data() {
@@ -103,7 +109,7 @@ export default {
       },
       rules: {
         textarea: [
-          {required: true, message: "请输入场地反馈", trigger: "blur"},
+          { required: true, message: "请输入场地反馈", trigger: "blur" },
         ],
       },
 
@@ -150,29 +156,29 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       })
-          .then(() => {
-            const tempList =
-                type == 1 ? this.tableData.待举办 : this.tableData.审核中;
+        .then(() => {
+          const tempList =
+            type == 1 ? this.tableData.待举办 : this.tableData.审核中;
 
-            for (var i = 0; i < tempList.length; i++) {
-              if (tempList[i].ID == row.ID) {
-                tempList.splice(i, 1);
+          for (var i = 0; i < tempList.length; i++) {
+            if (tempList[i].ID == row.ID) {
+              tempList.splice(i, 1);
 
-                this.deleteAppointment(row.ID);
-                break;
-              }
+              this.deleteAppointment(row.ID);
+              break;
             }
-            this.$message({
-              type: "success",
-              message: "删除成功!",
-            });
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "已取消删除",
-            });
+          }
+          this.$message({
+            type: "success",
+            message: "删除成功!",
           });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     handleChange(index, row, type) {
       index;
@@ -227,27 +233,27 @@ export default {
     //删除某一条活动信息
     deleteAppointment(id) {
       DELETEActivitiesID(id)
-          .then((data) => {
-            console.log("run deleteAppointment", data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        .then((data) => {
+          console.log("run deleteAppointment", data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     //取得所有活动信息
     fetchData() {
       this.loading = true;
       const that = this;
-      GETActivities({orgId: that.orgId}) //应该加accountNumber
-          .then((data) => {
-            // console.log("run GETActivities");
-            that.axiosdata = data;
-            that.dealWithActivities(that.axiosdata);
-            //console.log("that.axiosdata", that.axiosdata);
-          })
-          .catch((err) => {
-            that.data = err;
-          });
+      GETActivities({ orgId: that.orgId }) //应该加accountNumber
+        .then((data) => {
+          // console.log("run GETActivities");
+          that.axiosdata = data;
+          that.dealWithActivities(that.axiosdata);
+          //console.log("that.axiosdata", that.axiosdata);
+        })
+        .catch((err) => {
+          that.data = err;
+        });
 
       this.loading = false;
     },
@@ -332,15 +338,15 @@ export default {
         };
         console.log(tmp);
         POSTFeedbackRecords(tmp)
-            .then((data) => {
-              console.log(data);
-              this.$message({message: "反馈成功", type: "success"});
-              this.$router.push({path: "/OrgFrame/Appointment"});
-            })
-            .catch((err) => {
-              err;
-              this.$message({message: "反馈失败", type: "error"});
-            });
+          .then((data) => {
+            console.log(data);
+            this.$message({ message: "反馈成功", type: "success" });
+            this.$router.push({ path: "/OrgFrame/Appointment" });
+          })
+          .catch((err) => {
+            err;
+            this.$message({ message: "反馈失败", type: "error" });
+          });
       }
       this.feedbackVisible = false;
     },
@@ -352,11 +358,11 @@ export default {
       const date = new Date();
 
       (Y = date.getFullYear()),
-          (m = date.getMonth() + 1),
-          (d = date.getDate()),
-          (H = date.getHours()),
-          (i = date.getMinutes()),
-          (s = date.getSeconds());
+        (m = date.getMonth() + 1),
+        (d = date.getDate()),
+        (H = date.getHours()),
+        (i = date.getMinutes()),
+        (s = date.getSeconds());
       if (m < 10) {
         m = "0" + m;
       }
