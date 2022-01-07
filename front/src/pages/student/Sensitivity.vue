@@ -8,157 +8,167 @@
         <el-col :span="4">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="步长(%)">
-              <el-input-number v-model="form.step" :precision="2" :step="0.2" :max="5" :min="0.1" size="small"
-                               :disabled="disable"></el-input-number>
+              <el-input-number
+                v-model="form.step"
+                :precision="2"
+                :step="0.2"
+                :max="5"
+                :min="0.1"
+                size="small"
+                :disabled="disable"
+              ></el-input-number>
             </el-form-item>
           </el-form>
         </el-col>
         <el-col :span="10">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="变化范围">
-              <el-slider v-model="form.range" range :max="25" :min="-25" :disabled="disable">
+              <el-slider
+                v-model="form.range"
+                range
+                :max="25"
+                :min="-25"
+                :disabled="disable"
+              >
               </el-slider>
             </el-form-item>
           </el-form>
         </el-col>
         <el-col :span="3" align="middle">
-          <el-button @click="compute()" type="primary" :disabled="disable">确定步长</el-button>
+          <el-button @click="compute()" type="primary" :disabled="disable"
+            >确定步长</el-button
+          >
         </el-col>
         <el-col :span="4" align="middle">
           <el-select v-model="selectedItem" placeholder="请选择">
             <el-option
-                v-for="item in select"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+              v-for="item in select"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
             </el-option>
           </el-select>
         </el-col>
         <el-col :span="3" align="middle">
-          <el-button @click="display()" type="primary" :disabled="!disable">{{text}}</el-button>
+          <el-button @click="display()" type="primary" :disabled="!disable">{{
+            text
+          }}</el-button>
         </el-col>
       </el-row>
       <div
-          id="linechart"
-          style="width: 100%; height: 250px"
-          v-if = "!showReport"
+        id="linechart"
+        style="width: 100%; height: 250px"
+        v-if="!showReport"
       ></div>
-      <el-form
-          ref="reportform"
-          :rules="rules"
-          :model="ruleform"
-          label-width="100px"
-          v-else
-      >
-        <el-form-item label="分析内容" prop="purpose">
-          <el-input
-              clearable
-              class="input"
-              type="textarea"
-              :rows="2"
-              placeholder="请输入内容"
-              v-model="ruleform.purpose"
-              maxlength="400"
-              show-word-limit
-          >
-          </el-input>
-        </el-form-item>
-        <el-form-item label="思考讨论" prop="principle">
-          <el-input
-              clearable
-              class="input"
-              type="textarea"
-              :rows="2"
-              placeholder="请输入内容"
-              v-model="ruleform.principle"
-              maxlength="400"
-              show-word-limit
-          >
-          </el-input>
-        </el-form-item>
-<!--        <el-form-item label="实验步骤" prop="progress">-->
-<!--          <el-input-->
-<!--              clearable-->
-<!--              class="input"-->
-<!--              type="textarea"-->
-<!--              :rows="2"-->
-<!--              placeholder="请输入内容"-->
-<!--              v-model="ruleform.progress"-->
-<!--              maxlength="400"-->
-<!--              show-word-limit-->
-<!--          >-->
-<!--          </el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item align="center">-->
-<!--          <el-button-->
-<!--              size="medium"-->
-<!--              type="primary"-->
-<!--              @click="submitForm('reportform')"-->
-<!--          >提交</el-button-->
-<!--          >-->
-<!--          <el-button size="medium" @click="back">取消</el-button>-->
-<!--        </el-form-item>-->
-      </el-form>
+      <div v-if="showReport">
+        <p>1. 结果分析</p>
+        <quill-editor
+          class="editor"
+          ref="purposeEditor"
+          v-model="purpose"
+          :options="editorOption"
+        >
+        </quill-editor>
+        <p>2. 思考讨论</p>
+        <quill-editor
+          class="editor"
+          ref="principleEditor"
+          v-model="principle"
+          :options="editorOption"
+        >
+        </quill-editor>
+      </div>
+      <!--        <el-form-item label="实验步骤" prop="progress">-->
+      <!--          <el-input-->
+      <!--              clearable-->
+      <!--              class="input"-->
+      <!--              type="textarea"-->
+      <!--              :rows="2"-->
+      <!--              placeholder="请输入内容"-->
+      <!--              v-model="ruleform.progress"-->
+      <!--              maxlength="400"-->
+      <!--              show-word-limit-->
+      <!--          >-->
+      <!--          </el-input>-->
+      <!--        </el-form-item>-->
+      <!--        <el-form-item align="center">-->
+      <!--          <el-button-->
+      <!--              size="medium"-->
+      <!--              type="primary"-->
+      <!--              @click="submitForm('reportform')"-->
+      <!--          >提交</el-button-->
+      <!--          >-->
+      <!--          <el-button size="medium" @click="back">取消</el-button>-->
+      <!--        </el-form-item>-->
       <el-divider></el-divider>
       <el-table
-          v-loading="loading"
-          :header-row-style="{ height: '20px' }"
-          :cell-style="{ padding: '5px' }"
-          ref="filterTable1"
-          :data="showedTableData"
-          height=""
-          stripe
-          highlight-current-row
-          style="width: 100%"
-          :default-sort="{ prop: 'date', order: 'descending' }"
+        v-loading="loading"
+        :header-row-style="{ height: '20px' }"
+        :cell-style="{ padding: '5px' }"
+        ref="filterTable1"
+        :data="showedTableData"
+        height=""
+        stripe
+        highlight-current-row
+        style="width: 100%"
+        :default-sort="{ prop: 'date', order: 'descending' }"
       >
         <el-table-column prop="changeRate" label="变化率(%)"></el-table-column>
         <el-table-column label="不确定因素">
           <el-table-column label="营业收入">
             <template slot-scope="scope">
-              <div v-if="scope.row.income<0">
+              <div v-if="scope.row.income < 0">
                 <el-link underline="false" type="danger">
                   {{ scope.row.income }}%
                 </el-link>
               </div>
               <div v-else>
-                {{ scope.row.income == null ? "" : scope.row.income + '%' }}
+                {{ scope.row.income == null ? "" : scope.row.income + "%" }}
               </div>
             </template>
           </el-table-column>
           <el-table-column label="建设投资">
-                        <template slot-scope="scope">
-              <div v-if="scope.row.investment<0">
+            <template slot-scope="scope">
+              <div v-if="scope.row.investment < 0">
                 <el-link underline="false" type="danger">
                   {{ scope.row.investment }}%
                 </el-link>
               </div>
               <div v-else>
-                {{ scope.row.investment == null ? "" : scope.row.investment + '%' }}
+                {{
+                  scope.row.investment == null ? "" : scope.row.investment + "%"
+                }}
               </div>
             </template>
           </el-table-column>
           <el-table-column label="运维成本">
-                        <template slot-scope="scope">
-              <div v-if="scope.row.operatingCost<0">
+            <template slot-scope="scope">
+              <div v-if="scope.row.operatingCost < 0">
                 <el-link underline="false" type="danger">
                   {{ scope.row.operatingCost }}%
                 </el-link>
               </div>
               <div v-else>
-                {{ scope.row.operatingCost == null ? "" : scope.row.operatingCost + '%' }}
+                {{
+                  scope.row.operatingCost == null
+                    ? ""
+                    : scope.row.operatingCost + "%"
+                }}
               </div>
             </template>
           </el-table-column>
           <el-table-column label="人员成本">
-                        <template slot-scope="scope">
-              <div v-if="scope.row.staffCost<0">
+            <template slot-scope="scope">
+              <div v-if="scope.row.staffCost < 0">
                 <el-link underline="false" type="danger">
                   {{ scope.row.staffCost }}%
                 </el-link>
               </div>
               <div v-else>
-                {{ scope.row.staffCost == null ? "" : scope.row.staffCost + '%' }}
+                {{
+                  scope.row.staffCost == null ? "" : scope.row.staffCost + "%"
+                }}
               </div>
             </template>
           </el-table-column>
@@ -170,7 +180,7 @@
 
 <script>
 import store from "../../store/state";
-import {GETComputed, PUTReport} from "../../API/http";
+import { GETComputed, PUTReport } from "../../API/http";
 import * as echarts from "echarts";
 
 export default {
@@ -183,22 +193,22 @@ export default {
   },
   data() {
     return {
-      myChart:null,
-      text:"计算",
+      myChart: null,
+      text: "计算",
       ruleform: {
         purpose: "",
         principle: "",
-        progress: ""
+        progress: "",
       },
-      showReport:false,
-      finishCompute:false,
+      showReport: false,
+      finishCompute: false,
       loading: "",
       form: {
         step: 2,
         range: [-15, 15],
       },
       chartData: [],
-      showedChartData:[],
+      showedChartData: [],
       tabledata: [],
       showedTableData: [],
       selectedItem: "营业收入",
@@ -220,8 +230,30 @@ export default {
         {
           value: "人员成本",
           label: "人员成本",
-        }
-      ]
+        },
+      ],
+      editorOption: {
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"], // 加粗 斜体 下划线 删除线
+            ["blockquote", "code-block"], // 引用  代码块
+            [{ header: [1, 2, 3, 4, 5, 6, false] }], // 标题
+            [{ list: "ordered" }, { list: "bullet" }], // 有序、无序列表
+            [{ script: "sub" }, { script: "super" }], // 上标/下标
+            [{ indent: "-1" }, { indent: "+1" }], // 缩进
+            // [{'direction': 'rtl'}],                         // 文本方向
+            [{ size: ["small", false, "large", "huge"] }], // 字体大小
+            [{ color: [] }, { background: [] }], // 字体颜色、字体背景颜色
+            [{ font: [] }], // 字体种类
+            [{ align: [] }], // 对齐方式
+            ["clean"], // 清除文本格式
+            ["image"], // 链接、图片、视频
+          ], //工具菜单栏配置
+        },
+        placeholder: "请在这里填写内容",
+        theme: "snow",
+        syntax: true,
+      },
     };
   },
 
@@ -237,7 +269,7 @@ export default {
       },
       deep: true,
       immediate: true,
-    }
+    },
   },
   methods: {
     setToDB() {
@@ -252,13 +284,13 @@ export default {
         progress: this.ruleform.progress,
         principle: this.ruleform.principle,
       })
-          .then(() => {
-            this.$alert("提交成功");
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$message("提交失败");
-          });
+        .then(() => {
+          this.$alert("提交成功");
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("提交失败");
+        });
     },
     submitForm(formName) {
       console.log("submitform");
@@ -275,12 +307,12 @@ export default {
       });
     },
     display() {
-      if (this.selected.length == 4){
-        if (!this.showReport){
+      if (this.selected.length == 4) {
+        if (!this.showReport) {
           this.showReport = true;
           this.text = "提交报告";
-        }else{
-          this.submitForm('reportform');
+        } else {
+          this.submitForm("reportform");
         }
         return;
       }
@@ -288,28 +320,26 @@ export default {
         this.showedTableData = [];
         this.showedChartData = [];
         this.selected.push(this.selectedItem);
-        console.log('select',this.selectedItem);
+        console.log("select", this.selectedItem);
         for (var i = 0; i < this.tabledata.length; i++) {
-          var tmp =
-              {
-                changeRate: null,
-                income: null,
-                investment: null,
-                operatingCost: null,
-                staffCost: null
-              };
-          var tmp1 =
-              {
-                changeRate: null,
-                income: null,
-                investment: null,
-                operatingCost: null,
-                staffCost: null
-              };
+          var tmp = {
+            changeRate: null,
+            income: null,
+            investment: null,
+            operatingCost: null,
+            staffCost: null,
+          };
+          var tmp1 = {
+            changeRate: null,
+            income: null,
+            investment: null,
+            operatingCost: null,
+            staffCost: null,
+          };
           tmp.changeRate = this.tabledata[i].changeRate;
           tmp1.changeRate = this.chartData[i].changeRate;
-          for (var j=0;j<this.selected.length;j++){
-            switch (this.selected[j]){
+          for (var j = 0; j < this.selected.length; j++) {
+            switch (this.selected[j]) {
               case "营业收入":
                 tmp1.income = this.chartData[i].income;
                 tmp.income = this.tabledata[i].income;
@@ -334,19 +364,18 @@ export default {
           this.showedChartData.push(tmp1);
           this.showedTableData.push(tmp);
         }
-
       }
       this.myEcharts();
-      console.log('selected',this.selected);
-      console.log('showedChardata',this.showedChartData);
-      console.log('showedTabledata',this.showedTableData);
-      if (this.selected.length == 4){
+      console.log("selected", this.selected);
+      console.log("showedChardata", this.showedChartData);
+      console.log("showedTabledata", this.showedTableData);
+      if (this.selected.length == 4) {
         this.text = "填写报告";
       }
     },
     handle(event) {
-      this.value = event
-      console.log(event, this.value)
+      this.value = event;
+      console.log(event, this.value);
     },
     compute() {
       this.disable = true;
@@ -355,42 +384,38 @@ export default {
       for (i = 0; i > this.form.range[0]; i -= this.form.step) {
         params.unshift(i * 0.01);
       }
-      for (
-          i = this.form.step;
-          i < this.form.range[1];
-          i += this.form.step
-      ) {
+      for (i = this.form.step; i < this.form.range[1]; i += this.form.step) {
         params.push(i * 0.01);
       }
       console.log("params: ", params);
       GETComputed(params)
-          .then((data) => {
-            console.log("data", data);
-            this.chartData = [];
-            this.tabledata = [];
-            for (var i = 0; i < data.length; ++i) {
-              this.chartData.push({
-                changeRate: params[i]*100,
-                income: data[i][0],
-                investment: data[i][1],
-                operatingCost: data[i][2],
-                staffCost: data[i][3]
-              });
-              this.tabledata.push({
-                changeRate: Math.round(params[i] * 1000) / 10,
-                income: Math.round(data[i][0] * 1000) / 10,
-                investment: Math.round(data[i][1] * 1000) / 10,
-                operatingCost: Math.round(data[i][2] * 1000) / 10,
-                staffCost: Math.round(data[i][3] * 1000) / 10
-              });
-            }
-            console.log('tabledata', this.tabledata)
-            // this.myEcharts();
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$message("无法获取计算结果");
-          });
+        .then((data) => {
+          console.log("data", data);
+          this.chartData = [];
+          this.tabledata = [];
+          for (var i = 0; i < data.length; ++i) {
+            this.chartData.push({
+              changeRate: params[i] * 100,
+              income: data[i][0],
+              investment: data[i][1],
+              operatingCost: data[i][2],
+              staffCost: data[i][3],
+            });
+            this.tabledata.push({
+              changeRate: Math.round(params[i] * 1000) / 10,
+              income: Math.round(data[i][0] * 1000) / 10,
+              investment: Math.round(data[i][1] * 1000) / 10,
+              operatingCost: Math.round(data[i][2] * 1000) / 10,
+              staffCost: Math.round(data[i][3] * 1000) / 10,
+            });
+          }
+          console.log("tabledata", this.tabledata);
+          // this.myEcharts();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("无法获取计算结果");
+        });
     },
 
     myEcharts() {
@@ -457,7 +482,7 @@ export default {
 
       for (var item in this.showedChartData) {
         // console.log(this.tabledata[item]);
-        option.xAxis.data.push(this.showedChartData[item].changeRate + '%');
+        option.xAxis.data.push(this.showedChartData[item].changeRate + "%");
         option.series[0].data.push(this.showedChartData[item].income);
         option.series[1].data.push(this.showedChartData[item].investment);
         option.series[2].data.push(this.showedChartData[item].operatingCost);
@@ -674,5 +699,53 @@ body {
   position: absolute;
   bottom: 75px;
   right: 134px;
+}
+</style>
+
+<style>
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  content: "常规";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="small"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="small"]::before {
+  content: "小";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="large"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="large"]::before {
+  content: "中";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="huge"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="huge"]::before {
+  content: "大";
+}
+
+.ql-snow .ql-picker.ql-header .ql-picker-label::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item::before {
+  content: "文本";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
+  content: "标题1";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
+  content: "标题2";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
+  content: "标题3";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
+  content: "标题4";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
+  content: "标题5";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
+  content: "标题6";
 }
 </style>
