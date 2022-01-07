@@ -31,7 +31,7 @@
     >
     </quill-editor>
     <p v-if="reportForm.grades != 0"><b>得分：</b>{{ reportForm.grades }}</p>
-    <el-button size="medium" type="primary" @click="back">返回</el-button>
+    <el-button size="medium" type="primary" @click="back" style="margin: 20px">返回</el-button>
   </el-card>
 </template>
 
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     back() {
-      this.$router.push("/student/experiment");
+      this.$router.go(-1);
     },
     onEditorFocus(event) {
       event.enable(false);

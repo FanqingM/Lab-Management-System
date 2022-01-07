@@ -82,6 +82,7 @@ export const GETFeedbackRecordsID = ID => GetID('/api/FeedbackRecords/', ID) //o
 export const DELETEFeedbackRecordsID = ID => DeleteID('/api/FeedbackRecords/', ID); //ok
 
 // Courses
+export const GETCourse = id => GetID('/course/findOne?id=', id);
 export const GETCoursesByStudentID = params => Get('/student/findAllCourses', params);
 export const GETCoursesByTeacherID = params => Get('/teacher/findAllCourses', params);
 

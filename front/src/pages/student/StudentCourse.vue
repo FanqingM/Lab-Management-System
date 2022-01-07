@@ -2,7 +2,7 @@
   <div>
     <el-card>
       <div slot="header" class="clearfix">
-        <span><b>我的实验</b></span>
+        <span><b>{{ name }}</b></span>
       </div>
       <el-tabs v-model="activeName">
         <el-tab-pane label="实验" name="first">
@@ -24,16 +24,29 @@
             <el-table-column prop="status" label="状态">
               <template slot-scope="scope">
                 <el-tag
-                  :type="scope.row.grades == null ? 'primary' : 'success'"
+                  :type="
+                    scope.row.grades == null
+                      ? scope.row.end
+                        ? 'danger'
+                        : 'primary'
+                      : 'success'
+                  "
                   disable-transitions
                 >
-                  {{ scope.row.grades == null ? "未提交" : "已提交" }}
+                  {{
+                    scope.row.grades == null
+                      ? scope.row.end
+                        ? "缺交"
+                        : "未提交"
+                      : "已提交"
+                  }}
                 </el-tag>
               </template>
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <router-link
+                  v-if="!scope.row.end"
                   :to="{
                     name: 'StudentReport',
                     params: {
@@ -48,6 +61,19 @@
                     scope.row.grades == null ? "完成报告" : "重新编辑"
                   }}</el-button>
                 </router-link>
+                <router-link
+                  v-else-if="scope.row.grades != null"
+                  :to="{
+                    path: '/student/finished-report',
+                    query: {
+                      courseId: scope.row.courseId,
+                      sectionId: scope.row.sectionId,
+                      labId: scope.row.labId,
+                    },
+                  }"
+                >
+                  <el-button type="text">查看详情</el-button>
+                </router-link>
               </template>
             </el-table-column>
           </el-table>
@@ -56,7 +82,6 @@
           <el-table
             v-loading="loading"
             :header-row-style="{ height: '20px' }"
-            cell-style="padding: 5px; height: 50px"
             :data="files"
             stripe
             highlight-current-row
@@ -85,9 +110,14 @@
 
 <script>
 import store from "../../store/state";
-import { GETLabs, GETFiles, DownloadFile } from "../../API/http";
+import { GETLabs, GETFiles, DownloadFile, GETCourse } from "../../API/http";
 export default {
   mounted() {
+    GETCourse(this.courseId)
+    .then((data) => {
+      this.name = data.name;
+    });
+
     GETLabs({
       studentId: store.state.id,
     })
@@ -108,9 +138,12 @@ export default {
         console.log("data", data);
         for (var i = 0; i < data.length; ++i) {
           if (data[i].courseId == this.courseId) {
-            this.labs.push(data[i]);
+            var r = data[i];
+            r["end"] = currentTime > r.endTime;
+            this.labs.push(r);
           }
         }
+        console.log(this.labs);
       })
       .catch((err) => {
         console.log(err);
@@ -133,6 +166,7 @@ export default {
   data() {
     return {
       courseId: this.$route.query.courseId,
+      name: "",
       labs: [],
       files: [],
       ruleForm: {

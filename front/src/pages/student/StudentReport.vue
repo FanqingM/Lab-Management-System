@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     back() {
-      this.$router.push("/student/experiment");
+      this.$router.go(-1);
     },
 
     handleChange(value) {
@@ -126,7 +126,7 @@ export default {
       })
         .then(() => {
           this.$alert("提交成功");
-          this.$router.push({ path: "/student/experiment" });
+          this.$router.go(-1);
         })
         .catch((err) => {
           console.log(err);
