@@ -205,6 +205,7 @@ export default {
   },
   mounted() {
     this.createWebSocket();
+    console.log("create");
   },
   methods: {
     /**
@@ -287,10 +288,22 @@ export default {
         //   console.log(JSON.parse(event.data.slice(1)))
         // }
       };
-      this.websocket.onclose = function () {
-        console.log("关闭了");
+      this.websocket.onclose = () => {
+        var rank = 1;
+        for (let i = 1; i < 4; ++i) {
+          if (this.scores[i] > this.scores[0]) {
+            rank++;
+          }
+        }
+        this.$alert('对抗练习结束，你的小组排名为' + rank, '练习结束', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$router.go(-1);
+          }
+        });
+        console.log("连接关闭");
       };
-      this.websocket.onerror = function () {
+      this.websocket.onerror = () => {
         this.$alert('抱歉，当前无法连接。', '连接错误', {
           confirmButtonText: '确定',
           callback: action => {
@@ -300,11 +313,11 @@ export default {
         console.log("连接错误");
       };
       // 路由跳转时结束websocket链接
-      this.$router.afterEach(function () {
+      this.$router.afterEach(() => {
         this.websocket.close();
       });
       // 监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常
-      window.onbeforeunload = function () {
+      window.onbeforeunload = () => {
         this.websocket.close();
       };
     },
