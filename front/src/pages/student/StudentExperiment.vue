@@ -5,7 +5,7 @@
         <span><b>我的实验</b></span>
       </div>
       <el-tabs v-model="activeName">
-        <el-tab-pane label="未完成" name="first">
+        <el-tab-pane label="未结束" name="first">
           <el-table
             v-loading="loading"
             :header-row-style="{ height: '20px' }"
@@ -23,23 +23,38 @@
             </el-table-column>
             <el-table-column prop="endTime" sortable label="截止时间">
             </el-table-column>
+            <el-table-column prop="status" label="状态">
+              <template slot-scope="scope">
+                <el-tag
+                  :type="scope.row.grades == null ? 'primary' : 'success'"
+                  disable-transitions
+                >
+                  {{ scope.row.grades == null ? "未提交" : "已提交"}}
+                </el-tag>
+              </template>
+            </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <router-link
                   :to="{
                     name: 'StudentReport',
-                    params: { labId: scope.row.labId, labName: scope.row.labName },
+                    params: {
+                      labId: scope.row.labId,
+                      courseId: scope.row.courseId,
+                      sectionId: scope.row.sectionId,
+                      labName: scope.row.labName 
+                    },
                   }"
                 >
                   <el-button type="text"
-                    >完成报告</el-button
+                    >{{ scope.row.grades == null ? "完成报告" : "重新编辑"}}</el-button
                   >
                 </router-link>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane label="已完成" name="second">
+        <el-tab-pane label="已结束" name="second">
           <el-table
             v-loading="loading"
             :header-row-style="{ height: '20px' }"
@@ -58,10 +73,10 @@
             <el-table-column prop="status" label="状态">
               <template slot-scope="scope">
                 <el-tag
-                  :type="scope.row.grades != 0 ? 'success' : 'primary'"
+                  :type="scope.row.grades == null ? 'danger' : (scope.row.grades != 0 ? 'success' : 'primary')"
                   disable-transitions
                 >
-                  {{ scope.row.grades != 0 ? "已批改" : "未批改" }}
+                  {{ scope.row.grades == null ? "缺交" : (scope.row.grades != 0 ? "已批改" : "未批改")}}
                 </el-tag>
               </template>
             </el-table-column>
@@ -76,8 +91,9 @@
                       labId: scope.row.labId,
                     },
                   }"
+                  v-if="scope.row.grades != null"
                 >
-                  <el-button type="text">查看详情</el-button>
+                <el-button type="text">查看详情</el-button>
                 </router-link>
               </template>
             </el-table-column>
@@ -100,14 +116,24 @@ export default {
       studentId: store.state.id,
     })
       .then((data) => {
+        let nowDate = new Date()
+        let date = {
+          year: nowDate.getFullYear(),
+          month: nowDate.getMonth() + 1,
+          date: nowDate.getDate()
+        }
+        var currentTime = date.year + '-' + (date.month < 10 ? ('0'+String(date.month)) : String(date.month)) + '-' + (date.date < 10 ? ('0'+String(date.date)) : String(date.date))
+        console.log(currentTime);
         console.log("data", data);
         for (var i = 0; i < data.length; ++i) {
-          if (data[i].grades != null) {
+          if (data[i].endTime < currentTime) {
             this.finished.push(data[i]);
           } else {
             this.unfinished.push(data[i]);
           }
         }
+        console.log(this.finished);
+        console.log(this.unfinished);
       })
       .catch((err) => {
         console.log(err);
