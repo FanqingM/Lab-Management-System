@@ -298,7 +298,7 @@ export default {
         this.$alert('对抗练习结束，你的小组排名为' + rank, '练习结束', {
           confirmButtonText: '确定',
           callback: action => {
-            this.$router.go(-1);
+            this.$router.push({path: "/student/test-list"});
           }
         });
         console.log("连接关闭");
