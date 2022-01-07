@@ -21,7 +21,7 @@
               >
                 <!-- @click="todoctor(item.id, item.dname)" -->
                 <div class="card_text">
-                  <img src="https://edu-image.nosdn.127.net/6AE1A85C007E8E946EEC979BC9AB04A1.jpg?imageView&thumbnail=510y288&quality=100" width="100%"/>
+                  <img :src="getImg(item.courseId)" width="100%"/>
                   <p class="font-size:5"><b> {{ item.courseName }} </b></p>
                   <p class="font-size:4"> {{ item.courseId }}</p>
                 </div>
@@ -73,7 +73,25 @@ export default {
   methods: {
     viewCourse(courseId) {
       console.log(courseId);
-      this.$router.push('/student/course/' + courseId);
+      this.$router.push({ path: '/student/course', query: { courseId: courseId }});
+    },
+    getImg(courseId) {
+      switch(courseId) {
+        case '420244':
+          return 'http://nos.netease.com/edu-image/bf3299ba3762452e96b1fc871185d9a7.jpg';
+        case '420343':
+          return 'https://edu-image.nosdn.127.net/6AE1A85C007E8E946EEC979BC9AB04A1.jpg?imageView&thumbnail=510y288&quality=100';
+        case '420679':
+          return 'https://edu-image.nosdn.127.net/0BA6974706F28E52F053981570841423.jpg?imageView&thumbnail=510y288&quality=100';
+        case '420680':
+          return 'http://edu-image.nosdn.127.net/580BC7EE28CC1036DBB263985C57848E.jpg?imageView&thumbnail=426y240&quality=100';
+        case '420681':
+          return 'http://img-ph-mirror.nosdn.127.net/Ove82eB-nUtuC-8mfX7EMQ==/6630543298653738028.jpg';
+        case '420682':
+          return 'http://edu-image.nosdn.127.net/A7C6B5B16043CC2C4D46ED5FA94AEEE2.jpg?imageView&thumbnail=426y240&quality=100';
+        default:
+          return 'http://img-ph-mirror.nosdn.127.net/tYhzuDVilzlDOo2bEyH_Qg==/6608226511143817333.jpg';
+      }
     }
   },
 };
@@ -83,8 +101,7 @@ export default {
 .ecard {
   border-radius: 7px;
   background: #ffffff;
-
-  height: 80px;
+  height: 90%;
   text-align: center;
 }
 .card_text {
@@ -111,6 +128,7 @@ export default {
   text-align: center;
 }
 .ecol {
+  height: 290px;
   padding: 0.6%;
 }
 .etag1 {

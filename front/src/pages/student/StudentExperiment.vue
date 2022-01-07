@@ -108,9 +108,6 @@
 import store from "../../store/state";
 import { GETLabs } from "../../API/http";
 export default {
-  //  components: {
-  //     FeedbackDialog,
-  //  },
   created() {
     GETLabs({
       studentId: store.state.id,
@@ -150,145 +147,14 @@ export default {
         textarea: "",
       },
       loading: true,
-      feedbackRow: {
-        ID: "",
-        additionalRequest: "",
-        date: "",
-        description: "",
-        groundname: "",
-        groupname: "",
-        name: "",
-        participantNum: 0,
-        tag: "",
-        time: "",
-      },
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
       activeName: "first",
-
-      //以下是调用api后新增的内容
-      axiosdata: "",
-      orgId: store.state.ID,
       feedbackVisible: false,
     };
   },
   methods: {
     filterTag(value, row) {
       return row.tag === value;
-    },
-    formatter(row) {
-      return row.groundname;
-    },
-    handleDelete(index, row, type) {
-      console.log(index, row);
-
-      this.$confirm("此操作将永久删除该活动信息, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          const tempList =
-            type == 1 ? this.tableData.待举办 : this.tableData.审核中;
-
-          for (var i = 0; i < tempList.length; i++) {
-            if (tempList[i].ID == row.ID) {
-              tempList.splice(i, 1);
-              this.deleteAppointment(row.ID);
-              break;
-            }
-          }
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
-    },
-    handleChange(index, row, type) {
-      index;
-      type;
-      this.$router.push({
-        name: "ApplySiteWindow",
-        query: {
-          activityID: row.ID,
-        },
-      });
-    },
-    handleFeedback(row) {
-      console.log(row);
-      this.feedbackVisible = true;
-      this.feedbackRow = row;
-    },
-    handleRenew(index, row) {
-      console.log(index, row);
-    },
-    handleCurrentChange1(val) {
-      this.currentRow = val;
-      //this.$router.push('/Recorddescription')
-    },
-    handleCurrentChange2(val) {
-      this.currentRow = val;
-      this.$router.push({
-        name: "PendingWindow",
-        params: {
-          activityID: val.ID,
-        },
-      });
-    },
-    handleCurrentChange3(val) {
-      this.currentRow = val;
-      this.$router.push({
-        name: "RecordWindow",
-        params: {
-          activityID: val.ID,
-        },
-      });
-    },
-    handleCurrentChange4(val) {
-      this.currentRow = val;
-      this.$router.push({
-        name: "RejectedWindow",
-        params: {
-          activityID: val.ID,
-        },
-      });
-    },
-  },
-  computed: {
-    formatTime() {
-      var Y, m, d, H, i, s, sresult;
-
-      const date = new Date();
-
-      (Y = date.getFullYear()),
-        (m = date.getMonth() + 1),
-        (d = date.getDate()),
-        (H = date.getHours()),
-        (i = date.getMinutes()),
-        (s = date.getSeconds());
-      if (m < 10) {
-        m = "0" + m;
-      }
-      if (d < 10) {
-        d = "0" + d;
-      }
-      if (H < 10) {
-        H = "0" + H;
-      }
-      if (i < 10) {
-        i = "0" + i;
-      }
-      if (s < 10) {
-        s = "0" + s;
-      }
-      sresult = String(Y) + "-" + m + "-" + d + "T" + H + ":" + i + ":" + s;
-
-      return sresult;
     },
   },
 };

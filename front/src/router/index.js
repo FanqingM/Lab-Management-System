@@ -140,7 +140,7 @@ const routes = [
                 // }
             },
             {
-                path: "course/:course_id",
+                path: "course",
                 name: "StudentCourse",
                 component: () =>
                     import('../pages/student/StudentCourse.vue'),

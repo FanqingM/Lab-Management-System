@@ -1,6 +1,7 @@
 /**   
  * api接口统一管理
  */
+import axios from "axios";
 import { Get, Post, DeleteID, PutID, GetID, GetList, Delete, Put } from './config'
 
 
@@ -19,6 +20,26 @@ export const GETActivitiesID = ID => GetID('/api/Activities/', ID); //ok
 
 /*Reports*/
 export const PUTReport = param => Put('/report/update', param);
+
+/*File*/
+export const GETFiles = id => GetID('/file/findAllByCourseId?courseId=', id);
+
+export function DownloadFile(fileName) {
+    return new Promise((resolve, reject) => {
+        axios.get('/student/downloadFile?filename='+fileName, { responseType: 'blob' })
+            .then(response => {
+                console.log(response);
+                const url = window.URL.createObjectURL(new Blob([response.data]), {type: 'application/pdf' });
+                const link = document.createElement(fileName);
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+    });
+}
+
 
 //Students
 export const GETStudents = () => Get('/student/findAll'); //ok
@@ -57,7 +78,7 @@ export const DELETEExamineAndApprovesID = ID => DeleteID('/api/ExamineAndApprove
 export const GETFeedbackRecords = param => Get('/api/FeedbackRecords', param); //ok
 export const POSTFeedbackRecords = param => Post('/api/FeedbackRecords', param); //ok
 export const GETFeedbackRecordsID = ID => GetID('/api/FeedbackRecords/', ID) //ok
-    // export const PUTFeedbackRecordsID = (ID, param) => PutID('/api/FeedbackRecords/', ID, param); 
+// export const PUTFeedbackRecordsID = (ID, param) => PutID('/api/FeedbackRecords/', ID, param); 
 export const DELETEFeedbackRecordsID = ID => DeleteID('/api/FeedbackRecords/', ID); //ok
 
 // Courses
@@ -67,57 +88,9 @@ export const GETCoursesByTeacherID = params => Get('/teacher/findAllCourses', pa
 // IndoorGrounds
 export const GETIndoorGrounds = param => Get('/api/IndoorGrounds', param) //ok
 export const GETIndoorGroundsID = ID => GetID('/api/IndoorGrounds/', ID) //ok   
-    // export const POSTIndoorGrounds = param => Post('/api/IndoorGrounds', param);
+// export const POSTIndoorGrounds = param => Post('/api/IndoorGrounds', param);
 export const PUTIndoorGroundsID = (ID, param) => PutID('/api/IndoorGrounds/', ID, param); //ok
 // export const DELETEIndoorGroundsID = ID => DeleteID('/api/IndoorGrounds/', ID);
-
-
-
-//Grounds
-export const GETGrounds = param => Get('/api/Grounds', param) //ok
-export const GETGroundsID = ID => GetID('/api/Grounds/', ID) //ok
-export const PUTGroundsID = (ID, param) => PutID('/api/Grounds/', ID, param); //ok
-
-
-
-//OutdoorGrounds
-export const GETOutdoorGrounds = param => Get('/api/OutdoorGrounds', param)
-export const GETOutdoorGroundsID = ID => GetID('/api/OutdoorGrounds/', ID)
-
-//Groundsmen
-// export const GETGroundsmen = param => Get('/api/Groundsmen', param);
-export const GETGroundsmenID = ID => GetID('/api/Groundsmen/', ID); //ok
-export const PUTGroundsmenID = (ID, param) => PutID('/api/Groundsmen/', ID, param); 
-// export const DELETEGroundsmenID = ID => DeleteID('/api/Groundsmen/', ID);
-
-
-//MaintenanceAnnouncements
-export const GETMaintenanceAnnouncements = param => Get('/api/MaintenanceAnnouncements', param); //ok
-export const POSTMaintenanceAnnouncements = param => Post('/api/MaintenanceAnnouncements', param); //ok
-
-
-//OccupyTimes
-export const GETOccupyTimes = param => Get('/api/OccupyTimes', param); //ok 但是现在表是空的
-
-//Organizations
-export const GETOrganizations = param => Get('/api/Organizations', param); //ok
-export const PUTOrganizations = param => Put('/api/Organizations', param); //ok
-export const POSTOrganizations = param => Post('/api/Organizations', param); //ok
-export const GETOrganizationsID = ID => GetID('/api/Organizations/', ID); //ok
-export const PUTOrganizationsID = (ID, param) => PutID('/api/Organizations/', ID, param); //ok
-export const DELETEOrganizationsID = ID => DeleteID('/api/Organizations/', ID); //ok
-
-//Activate
-export const GETUnactivatedAccounts = () => Get('/unactivatedAccount/findAll');
-export const GETUnactivatedAccountID = ID => GetID('/unactivatedAccount/findOne?id=', ID);
-export const ActivateAccount = ID => GetID('/unactivatedAccount/activate?id=', ID);
-export const DELETEUnactivatedAccount = ID => DeleteID('/unactivatedAccount/delete/', ID);
-export const POSTUnactivatedAccount = param => Post('/unactivatedAccount/add', param);
-
-//OrgFavorites
-export const GETOrgFavorites = param => Get('/api/OrgFavorites', param); //ok
-export const POSTOrgFavorites = param => Post('/api/OrgFavorites', param); //ok
-export const DELETEOrgFavorites = param => Delete('/api/OrgFavorites', param); //ok
 
 // StuFavorites
 export const GETStuFavoritesID = ID => GetID('/api/StuFavorites/', ID); //ok
