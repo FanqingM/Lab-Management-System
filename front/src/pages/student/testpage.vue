@@ -182,7 +182,6 @@ export default {
 
   data() {
     return {
-      a: "",
       waiting: true,
       num_member: 3,
       tmpcnt: 1,
@@ -232,9 +231,8 @@ export default {
      */
     createWebSocket() {
       this.websocket = new WebSocket(
-        "ws://139.196.114.7:9094/webSocket/" + store.state.id + this.a
-      ); //a是测试用的，为了一个浏览器模拟多个用户
-      this.a = this.a + "1";
+        "ws://localhost:9094/webSocket/" + store.state.id
+      );
 
       // 连接成功时
       this.websocket.onopen = () => {
@@ -259,14 +257,16 @@ export default {
             // 同一个房间中某个用户回答正确（可能是自己也可能不是自己）
             // message中的内容时用户id（回答正确的人的id）
             if (message == store.state.id) {
-              scores[0] += 20;
+              this.scores[0] += 20;
               this.playCorrect();
             } else if (this.ids.indexOf(message) == -1) {
               this.ids[this.tmpcnt] = message;
               this.scores[this.tmpcnt] += 20;
+              console.log(message, this.scores[this.tmpcnt]);
               this.tmpcnt++;
             } else {
               this.scores[this.ids.indexOf(message)] += 20;
+              console.log(message, this.scores[this.ids.indexOf(message)]);
             }
 
             break;
