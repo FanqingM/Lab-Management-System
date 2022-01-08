@@ -93,40 +93,15 @@ export default {
 
   data() {
     return {
-      //这是下载pdf的参数 别删了嗷
-      drawDetail: "", //这是选中那一行
-      dialogVisible: false,
-      pageData: null, //接收html格式代码
-      isShow: true,
-      isCanvas: false,
-      downType: true, // false为 pdf , true为图片
-      htmlTitle: "场地使用凭证",
       loading: false,
       tableData: [],
       ruleForm: {
         score: null,
         textarea: "",
       },
-      rules: {
-        textarea: [
-          { required: true, message: "请输入场地反馈", trigger: "blur" },
-        ],
-      },
 
-      feedbackRow: {
-        ID: "",
-        additionalRequest: "",
-        date: "",
-        description: "",
-        groundname: "",
-        groupname: "",
-        name: "",
-        participantNum: 0,
-        tag: "",
-        time: "",
-      },
-      colors: ["#99A9BF", "#F7BA2A", "#FF9900"], // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
-      activeName: "second",
+      colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
+      activeName: "first",
 
       //以下是调用api后新增的内容
       axiosdata: "",
@@ -144,10 +119,6 @@ export default {
     formatter(row) {
       return row.groundname;
     },
-    // handleEdit(index, row) {
-    //   console.log(index, row);
-    // },
-    //wy编辑
     handleDelete(index, row, type) {
       console.log(index, row);
 
