@@ -98,7 +98,7 @@
 </template>
 
 
-<style scpoed>
+<style scoped>
 html,
 body,
 #app,
