@@ -64,6 +64,17 @@ const routes = [
                 // }
             },
             {
+                path: "courses",
+                name: "TeacherCourseList",
+                component: () =>
+                    import('../pages/teacher/TeacherCourseList.vue'),
+                // meta: {
+                //     title: '个人信息',
+                //     requireAuth: true,
+                //     roles: ['student']
+                // }
+            },
+            {
                 path: "gradingReport/:courseId/:sectionId/:labId/:studentId",
                 name: "TeacherGradingReport",
                 component: () =>

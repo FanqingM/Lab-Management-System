@@ -46,15 +46,6 @@ export default {
     };
   },
   mounted() {
-    // for (let i = 0; i < 80; ++i) {
-    //   this.courses.push({
-    //     courseId: String(420343 + i),
-    //     courseName: "编译原理",
-    //     sectionId: "01",
-    //     semeter: true,
-    //     year: "2021-2022",
-    //   });
-    // }
     GETCoursesByStudentID({
       studentId: store.state.id,
       semeter: this.semester,
@@ -105,9 +96,9 @@ export default {
   text-align: center;
 }
 .card_text {
-  margin-top: 10%;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 .select_container {
   width: 80%;

@@ -5,7 +5,7 @@
         <el-col :span="1" class="header-row-col1">
           <el-row class="headarrow" type="flex" justify="left" align="middle">
               <router-link
-                  :to="{path: '/teacher/section',}"
+                  :to="{path: '/teacher/courses',}"
                 >
               <i class="el-icon-s-home"></i
             ></router-link>
