@@ -176,7 +176,6 @@ export default {
       loading: true,
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
       activeName: "first",
-      feedbackVisible: false,
     };
   },
   methods: {

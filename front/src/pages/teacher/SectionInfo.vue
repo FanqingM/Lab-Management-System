@@ -1,73 +1,93 @@
 <template>
   <div>
-    <!-- <el-col :span="12"> -->
-    <el-row class="upper-row">
-      <el-card class="maincard">
-        <div slot="header" class="clearfix">
-          <span class="maintitle">课程详情 </span>
-        </div>
-         <el-col :span="12">
-           <el-image
-               style="width: 500px; height: 250px"
-               :src="url"
-               fit="contain"></el-image>
-
-         </el-col>
-        <el-col :span="12">
-
-          <div class="detailinfo">
-            <p class=""><b>课程名称：</b>{{ sectionInfo.courseName }}</p>
-            <p class=""><b>课程代号：</b>{{ sectionInfo.courseId }}</p>
-            <p class=""><b>班级代号：</b>{{ sectionInfo.sectionId }}</p>
-            <p class=""><b>课程学年：</b>{{ sectionInfo.year }}</p>
-            <p class=""><b>课程学期：</b>{{ sectionInfo.semeter }}</p>
-            <p class=""><b>课程学分：</b>{{ sectionInfo.credits }}</p>
-          </div>
-        </el-col>
-      </el-card>
-    </el-row>
-    <el-row class="lower-row">
-      <el-card class="maincard">
-        <div slot="header" class="clearfix">
-          <span class="maintitle">课程实验 </span>
-        </div>
-        <el-table
-            v-loading="loading"
-            :header-row-style="{ height: '20px' }"
-            :cell-style="{ padding: '5px' }"
-            ref="filterTable1"
-            :data="lanInstanceInfo"
-            height="465"
-            stripe
-            highlight-current-row
-            @current-change="handleCurrentChange1"
-            style="width: 100%"
-            :default-sort="{ prop: 'labId', order: 'descending' }"
-        >
-          <el-table-column prop="labId" sortable label="实验ID"></el-table-column>
-          <el-table-column prop="name" sortable label="实验名称">
-          </el-table-column>
-          <el-table-column prop="endTime" sortable label="截止时间">
-          </el-table-column>
-          <el-table-column prop="submitNum" sortable label="提交人数">
-          </el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <router-link
-                  :to="{
-                name: 'TeacherLabInstanceInfo',
-                params: { courseId: scope.row.courseId ,sectionId: scope.row.sectionId,labId: scope.row.labId},
-              }"
-              >
-                <el-button @click="handleClick(scope.row)" type="text"
-                >查看详情
-                </el-button
-                >
-              </router-link>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-card>
+    <el-row :gutter="25">
+      <el-col :span="6">
+        <img :src="getImg(sectionInfo.courseId)" style="width: 100%" />
+        <p class=""><b>课程名称：</b>{{ sectionInfo.courseName }}</p>
+        <p class=""><b>课程代号：</b>{{ sectionInfo.courseId }}</p>
+        <p class=""><b>班级代号：</b>{{ sectionInfo.sectionId }}</p>
+        <p class="">
+          <b>课程学期：</b
+          >{{ sectionInfo.year + (sectionInfo.semeter ? "秋" : "春") }}
+        </p>
+        <p class=""><b>课程学分：</b>{{ sectionInfo.credits }}</p>
+      </el-col>
+      <el-col :span="18">
+        <el-tabs v-model="activeName">
+          <el-tab-pane label="实验" name="first">
+            <el-table
+              :header-row-style="{ height: '20px' }"
+              :cell-style="{ padding: '5px' }"
+              :data="lanInstanceInfo"
+              stripe
+              highlight-current-row
+              style="width: 100%"
+              :default-sort="{ prop: 'labId', order: 'descending' }"
+            >
+              <el-table-column prop="labId" label="实验ID"></el-table-column>
+              <el-table-column prop="name" label="实验名称"> </el-table-column>
+              <el-table-column prop="endTime" sortable label="截止时间">
+              </el-table-column>
+              <el-table-column prop="submitNum" label="提交人数">
+              </el-table-column>
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <router-link
+                    :to="{
+                      name: 'TeacherLabInstanceInfo',
+                      params: {
+                        courseId: scope.row.courseId,
+                        sectionId: scope.row.sectionId,
+                        labId: scope.row.labId,
+                      },
+                    }"
+                  >
+                    <el-button @click="handleClick(scope.row)" type="text"
+                      >查看详情
+                    </el-button>
+                  </router-link>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="文件" name="second">
+            <el-upload
+              class="upload-demo"
+              action="http://139.196.114.7:9094/teacher/addFile"
+              :data="{courseId: sectionInfo.courseId}"
+              name="file"
+              :on-success="onSuccess"
+              :on-error="onError"
+              multiple
+              :file-list="uploadFiles"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+            <el-table
+              :header-row-style="{ height: '20px' }"
+              :data="files"
+              stripe
+              highlight-current-row
+              style="width: 100%"
+              :default-sort="{ prop: 'date', order: 'descending' }"
+            >
+              <el-table-column label="文件名">
+                <template slot-scope="scope">
+                  <el-link
+                    :href="
+                      'http://139.196.114.7:9094/student/downloadFile?filename=' +
+                      scope.row.fileName
+                    "
+                    target="_blank"
+                    >{{ scope.row.fileName }}</el-link
+                  >
+                </template>
+              </el-table-column>
+              <el-table-column prop="time" label="上传时间"> </el-table-column>
+            </el-table>
+          </el-tab-pane>
+        </el-tabs>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -117,126 +137,100 @@ body,
 
 
 <script>
-import {GETActivitiesID, GETLabInstanceOfSection, GETSectionInfo} from "../../API/http";
-// import { GETOrganizationsID } from "../../API/http";
-import {GETCreditRecordsID} from "../../API/http";
-import {POSTCreditRecords} from "../../API/http";
+import {
+  GETFiles,
+  GETLabInstanceOfSection,
+  GETSectionInfo,
+} from "../../API/http";
 
 // import store from "../../state/state.js"
 export default {
   name: "creditscoring",
   data() {
     return {
-      url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
-      sectionInfo:null,
-      lanInstanceInfo:null,
-      ruleForm: {
-        reason: "",
-      },
-      rules: {
-        reason: [
-          {required: true, message: "请输入评分理由", trigger: "blur"},
-        ],
-      },
-      activityName: null,
-      date: null,
-      startTime: null,
-      description: null,
-      additionalRequest: null,
-      participantNum: null,
-      duration: null,
-      groundID: null,
-      groupID: null,
-      isReviewed: null,
-      creditDate: null,
-      creditTime: null,
+      sectionInfo: null,
+      lanInstanceInfo: [],
+      files: [],
+      uploadFiles: [],
       score: null,
-      groupName: null,
-      groundName: null,
-      hasCredit: null,
+      activeName: "first",
     };
   },
   mounted() {
     const that = this;
-    console.log(that.$route.params.courseId,that.$route.params.sectionId);
-    GETSectionInfo({"courseId":that.$route.params.courseId,"section_Id":that.$route.params.sectionId}).then((data)=>{
-      that.sectionInfo = data;
-      console.log("sectionInfo",that.sectionInfo);
-    }).catch((err) => {
-      console.log(err);
-      this.$message("评分数据请求错误");
-    });
-    GETLabInstanceOfSection({"courseId":that.$route.params.courseId,"sectionId":that.$route.params.sectionId}).then((data=>{
+    console.log(that.$route.params.courseId, that.$route.params.sectionId);
+    GETSectionInfo({
+      courseId: that.$route.params.courseId,
+      section_Id: that.$route.params.sectionId,
+    })
+      .then((data) => {
+        that.sectionInfo = data;
+        console.log("sectionInfo", that.sectionInfo);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("评分数据请求错误");
+      });
+    GETLabInstanceOfSection({
+      courseId: that.$route.params.courseId,
+      sectionId: that.$route.params.sectionId,
+    }).then((data) => {
+      for (let i = 0; i < data.length; ++i) {
+        data[i].endTime = data[i].endTime.slice(0, 10);
+      }
       that.lanInstanceInfo = data;
-      console.log("lanInstanceInfo",that.lanInstanceInfo);
-
-    }))
+      console.log("lanInstanceInfo", that.lanInstanceInfo);
+    });
+    GETFiles(that.$route.params.courseId)
+      .then((data) => {
+        for (let i = 0; i < data.length; ++i) {
+          data[i].time = data[i].time.slice(0, 10);
+        }
+        this.files = data;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("文件获取失败");
+      });
   },
   methods: {
-    dealWithActivitiy(data) {
-      this.groundName = data.groundName;
-      this.activityName = data.name;
-      this.accountNumber = data.accountNumber;
-      this.groupName = data.organizationName;
-      this.date = data.activityDate.substr(0, data.activityDate.search("T"));
-      this.startTime = data.activityDate.slice(
-          data.activityDate.search("T") + 1
-      );
-      this.participantNum = data.participantNum;
-      this.description = data.description;
-      this.additionalRequest = data.additionalRequest;
-      this.duration = data.duration;
-      this.hasCredit = data.hasCredit;
-      // this.state = data.activityState; 是否评分还没有
+    getImg(courseId) {
+      switch (courseId) {
+        case "420244":
+          return "http://nos.netease.com/edu-image/bf3299ba3762452e96b1fc871185d9a7.jpg";
+        case "420343":
+          return "https://edu-image.nosdn.127.net/6AE1A85C007E8E946EEC979BC9AB04A1.jpg?imageView&thumbnail=510y288&quality=100";
+        case "420679":
+          return "https://edu-image.nosdn.127.net/0BA6974706F28E52F053981570841423.jpg?imageView&thumbnail=510y288&quality=100";
+        case "420680":
+          return "http://edu-image.nosdn.127.net/580BC7EE28CC1036DBB263985C57848E.jpg?imageView&thumbnail=426y240&quality=100";
+        case "420681":
+          return "http://img-ph-mirror.nosdn.127.net/Ove82eB-nUtuC-8mfX7EMQ==/6630543298653738028.jpg";
+        case "420682":
+          return "http://edu-image.nosdn.127.net/A7C6B5B16043CC2C4D46ED5FA94AEEE2.jpg?imageView&thumbnail=426y240&quality=100";
+        default:
+          return "http://img-ph-mirror.nosdn.127.net/tYhzuDVilzlDOo2bEyH_Qg==/6608226511143817333.jpg";
+      }
     },
-    cancle() {
-      this.$router.push({
-        path: "/GroundsAdmin/ScoringActivityList",
-      });
-    },
-    publish() {
-      this.$refs["ruleForm"].validate((valid) => {
-        if (valid) {
-          POSTCreditRecords({
-            reason: this.ruleForm.reason,
-            score: this.score,
-            id: this.$route.params.ID,
-          })
-              .then((data) => {
-                GETCreditRecordsID(this.$route.params.ID).then((data) => {
-                  this.score = data.relativeScore;
-                  this.creditDate = data.creditDate.substr(
-                      0,
-                      data.creditDate.search("T")
-                  );
-                  this.creditTime = data.creditDate.slice(
-                      data.creditDate.search("T") + 1
-                  );
-                  this.ruleForm.reason = data.reason;
-                }).catch((err) => {
-                  console.log(err);
-                  this.$message("评分时间请求错误");
-                });
-                this.hasCredit = 1;
-                console.log(data);
-                this.$message({message: "评分成功", type: "success"});
-                //this.$router.push({ path: "/GroundsAdmin/Main" });
-              })
-              .catch((err) => {
-                err;
-                this.$message({message: "评分失败", type: "error"});
-              });
-        } else {
-          this.$message({message: "请输入符合规范的数据", type: "warning"});
+    onSuccess(response, file, fileList) {
+      this.$message("文件上传成功");
+      GETFiles(this.$route.params.courseId)
+      .then((data) => {
+        for (let i = 0; i < data.length; ++i) {
+          data[i].time = data[i].time.slice(0, 10);
         }
+        this.files = data;
+        this.uploadFiles.shift();
+      })
+      .catch((err) => {
+        console.log(err);
       });
     },
-    form() {
+    onError(err, file, fileList) {
+      this.$message.error("选择的文件过大");
+      console.log(err);
     },
-    created() {
-      console.log(String(this.activityID));
-      this.activityID = Number(this.$route.params.activityID); //具体信息
-    },
+    form() {},
   },
 };
 </script>
