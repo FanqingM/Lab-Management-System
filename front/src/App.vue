@@ -26,21 +26,13 @@ export default {
 }
 </script>
 
-<style scpoed>
+<style>
 @import "./css/transition.css";
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-body{
-	margin:0;
-	padding:0;
-	border:0
+#app, html, body, .el-container{
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+  height: 100%;
 }
 </style>

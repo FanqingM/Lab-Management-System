@@ -528,7 +528,7 @@ export default {
 };
 </script>
 
-<style scpoed>
+<style scoped>
 .el-dialog {
   border-radius: 12px;
 }

@@ -235,10 +235,7 @@ this.finished.push({
 };
 </script>
 
-<style>
-.el-dialog {
-  border-radius: 12px;
-}
+<style scoped>
 .clearfix:before,
 .clearfix:after {
   display: table;

@@ -1,7 +1,7 @@
 <template>
-  <el-container style="height: 100%">
-    <el-header class="header" style="height: 60px">
-      <el-row class="header-row">
+  <el-container>
+    <el-header class="header">
+      <el-row class="header-headerrow">
         <el-col :span="1" class="header-row-col1">
           <el-row class="headarrow" type="flex" justify="left" align="middle">
             <el-button class="fold-button" @click="test" type="text">
@@ -11,7 +11,7 @@
           </el-row>
         </el-col>
         <el-col :span="20" class="header-row-col1">
-          <div style="font-size:30px">实验教学管理系统</div>
+          <div style="font-size:30px; margin-left:20px">实验教学管理系统</div>
         </el-col>
         <el-col :span="3" class="header-row-col3">
           <el-row class="headarrow" type="flex" justify="end" align="middle">
@@ -39,7 +39,7 @@
       </el-row>
     </el-header>
 
-    <el-container style="height: calc(100% - 60px)">
+    <el-container style="overflow: auto">
       <el-aside style="width: auto">
         <el-menu
           class="el-menu-vertical-demo"
@@ -77,7 +77,7 @@
       </el-aside>
 
       <el-main
-        style="height: 100%; overflow: auto; background: rgb(237, 241, 245)"
+        style="background: rgb(237, 241, 245)"
       >
         <keep-alive>
           <transition name="fade-transform" mode="out-in">
@@ -186,12 +186,8 @@ body,
 .header {
   background-color: white;
   padding-left: 16px;
+  line-height: 60px;
   border-bottom: 0.5px solid rgba(85, 79, 78, 0.178);
-}
-.el-main {
-  overflow: auto;
-  /* background-color: wheat; */
-  background-color: rgb(0, 128, 255);
 }
 .el-card {
   border-radius: 10px;
