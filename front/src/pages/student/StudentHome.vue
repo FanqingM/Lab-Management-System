@@ -130,7 +130,7 @@ export default {
               labId: data[i].labId,
               labName: data[i].labName
             });
-            if (data[i].grades != null) {
+            if (data[i].grades == null) {
               this.unfinished.push(data[i]);
             }
           }
