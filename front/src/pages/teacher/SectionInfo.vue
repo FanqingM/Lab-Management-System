@@ -28,8 +28,6 @@
               <el-table-column prop="name" label="实验名称"> </el-table-column>
               <el-table-column prop="endTime" sortable label="截止时间">
               </el-table-column>
-              <el-table-column prop="submitNum" label="提交人数">
-              </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
                   <router-link
