@@ -16,7 +16,7 @@
             >
               <el-card
                 :body-style="{ padding: '0px' }"
-                shadow="hover"
+                shadow="always"
                 class="ecard"
                 @click.native="viewCourse(item.courseId)"
               >
