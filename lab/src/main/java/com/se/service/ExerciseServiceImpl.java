@@ -136,6 +136,7 @@ public class ExerciseServiceImpl implements ExerciseService {
                 return;
             }
             if (group.addGrade(userId)) {
+                refresh(group,userId);
                 end(group, userId);
             } else {
                 sendQuestion(group, userId, true);
