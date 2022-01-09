@@ -222,8 +222,6 @@ export default {
     createWebSocket() {
       this.websocket = new WebSocket(
         "ws://139.196.114.7:9094//webSocket/" + store.state.id
-          // "ws://localhost:9094//webSocket/" + store.state.id
-
       );
 
       // 连接成功时
@@ -256,17 +254,29 @@ export default {
             if (message == store.state.id) {
               this.score0 += 20;
               this.playCorrect();
+              if (this.score0 >= 100) {
+                this.websocket.close();
+              }
             } else if (this.ids.indexOf(message) == -1) {
               this.ids[this.tmpcnt] = message;
               switch(this.tmpcnt) {
                 case 1:
                   this.score1 += 20;
+                  if (this.score1 >= 100) {
+                    this.websocket.close();
+                  }
                   break;
                 case 2:
                   this.score2 += 20;
+                  if (this.score2 >= 100) {
+                    this.websocket.close();
+                  }
                   break;
                 default:
                   this.score3 += 20;
+                  if (this.score3 >= 100) {
+                    this.websocket.close();
+                  }
               }
               this.tmpcnt++;
             } else {
