@@ -80,6 +80,7 @@ public class WebSocket {
 
 
         webSocket.exerciseService.addWaitUsers(userId,this);
+//        webSocket.exerciseService.addWaitUsers("robot"+userId,null);
         System.out.println(onlineCount);
     }
 

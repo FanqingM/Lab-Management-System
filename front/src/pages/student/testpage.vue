@@ -222,6 +222,8 @@ export default {
     createWebSocket() {
       this.websocket = new WebSocket(
         "ws://139.196.114.7:9094//webSocket/" + store.state.id
+          // "ws://localhost:9094//webSocket/" + store.state.id
+
       );
 
       // 连接成功时
