@@ -74,22 +74,38 @@
           <h2 style="margin-left: 20px">题目</h2>
           <el-row style="padding: 20px">{{ question.question }}</el-row>
           <el-row style="padding: 20px"
-            ><el-button type="primary" round @click="sendAnswer(1)" style="margin-right: 20px"
+            ><el-button
+              type="primary"
+              round
+              @click="sendAnswer(1)"
+              style="margin-right: 20px"
               >A</el-button
             >{{ question.a }}</el-row
           >
           <el-row style="padding: 20px"
-            ><el-button type="primary" round @click="sendAnswer(2)" style="margin-right: 20px"
+            ><el-button
+              type="primary"
+              round
+              @click="sendAnswer(2)"
+              style="margin-right: 20px"
               >B</el-button
             >{{ question.b }}</el-row
           >
           <el-row style="padding: 20px"
-            ><el-button type="primary" round @click="sendAnswer(3)" style="margin-right: 20px"
+            ><el-button
+              type="primary"
+              round
+              @click="sendAnswer(3)"
+              style="margin-right: 20px"
               >C</el-button
             >{{ question.c }}</el-row
           >
           <el-row style="padding: 20px"
-            ><el-button type="primary" round @click="sendAnswer(4)" style="margin-right: 20px"
+            ><el-button
+              type="primary"
+              round
+              @click="sendAnswer(4)"
+              style="margin-right: 20px"
               >D</el-button
             >{{ question.d }}</el-row
           >
@@ -178,7 +194,7 @@ export default {
       score0: 0,
       score1: 0,
       score2: 0,
-      score3: 0
+      score3: 0,
     };
   },
   created() {
@@ -259,7 +275,19 @@ export default {
               }
             } else if (this.ids.indexOf(message) == -1) {
               this.ids[this.tmpcnt] = message;
-              switch(this.tmpcnt) {
+              switch (this.tmpcnt) {
+                case 1:
+                  this.score1 += 20;
+                  break;
+                case 2:
+                  this.score2 += 20;
+                  break;
+                default:
+                  this.score3 += 20;
+              }
+              this.tmpcnt++;
+            } else {
+              switch (this.ids.indexOf(message)) {
                 case 1:
                   this.score1 += 20;
                   if (this.score1 >= 100) {
@@ -277,18 +305,6 @@ export default {
                   if (this.score3 >= 100) {
                     this.websocket.close();
                   }
-              }
-              this.tmpcnt++;
-            } else {
-              switch(this.ids.indexOf(message)) {
-                case 1:
-                  this.score1 += 20;
-                  break;
-                case 2:
-                  this.score2 += 20;
-                  break;
-                default:
-                  this.score3 += 20;
               }
             }
             break;
@@ -313,21 +329,21 @@ export default {
       this.websocket.onclose = () => {
         if (this.connstate == true) {
           var rank = 1;
-        if (this.score1 > this.score0) {
-          rank++;
-        }
-        if (this.score3 > this.score0) {
-          rank++;
-        }
-        if (this.score3 > this.score0) {
-          rank++;
-        }
-        this.$alert("对抗练习结束，你的小组排名为" + rank, "练习结束", {
-          confirmButtonText: "确定",
-          callback: (action) => {
-            this.$router.push({ path: "/student/test-list" });
-          },
-        });
+          if (this.score1 > this.score0) {
+            rank++;
+          }
+          if (this.score3 > this.score0) {
+            rank++;
+          }
+          if (this.score3 > this.score0) {
+            rank++;
+          }
+          this.$alert("对抗练习结束，你的小组排名为" + rank, "练习结束", {
+            confirmButtonText: "确定",
+            callback: (action) => {
+              this.$router.push({ path: "/student/test-list" });
+            },
+          });
         }
         console.log("连接关闭");
       };
