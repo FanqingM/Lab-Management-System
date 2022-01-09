@@ -5,20 +5,20 @@
     </div>
     <el-main>
       <div class="card_container">
-        <el-row :gutter="25" type="flex">
+        <el-row :gutter="25" style="display:flex; flex-wrap: wrap;">
           <el-col
             :span="6"
             v-for="item in courses"
             :key="item.courseId"
             class="ecol"
+            type="flex"
           >
             <el-card
-              :body-style="{ padding: '2px' }"
               shadow="hover"
               class="ecard"
+              :body-style="{ padding: '0px' }"
               @click.native="viewCourse(item.courseId, item.sectionId)"
             >
-              <!-- @click="todoctor(item.id, item.dname)" -->
               <div class="card_text">
                 <img :src="getImg(item.courseId)" width="100%" />
                 <p class="font-size:5">
@@ -95,12 +95,10 @@ export default {
 
 <style scoped>
 .ecard {
+  display: flex;
   border-radius: 7px;
   background: #ffffff;
   text-align: center;
-  min-height: 100%;
-  height: 100%;
-  margin: 20px;
 }
 .ecard >>> .el-card__body {
   height: 100%;
@@ -129,8 +127,8 @@ export default {
   text-align: center;
 }
 .ecol {
-  height: 300px;
-  padding: 0.5%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
 }
 .etag1 {
   position: relative;

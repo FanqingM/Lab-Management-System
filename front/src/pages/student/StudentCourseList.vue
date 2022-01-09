@@ -6,15 +6,16 @@
       </div>
       <el-main>
         <div class="card_container">
-          <el-row :gutter="25">
+          <el-row :gutter="25" style="display:flex; flex-wrap: wrap;">
             <el-col
               :span="6"
               v-for="item in courses"
               :key="item.courseId"
               class="ecol"
+              type="flex"
             >
               <el-card
-                :body-style="{ padding: '2px' }"
+                :body-style="{ padding: '0px' }"
                 shadow="hover"
                 class="ecard"
                 @click.native="viewCourse(item.courseId)"
@@ -90,10 +91,13 @@ export default {
 
 <style scoped>
 .ecard {
+  display: flex;
   border-radius: 7px;
   background: #ffffff;
-  height: 90%;
   text-align: center;
+}
+.ecard >>> .el-card__body {
+  height: 100%;
 }
 .card_text {
   margin-top: 5%;
@@ -119,8 +123,8 @@ export default {
   text-align: center;
 }
 .ecol {
-  height: 290px;
-  padding: 0.6%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
 }
 .etag1 {
   position: relative;
