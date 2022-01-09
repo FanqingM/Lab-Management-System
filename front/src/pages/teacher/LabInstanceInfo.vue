@@ -53,8 +53,8 @@
               filter-placement="bottom-end">
             <template slot-scope="scope">
               <el-tag
-                  :type="scope.row.grades ? 'primary' : 'success'"
-                  disable-transitions>{{scope.row.grades?"是":"否"}}</el-tag>
+                  :type="scope.row.grades != 0 ? 'primary' : 'success'"
+                  disable-transitions>{{scope.row.grades != 0 ?"是":"否"}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="分数">

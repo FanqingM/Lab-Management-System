@@ -43,7 +43,7 @@
           v-if="num_member >= 2"
           :size="100"
           style="margin: 10px"
-          src="https://t12.baidu.com/it/u=83297312,2774143649&fm=58"
+          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         ></el-avatar>
         <el-avatar v-else :size="100" style="margin: 10px">
           等待加入
@@ -52,7 +52,7 @@
           v-if="num_member >= 3"
           :size="100"
           style="margin: 10px"
-          src="https://t10.baidu.com/it/u=1857180495,278749235&fm=58"
+          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         ></el-avatar>
         <el-avatar v-else :size="100" style="margin: 10px">
           等待加入
@@ -61,7 +61,7 @@
           v-if="num_member >= 4"
           :size="100"
           style="margin: 10px"
-          src="https://t11.baidu.com/it/u=2957415832,879336052&fm=58"
+          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         ></el-avatar>
         <el-avatar v-else :size="100" style="margin: 10px">
           等待加入
@@ -113,7 +113,7 @@
             </el-row>
             <el-row style="padding: 20px"
               ><el-avatar
-                src="https://t12.baidu.com/it/u=83297312,2774143649&fm=58"
+                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
               ></el-avatar
               ><el-progress
                 :text-inside="true"
@@ -125,7 +125,7 @@
             ></el-row>
             <el-row style="padding: 20px"
               ><el-avatar
-                src="https://t10.baidu.com/it/u=1857180495,278749235&fm=58"
+                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
               ></el-avatar
               ><el-progress
                 :text-inside="true"
@@ -137,7 +137,7 @@
             ></el-row>
             <el-row style="padding: 20px"
               ><el-avatar
-                src="https://t11.baidu.com/it/u=2957415832,879336052&fm=58"
+                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
               ></el-avatar
               ><el-progress
                 :text-inside="true"
@@ -164,7 +164,7 @@ export default {
     return {
       connstate: false,
       waiting: true,
-      num_member: 3,
+      num_member: 2,
       tmpcnt: 1,
       websocket: WebSocket,
       question: {
