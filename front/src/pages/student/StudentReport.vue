@@ -118,7 +118,7 @@ export default {
         courseId: String(this.courseId),
         sectionId: String(this.sectionId),
         labId: String(this.labId),
-        url: "www.google.com",
+        url: null,
         grades: 0,
         purpose: this.purpose,
         progress: this.conclusion,
