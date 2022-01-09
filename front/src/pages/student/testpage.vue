@@ -71,6 +71,7 @@
     <div v-else>
       <el-row style="height: 100%">
         <el-col :span="16">
+          <h2 style="margin-left: 20px">题目</h2>
           <el-row style="padding: 20px">{{ question.question }}</el-row>
           <el-row style="padding: 20px"
             ><el-button @click="sendAnswer(1)" style="margin-right: 20px"
@@ -106,6 +107,7 @@
                 :text-inside="true"
                 :stroke-width="30"
                 :percentage="score0"
+                :format="format"
                 status="warning"
               ></el-progress>
             </el-row>
@@ -117,6 +119,7 @@
                 :text-inside="true"
                 :stroke-width="20"
                 :percentage="score1"
+                :format="format"
                 status="warning"
               ></el-progress
             ></el-row>
@@ -128,6 +131,7 @@
                 :text-inside="true"
                 :stroke-width="20"
                 :percentage="score2"
+                :format="format"
                 status="warning"
               ></el-progress
             ></el-row>
@@ -139,6 +143,7 @@
                 :text-inside="true"
                 :stroke-width="20"
                 :percentage="score3"
+                :format="format"
                 status="warning"
               ></el-progress
             ></el-row>
@@ -189,6 +194,11 @@ export default {
      * 向后端发答案
      * @param n 答案，int型 1 2 3 4
      */
+
+    format(percentage) {
+      return percentage;
+    },
+
     playCorrect() {
       this.$refs.correctaudio.currentTime = 0; //从头开始播放
       this.$refs.correctaudio.play(); //播放
