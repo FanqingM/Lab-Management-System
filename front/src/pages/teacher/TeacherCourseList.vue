@@ -5,7 +5,7 @@
     </div>
     <el-main>
       <div class="card_container">
-        <el-row :gutter="25">
+        <el-row :gutter="25" type="flex">
           <el-col
             :span="6"
             v-for="item in courses"
@@ -97,8 +97,13 @@ export default {
 .ecard {
   border-radius: 7px;
   background: #ffffff;
-  height: 90%;
   text-align: center;
+  min-height: 100%;
+  height: 100%;
+  margin: 20px;
+}
+.ecard >>> .el-card__body {
+  height: 100%;
 }
 .card_text {
   margin-top: 5%;
