@@ -74,22 +74,22 @@
           <h2 style="margin-left: 20px">题目</h2>
           <el-row style="padding: 20px">{{ question.question }}</el-row>
           <el-row style="padding: 20px"
-            ><el-button @click="sendAnswer(1)" style="margin-right: 20px"
+            ><el-button type="primary" round @click="sendAnswer(1)" style="margin-right: 20px"
               >A</el-button
             >{{ question.a }}</el-row
           >
           <el-row style="padding: 20px"
-            ><el-button @click="sendAnswer(2)" style="margin-right: 20px"
+            ><el-button type="primary" round @click="sendAnswer(2)" style="margin-right: 20px"
               >B</el-button
             >{{ question.b }}</el-row
           >
           <el-row style="padding: 20px"
-            ><el-button @click="sendAnswer(3)" style="margin-right: 20px"
+            ><el-button type="primary" round @click="sendAnswer(3)" style="margin-right: 20px"
               >C</el-button
             >{{ question.c }}</el-row
           >
           <el-row style="padding: 20px"
-            ><el-button @click="sendAnswer(4)" style="margin-right: 20px"
+            ><el-button type="primary" round @click="sendAnswer(4)" style="margin-right: 20px"
               >D</el-button
             >{{ question.d }}</el-row
           >
@@ -162,6 +162,7 @@ export default {
 
   data() {
     return {
+      connstate: false,
       waiting: true,
       num_member: 3,
       tmpcnt: 1,
@@ -226,6 +227,7 @@ export default {
       // 连接成功时
       this.websocket.onopen = () => {
         // websocket.send('hello')
+        this.connstate = true;
         console.log("建立连接");
         this.score0 = 0;
         this.score1 = 0;
@@ -296,11 +298,16 @@ export default {
         // }
       };
       this.websocket.onclose = () => {
-        var rank = 1;
-        for (let i = 1; i < 4; ++i) {
-          if (this.scores[i] > this.scores[0]) {
-            rank++;
-          }
+        if (this.connstate == true) {
+          var rank = 1;
+        if (this.score1 > this.score0) {
+          rank++;
+        }
+        if (this.score3 > this.score0) {
+          rank++;
+        }
+        if (this.score3 > this.score0) {
+          rank++;
         }
         this.$alert("对抗练习结束，你的小组排名为" + rank, "练习结束", {
           confirmButtonText: "确定",
@@ -308,9 +315,11 @@ export default {
             this.$router.push({ path: "/student/test-list" });
           },
         });
+        }
         console.log("连接关闭");
       };
       this.websocket.onerror = () => {
+        this.connstate = false;
         this.$alert("抱歉，当前无法连接。", "连接错误", {
           confirmButtonText: "确定",
           callback: (action) => {
