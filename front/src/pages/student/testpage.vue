@@ -277,7 +277,7 @@ export default {
           case "e":
             // 有一个用户答对了五道题，比赛结束
             // message是每个人的分数（答对的题目数）就按答对的题目数量给分吧，对几题给几分
-
+            this.websocket.close();
             console.log(JSON.parse(message));
             break;
         }

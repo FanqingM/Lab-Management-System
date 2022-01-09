@@ -131,6 +131,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void checkAnswer(String userId, Integer ans) {
         Group group = getGroup(userId);
         if (group.getAnswer(userId) == ans) {
+            if (group.lastTimeWrong(userId)){
+                sendQuestion(group, userId, true);
+                return;
+            }
             if (group.addGrade(userId)) {
                 end(group, userId);
             } else {
@@ -139,6 +143,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             }
         } else { //答错了
             sendWrong(userId);
+            group.wrong(userId);
         }
 
     }
@@ -185,6 +190,8 @@ class Group {
 
     private Map<String, List<String>> answeredQuestions = new HashMap<>();
 
+    private Map<String, Boolean> answerWrong = new HashMap<>();
+
     public Boolean haveMember(String userId) {
         return members.contains(userId);
     }
@@ -201,6 +208,7 @@ class Group {
         this.members = members;
         for (String user : members) {
             grades.put(user, 0);
+            answerWrong.put(user,false);
             answeredQuestions.put(user, new ArrayList<>());
         }
     }
@@ -213,11 +221,13 @@ class Group {
         return answer.get(userId);
     }
 
+
     /**
      * @param userId
      * @return 是否到达五分
      */
     public Boolean addGrade(String userId) {
+        answerWrong.put(userId,false);
         Integer curGrade = grades.get(userId);
         grades.put(userId, curGrade += 1);
         return curGrade >= MAXGRADE;
@@ -232,6 +242,16 @@ class Group {
         answered.add(quesId);
         //是否已经改了
         answeredQuestions.put(userId, answered);
+    }
+
+    public void wrong(String userId){
+        answerWrong.put(userId,true);
+    }
+
+    public Boolean lastTimeWrong(String userId){
+        Boolean tmp = answerWrong.get(userId);
+        answerWrong.put(userId,false);
+        return tmp;
     }
 }
 

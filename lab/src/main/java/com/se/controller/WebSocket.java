@@ -92,7 +92,6 @@ public class WebSocket {
 
     @OnMessage
     public void onMessage(String message) {
-
         webSocket.exerciseService.checkAnswer(this.userId,Integer.valueOf(message));
     }
 
@@ -104,7 +103,10 @@ public class WebSocket {
     public void sendMessage(String message) {
         // 向所有连接websocket的客户端发送消息
         // 可以修改为对某个客户端发消息
-        this.session.getAsyncRemote().sendText(message);
+        synchronized(this.session){
+            this.session.getAsyncRemote().sendText(message);
+        }
+//        this.session.getAsyncRemote().sendText(message);
     }
 
     public void sendQuestion(Question q,Boolean addGrade){
