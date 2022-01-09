@@ -39,7 +39,6 @@
             :data="finished"
             stripe
             highlight-current-row
-            @current-change="handleCurrentChange1"
             style="width: 100%"
             :default-sort="{ prop: 'date', order: 'descending' }"
           >

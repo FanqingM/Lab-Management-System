@@ -92,29 +92,6 @@
               >D</el-button
             >{{ question.d }}</el-row
           >
-          <!-- <el-row style="padding: 20px"
-            >下列关于凸函数的定义中，正确的是</el-row
-          >
-          <el-row style="padding: 20px"
-            ><el-button @click="sendAnswer(1)" style="margin-right: 20px"
-              >A</el-button
-            >对任意的x,y∈dom f, 0≤θ≤1, f(θx+(1-θ)y)≤θf(x)+(1-θ)f(y)</el-row
-          >
-          <el-row style="padding: 20px"
-            ><el-button @click="sendAnswer(2)" style="margin-right: 20px"
-              >B</el-button
-            >对任意的x,y∈dom f, 0≤θ≤1, f(θx+(1-θ)y)≥θf(x)+(1-θ)f(y)</el-row
-          >
-          <el-row style="padding: 20px"
-            ><el-button @click="sendAnswer(3)" style="margin-right: 20px"
-              >C</el-button
-            >对任意的x,y∈dom f, θ∈R, f(θx+(1-θ)y)≤θf(x)+(1-θ)f(y)</el-row
-          >
-          <el-row style="padding: 20px"
-            ><el-button @click="sendAnswer(4)" style="margin-right: 20px"
-              >D</el-button
-            >对任意的x,y∈dom f, θ∈R, f(θx+(1-θ)y)≤θf(x)+(1-θ)f(y)</el-row
-          > -->
         </el-col>
         <el-col :span="8">
           <el-card class="scorecard">
@@ -128,7 +105,7 @@
               <el-progress
                 :text-inside="true"
                 :stroke-width="30"
-                :percentage="scores[0]"
+                :percentage="score0"
                 status="warning"
               ></el-progress>
             </el-row>
@@ -139,7 +116,7 @@
               ><el-progress
                 :text-inside="true"
                 :stroke-width="20"
-                :percentage="scores[1]"
+                :percentage="score1"
                 status="warning"
               ></el-progress
             ></el-row>
@@ -150,7 +127,7 @@
               ><el-progress
                 :text-inside="true"
                 :stroke-width="20"
-                :percentage="scores[2]"
+                :percentage="score2"
                 status="warning"
               ></el-progress
             ></el-row>
@@ -161,7 +138,7 @@
               ><el-progress
                 :text-inside="true"
                 :stroke-width="20"
-                :percentage="scores[3]"
+                :percentage="score3"
                 status="warning"
               ></el-progress
             ></el-row>
@@ -192,7 +169,10 @@ export default {
         d: "",
       },
       ids: [store.state.id, "", "", ""],
-      scores: [0, 0, 0, 0],
+      score0: 0,
+      score1: 0,
+      score2: 0,
+      score3: 0
     };
   },
   created() {
@@ -221,6 +201,7 @@ export default {
 
     sendAnswer(n) {
       this.websocket.send(n);
+      console.log("sent:", n);
     },
 
     /**
@@ -236,7 +217,10 @@ export default {
       this.websocket.onopen = () => {
         // websocket.send('hello')
         console.log("建立连接");
-        this.scores = [0, 0, 0, 0];
+        this.score0 = 0;
+        this.score1 = 0;
+        this.score2 = 0;
+        this.score3 = 0;
       };
       this.websocket.onmessage = (event) => {
         // 后端发送的消息在event.data中
@@ -256,18 +240,33 @@ export default {
             // 同一个房间中某个用户回答正确（可能是自己也可能不是自己）
             // message中的内容时用户id（回答正确的人的id）
             if (message == store.state.id) {
-              this.scores[0] += 20;
+              this.score0 += 20;
               this.playCorrect();
             } else if (this.ids.indexOf(message) == -1) {
               this.ids[this.tmpcnt] = message;
-              this.scores[this.tmpcnt] += 20;
-              console.log(message, this.scores[this.tmpcnt]);
+              switch(this.tmpcnt) {
+                case 1:
+                  this.score1 += 20;
+                  break;
+                case 2:
+                  this.score2 += 20;
+                  break;
+                default:
+                  this.score3 += 20;
+              }
               this.tmpcnt++;
             } else {
-              this.scores[this.ids.indexOf(message)] += 20;
-              console.log(message, this.scores[this.ids.indexOf(message)]);
+              switch(this.ids.indexOf(message)) {
+                case 1:
+                  this.score1 += 20;
+                  break;
+                case 2:
+                  this.score2 += 20;
+                  break;
+                default:
+                  this.score3 += 20;
+              }
             }
-            console.log(this.scores);
             break;
 
           case "-":
@@ -278,7 +277,6 @@ export default {
           case "e":
             // 有一个用户答对了五道题，比赛结束
             // message是每个人的分数（答对的题目数）就按答对的题目数量给分吧，对几题给几分
-
             console.log(JSON.parse(message));
             break;
         }
