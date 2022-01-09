@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <span><b>对抗练习</b></span>
       </div>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName">
         <el-tab-pane label="未完成" name="first">
           <el-table
             v-loading="loading"
@@ -14,7 +14,6 @@
             :data="unfinished"
             stripe
             highlight-current-row
-            @current-change="handleCurrentChange1"
             style="width: 100%"
             :default-sort="{ prop: 'date', order: 'descending' }"
           >
@@ -22,17 +21,13 @@
             <el-table-column prop="endTime" sortable label="截止时间">
             </el-table-column>
             <el-table-column label="操作">
-              <template slot-scope="scope">
-                <router-link
-                  :to="{
-                    name: 'test',
-                  }"
-                >
-                  <el-button @click="handleClick(scope.row)" type="text"
-                    >进入练习</el-button
-                  >
-                </router-link>
-              </template>
+              <router-link
+                :to="{
+                  name: 'test',
+                }"
+              >
+                <el-button type="text">进入练习</el-button>
+              </router-link>
             </el-table-column>
           </el-table>
         </el-tab-pane>
@@ -71,16 +66,15 @@ export default {
     for (let i = 2; i < 8; ++i) {
       this.unfinished.push({
         name: "对抗练习" + i,
-        endTime: "2022-1-1" + i
+        endTime: "2022-1-1" + i,
       });
     }
-this.finished.push({
-        name: "对抗练习",
-        date: "2022-1-7",
-        score: 80,
-        rank: 2
-      });
-
+    this.finished.push({
+      name: "对抗练习",
+      date: "2022-1-7",
+      score: 80,
+      rank: 2,
+    });
   },
   data() {
     return {

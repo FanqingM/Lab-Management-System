@@ -229,13 +229,14 @@ export default {
      */
     createWebSocket() {
       this.websocket = new WebSocket(
-        "ws://localhost:9094/webSocket/" + store.state.id
+        "ws://139.196.114.7:9094//webSocket/" + store.state.id
       );
 
       // 连接成功时
       this.websocket.onopen = () => {
         // websocket.send('hello')
         console.log("建立连接");
+        this.scores = [0, 0, 0, 0];
       };
       this.websocket.onmessage = (event) => {
         // 后端发送的消息在event.data中
@@ -266,7 +267,7 @@ export default {
               this.scores[this.ids.indexOf(message)] += 20;
               console.log(message, this.scores[this.ids.indexOf(message)]);
             }
-
+            console.log(this.scores);
             break;
 
           case "-":
