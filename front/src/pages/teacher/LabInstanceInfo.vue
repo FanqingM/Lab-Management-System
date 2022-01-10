@@ -53,11 +53,14 @@
               filter-placement="bottom-end">
             <template slot-scope="scope">
               <el-tag
-                  :type="scope.row.graded === true ? 'primary' : 'success'"
-                  disable-transitions>{{scope.row.graded?"是":"否"}}</el-tag>
+                  :type="scope.row.grades != 0 ? 'primary' : 'success'"
+                  disable-transitions>{{scope.row.grades != 0 ?"是":"否"}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="grades" sortable label="分数">
+          <el-table-column label="分数">
+            <template slot-scope="scope">
+              {{ scope.row.grades == 0 ? '-' : scope.row.grades }}
+            </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">

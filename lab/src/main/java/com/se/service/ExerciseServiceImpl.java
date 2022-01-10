@@ -8,10 +8,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -27,6 +24,8 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private static Map<String, WebSocket> clients = new ConcurrentHashMap<String, WebSocket>();
 
+    static int tag = 0;
+
     @Override
     public List<Question> findNQuestions(int n) {
         List<Question> questionList;
@@ -40,8 +39,29 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Integer addWaitUsers(String userId, WebSocket socket) {
+
+        if (waitUsers.size() == 0) {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        //do Something
+                        if (groups.size() == 0) {
+                            tag = -1;
+                            addWaitUsers("robot1", null);
+                            addWaitUsers("robot2", null);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, 15000);
+        }
+
         waitUsers.add(userId);
-        clients.put(userId, socket);
+        if (userId.indexOf("robot") != 0) {
+            clients.put(userId, socket);
+        }
         if (waitUsers.size() >= MEMBERNUM) {
             Group newGroup = new Group();
             newGroup.setMembers(waitUsers);
@@ -55,7 +75,6 @@ public class ExerciseServiceImpl implements ExerciseService {
             }
 
             //发头像
-
             waitUsers = new ArrayList<>();
             return 1;
         } else {
@@ -65,6 +84,28 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
     }
 
+
+    void autoAnswer() {
+        System.out.println("run autoanswer");
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("timerrun");
+                    try {
+                        //do Something
+                        if (tag == 0) {
+                            checkAnswer("robot1", 0);
+                            tag = 1;
+                        } else {
+                            checkAnswer("robot2", 0);
+                            tag = 0;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
+        }, 6000, 6000);
+    }
 
     /**
      * 弃用
@@ -109,11 +150,14 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     public void sendQuestion(Group group, String userId, Boolean addGrade) {
         //保存问题
-        Question q = findOneQuestion(group, userId);
-        group.setAnswer(userId, q.getAnswer());
-        group.answered(userId, q.getQuestionId());
-        WebSocket socket = clients.get(userId);
-        socket.sendQuestion(q, addGrade);
+        if (userId.indexOf("robot") != 0) {
+            Question q = findOneQuestion(group, userId);
+            group.setAnswer(userId, q.getAnswer());
+            group.answered(userId, q.getQuestionId());
+
+            WebSocket socket = clients.get(userId);
+            socket.sendQuestion(q, addGrade);
+        }
     }
 
     public Question findOneQuestion(Group group, String userId) {
@@ -129,9 +173,18 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void checkAnswer(String userId, Integer ans) {
+        if (tag == -1) {
+            tag = 0;
+            autoAnswer();
+        }
         Group group = getGroup(userId);
         if (group.getAnswer(userId) == ans) {
+            if (group.lastTimeWrong(userId)) {
+                sendQuestion(group, userId, true);
+                return;
+            }
             if (group.addGrade(userId)) {
+                refresh(group, userId);
                 end(group, userId);
             } else {
                 sendQuestion(group, userId, true);
@@ -139,6 +192,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             }
         } else { //答错了
             sendWrong(userId);
+            group.wrong(userId);
         }
 
     }
@@ -146,11 +200,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void end(Group group, String winner) {
         for (String userId : group.getMembers()) {
             sendEnd(group, userId);
+            clients.remove(userId);
 
             // 数据库加分
 
-            groups.remove(group);
         }
+        groups.remove(group);
     }
 
     public void refresh(Group group, String userId) {
@@ -160,15 +215,21 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     public void sendRight(String to, String rightUser) {
-        clients.get(to).sendRight(rightUser);
+        if (to.indexOf("robot") != 0) {
+            clients.get(to).sendRight(rightUser);
+        }
     }
 
     public void sendWrong(String userId) {
-        clients.get(userId).sendWrong();
+        if (userId.indexOf("robot") != 0) {
+            clients.get(userId).sendWrong();
+        }
     }
 
     public void sendEnd(Group group, String to) {
-        clients.get(to).sendEnd(group.getGrades());
+        if (to.indexOf("robot") != 0) {
+            clients.get(to).sendEnd(group.getGrades());
+        }
     }
 
 }
@@ -184,6 +245,8 @@ class Group {
     private Map<String, Integer> grades = new HashMap<>();
 
     private Map<String, List<String>> answeredQuestions = new HashMap<>();
+
+    private Map<String, Boolean> answerWrong = new HashMap<>();
 
     public Boolean haveMember(String userId) {
         return members.contains(userId);
@@ -201,7 +264,11 @@ class Group {
         this.members = members;
         for (String user : members) {
             grades.put(user, 0);
+            answerWrong.put(user, false);
             answeredQuestions.put(user, new ArrayList<>());
+            if (user.indexOf("robot") == 0) {
+                setAnswer(user, 0);
+            }
         }
     }
 
@@ -213,11 +280,13 @@ class Group {
         return answer.get(userId);
     }
 
+
     /**
      * @param userId
      * @return 是否到达五分
      */
     public Boolean addGrade(String userId) {
+        answerWrong.put(userId, false);
         Integer curGrade = grades.get(userId);
         grades.put(userId, curGrade += 1);
         return curGrade >= MAXGRADE;
@@ -232,6 +301,19 @@ class Group {
         answered.add(quesId);
         //是否已经改了
         answeredQuestions.put(userId, answered);
+    }
+
+    public void wrong(String userId) {
+        answerWrong.put(userId, true);
+    }
+
+    public Boolean lastTimeWrong(String userId) {
+        if (userId.indexOf("robot") == 0) {
+            return false;
+        }
+        Boolean tmp = answerWrong.get(userId);
+        answerWrong.put(userId, false);
+        return tmp;
     }
 }
 

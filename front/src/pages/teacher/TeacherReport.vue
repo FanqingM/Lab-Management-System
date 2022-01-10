@@ -1,6 +1,6 @@
 <template>
   <el-card class="maincard">
-        <div slot="header" class="clearfix">
+    <div slot="header" class="clearfix">
       <span><b>实验报告</b></span>
     </div>
     <p>1. 实验目的</p>
@@ -30,31 +30,45 @@
       :options="editorOption"
     >
     </quill-editor>
-    <p v-if="reportForm.grades != 0"><b>得分：</b>{{ reportForm.grades }}</p>
-    <el-button size="medium" type="primary" @click="back" style="margin: 20px">返回</el-button>
+    <el-form style="margin-top: 20px">
+      <el-form-item label="分数" prop="grades">
+        <el-input v-model.number="reportForm.grades" style="width: 200px"></el-input>
+      </el-form-item>
+      <el-form-item align="center">
+        <el-button
+          size="medium"
+          type="primary"
+          @click="submitForm()"
+          >提交
+        </el-button>
+        <el-button size="medium" @click="back">取消</el-button>
+      </el-form-item>
+    </el-form>
   </el-card>
 </template>
 
 <script scoped>
 import store from "../../store/state";
-import {GETLab, GETOneReport, PUTReport} from "../../API/http";
+import { GETLab, GETOneReport, PUTReport } from "../../API/http";
 
 export default {
   created() {
     console.log(this.$route.params);
     GETOneReport({
-      "studentId": this.$route.params.studentId,
-      "courseId": this.$route.params.courseId,
-      "sectionId": this.$route.params.sectionId,
-      "labId": this.$route.params.labId
-    }).then((data) => {
-      console.log(data);
-      this.reportForm = data;
-      console.log("report", this.reportForm);
-    }).catch((err) => {
-      console.log(err);
-      this.$message("报告信息获取错误");
-    });
+      studentId: this.$route.params.studentId,
+      courseId: this.$route.params.courseId,
+      sectionId: this.$route.params.sectionId,
+      labId: this.$route.params.labId,
+    })
+      .then((data) => {
+        console.log(data);
+        this.reportForm = data;
+        console.log("report", this.reportForm);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$message("报告信息获取错误");
+      });
   },
   data() {
     return {
@@ -70,81 +84,58 @@ export default {
       reportForm: {
         purpose: "",
         principle: "",
-        progress: ""
+        progress: "",
+        grades: 0,
       },
       labId: this.$route.params.ID,
       lab: {
         title: "",
       },
       options: [],
-      ruleform: {
-        purpose: "",
-        principle: "",
-        progress: "",
-        grades:null
-      },
       OrgID: store.state.ID,
       groundId: null,
     };
-  }
-  ,
+  },
   methods: {
     back() {
       this.$router.go(-1);
-    }
-    ,
-
+    },
     handleChange(value) {
       console.log(value);
-    }
-    ,
-
+    },
     setToDB() {
-      this.reportform.progress = this.ruleform.progress;
-      this.reportform.principle = this.ruleform.principle;
-      this.reportform.purpose = this.ruleform.purpose;
-      this.reportform.grades = this.ruleform.grades;
-      PUTReport(this.reportform)
-          .then(() => {
-            this.$alert("提交成功");
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$message("提交失败");
-          });
-    }
-    ,
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.setToDB();
-        } else {
-          console.log("ID", this.$route.query.activityID);
-          console.log("name", this.$route.query.activityName);
-          console.log("ground", this.$route.query.groundId);
-          console.log("error submit!!");
-          return false;
-        }
-      });
-    }
-    ,
-  }
-  ,
-}
-;
+      PUTReport(this.reportForm)
+        .then(() => {
+          this.$alert("提交成功");
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message("提交失败");
+        });
+    },
+    onEditorFocus(event) {
+      event.enable(false);
+    },
+    submitForm() {
+      if (this.reportForm.grades >= 0 && this.reportForm.grades <= 100) {
+        this.setToDB();
+        this.$router.go(-1);
+      } else {
+        console.log("ID", this.$route.query.activityID);
+        console.log("name", this.$route.query.activityName);
+        console.log("ground", this.$route.query.groundId);
+        console.log("error submit!!");
+        this.$message.error("分数必须在0-100之间!");
+        return false;
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
 .mainrow {
   height: 100%;
-}
-
-.calendar-card {
-  height: 510px;
-  overflow: auto;
-  border: 0;
-  border-radius: 0px;
-  box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.1);
 }
 
 .col1,
